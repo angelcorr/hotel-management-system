@@ -3,8 +3,10 @@ package edu.hoteluq.singleton;
 import edu.hoteluq.enums.RoomCategory;
 import edu.hoteluq.exceptions.DuplicateRoomException;
 import edu.hoteluq.exceptions.HotelException;
+import edu.hoteluq.model.Client;
 import edu.hoteluq.model.Room;
 import edu.hoteluq.model.RoomType;
+import edu.hoteluq.model.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +17,7 @@ public class Hotel {
 
   private final List<RoomType> roomTypes = new ArrayList<>();
   private final List<Room> rooms = new ArrayList<>();
+  private final List<User> users = new ArrayList<>();
 
   private Hotel() {}
 
@@ -61,5 +64,35 @@ public class Hotel {
 
   public List<Room> getRooms() {
     return Collections.unmodifiableList(rooms);
+  }
+
+  public void addUser(User user) {
+    for (User existingUser : users) {
+      if (existingUser.getId().equals(user.getId())) {
+        throw new HotelException("Duplicated id: " + user.getId());
+      }
+
+      if (existingUser.getEmail().equalsIgnoreCase(user.getEmail())) {
+        throw new HotelException("Duplicated email: " + user.getEmail());
+      }
+    }
+    users.add(user);
+  }
+
+  public User findUserByEmail(String email) {
+    for (User user : users) {
+      if (user.getEmail().equalsIgnoreCase(email)) return user;
+    }
+
+    return null;
+  }
+
+  public List<Client> getClients() {
+    List<Client> clients = new ArrayList<>();
+    for (User user : users) {
+      if (user instanceof Client client) clients.add(client);
+    }
+
+    return clients;
   }
 }

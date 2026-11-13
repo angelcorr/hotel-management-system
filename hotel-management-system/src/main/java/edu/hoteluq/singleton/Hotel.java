@@ -3,10 +3,7 @@ package edu.hoteluq.singleton;
 import edu.hoteluq.enums.RoomCategory;
 import edu.hoteluq.exceptions.DuplicateRoomException;
 import edu.hoteluq.exceptions.HotelException;
-import edu.hoteluq.model.Client;
-import edu.hoteluq.model.Room;
-import edu.hoteluq.model.RoomType;
-import edu.hoteluq.model.User;
+import edu.hoteluq.model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +15,8 @@ public class Hotel {
   private final List<RoomType> roomTypes = new ArrayList<>();
   private final List<Room> rooms = new ArrayList<>();
   private final List<User> users = new ArrayList<>();
+  private final List<AdditionalService> services = new ArrayList<>();
+  private final List<Promotion> promotions = new ArrayList<>();
 
   private Hotel() {}
 
@@ -94,5 +93,21 @@ public class Hotel {
     }
 
     return clients;
+  }
+
+  public void addService(AdditionalService service) {
+    services.add(service);
+  }
+
+  public List<AdditionalService> getServices() {
+    return Collections.unmodifiableList(services);
+  }
+
+  public void addPromotion(Promotion promotion) {
+    promotions.add(promotion);
+  }
+
+  public List<Promotion> getPromotions() {
+    return Collections.unmodifiableList(promotions);
   }
 }

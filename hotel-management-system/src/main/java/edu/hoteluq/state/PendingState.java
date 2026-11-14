@@ -4,6 +4,7 @@ import edu.hoteluq.enums.ReservationStatus;
 import edu.hoteluq.exceptions.RoomNotAvailableException;
 import edu.hoteluq.model.Reservation;
 import edu.hoteluq.singleton.Hotel;
+import edu.hoteluq.strategy.RefundPolicy;
 
 public class PendingState implements ReservationState {
   @Override
@@ -22,7 +23,7 @@ public class PendingState implements ReservationState {
   }
 
   @Override
-  public void cancel(Reservation reservation) {
+  public void cancel(Reservation reservation, RefundPolicy policy) {
     reservation.setState(new CancelledState());
   }
 }

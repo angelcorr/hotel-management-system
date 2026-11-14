@@ -3,6 +3,7 @@ package edu.hoteluq.state;
 import edu.hoteluq.enums.ReservationStatus;
 import edu.hoteluq.exceptions.InvalidReservationException;
 import edu.hoteluq.model.Reservation;
+import edu.hoteluq.strategy.RefundPolicy;
 
 public interface ReservationState {
   ReservationStatus getStatus();
@@ -11,7 +12,7 @@ public interface ReservationState {
     throw new InvalidReservationException("A " + getStatus() + " reservation cannot be paid");
   }
 
-  default void cancel(Reservation reservation) {
+  default void cancel(Reservation reservation, RefundPolicy policy) {
     throw new InvalidReservationException("A " + getStatus() + " reservation cannot be cancelled");
   }
 

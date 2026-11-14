@@ -4,14 +4,19 @@ import edu.hoteluq.enums.ReservationStatus;
 import edu.hoteluq.exceptions.InvalidReservationException;
 import edu.hoteluq.state.PendingState;
 import edu.hoteluq.state.ReservationState;
+import edu.hoteluq.strategy.RefundPolicy;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class Reservation {
+  private static final LocalTime CHECK_IN_TIME = LocalTime.of(15,0);
+
   private final UUID id;
   private final Client client;
   private final Room room;
@@ -24,7 +29,6 @@ public class Reservation {
   private final double discount;
   private final double total;
   private ReservationState state = new PendingState();
-
 
   private Reservation(Builder builder) {
     this.id = builder.id;
@@ -110,12 +114,16 @@ public class Reservation {
     state.pay(this);
   }
 
-  public void cancel() {
-    state.cancel(this);
+  public void cancel(RefundPolicy policy) {
+    state.cancel(this, policy);
   }
 
   public void complete() {
     state.complete(this);
+  }
+
+  public LocalDateTime getCheckInDateTime() {
+    return checkIn.atTime(CHECK_IN_TIME);
   }
 
   @Override

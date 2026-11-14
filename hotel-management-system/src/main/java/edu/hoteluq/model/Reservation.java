@@ -2,7 +2,6 @@ package edu.hoteluq.model;
 
 import edu.hoteluq.enums.ReservationStatus;
 import edu.hoteluq.exceptions.InvalidReservationException;
-import edu.hoteluq.state.CancelledState;
 import edu.hoteluq.state.PendingState;
 import edu.hoteluq.state.ReservationState;
 
@@ -10,7 +9,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class Reservation {
@@ -48,7 +46,7 @@ public class Reservation {
 
   public boolean overlaps(LocalDate from, LocalDate to) {
     // A canceled reservation doesn't block the room
-    if (Objects.equals(state, new CancelledState())) return false;
+    if (getStatus() == ReservationStatus.CANCELLED) return false;
     return checkIn.isBefore(to) && from.isBefore(checkOut); // True when this reservation uses the room during part of the given period.
   }
 
@@ -122,7 +120,7 @@ public class Reservation {
 
   @Override
   public String toString() {
-    return id + ": " + client.getName() + ", " + room + ", " + checkIn + " to " + checkOut + " (" + getNights() + " nights), total $" + total + " [" + state + "]";
+    return id + ": " + client.getName() + ", " + room + ", " + checkIn + " to " + checkOut + " (" + getNights() + " nights), total $" + total + " [" + getStatus() + "]";
   }
 
   public static class Builder {

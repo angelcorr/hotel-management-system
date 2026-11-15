@@ -1053,7 +1053,26 @@ public class Hotel {
           rechargeData.add(new edu.hoteluq.report.ReportSnapshot.Recharge(movement.getId(),client.getId(),movement.getExactAmount(),movement.getInstant()));
         accounts.add(points.snapshotAccount(client.getId(),at));
       }
-      return new edu.hoteluq.report.ReportSnapshot(at,roomData,bookingData,rechargeData,accounts);
+      var purchaseData = servicePurchases.values().stream()
+              .map(p -> new edu.hoteluq.report.ReportSnapshot.ServicePurchase(
+                      p.id(),
+                      p.clientId(),
+                      p.serviceId(),
+                      p.serviceName(),
+                      p.amount(),
+                      p.movementId(),
+                      p.purchasedAt()
+              ))
+              .toList();
+
+      return new edu.hoteluq.report.ReportSnapshot(
+              at,
+              roomData,
+              bookingData,
+              rechargeData,
+              accounts,
+              purchaseData
+      );
     });
   }
   public synchronized void authorizeReports() { requireAdmin(); }

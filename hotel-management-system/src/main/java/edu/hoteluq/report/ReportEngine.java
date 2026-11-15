@@ -18,7 +18,6 @@ public final class ReportEngine {
   private final List<ChartSpec> charts=new ArrayList<>();
   private final List<String> criteria=new ArrayList<>();
   public ReportResult generate(ReportSnapshot snapshot,ReportQuery query){
-    // Engines are per invocation; fields never shared by ReportService.
     if(q!=null)throw new IllegalStateException("Use a fresh report engine");q=Objects.requireNonNull(query);data=Objects.requireNonNull(snapshot);
     bookings=data.bookings().stream().filter(this::matches).sorted(Comparator.comparing(b->b.id().toString())).toList();
     criteria.add("Fechas inclusivas; operaciones en America/Bogota [00:00 inicial,00:00 posterior al final). Estado y última cotización/contrato al corte; no reconstruye dimensiones al cierre histórico del periodo.");
@@ -85,18 +84,191 @@ public final class ReportEngine {
     chart("Habitaciones por noche",Unit.COUNT,series("Ocupadas",occupiedSeries),series("Pendientes",pendingSeries),series("Disponibles",availableSeries));
     Map<String,BigDecimal> totals=new LinkedHashMap<>();totals.put("Ocupadas",n(occupiedTotal));totals.put("Bloqueadas PENDING",n(pendingTotal));totals.put("Disponibles",n(availableTotal));chart("Distribución habitación-noche",Unit.NIGHTS,series("Noches",totals));
   }
-  private void revenue(){
-    criteria.add("Flujo de caja operativo: pago por Payment.at y devolución por Refund.at, aunque pertenezcan a periodos distintos. Recargas excluidas. Importes históricos reales.");
-    criteria.add("Atribución analítica por pesos de habitación/servicios no bonificados y mayor resto COP; no es precio fiscal por línea. Habitación + servicios concilia con cada pago. Reembolsos se muestran separados.");
-    BigDecimal paid=BigDecimal.ZERO,refunded=BigDecimal.ZERO,room=BigDecimal.ZERO,services=BigDecimal.ZERO;List<Row> rows=new ArrayList<>();Map<String,BigDecimal> daily=days();Set<UUID> payments=new HashSet<>(),refunds=new HashSet<>();
-    for(var b:bookings){
-      if(b.payment()!=null && q.contains(b.payment().at()) && payments.add(b.payment().id())){var a=MoneyAllocation.payment(b);BigDecimal r=a.get("ROOM"),s=b.payment().amount().subtract(r);paid=paid.add(b.payment().amount());room=room.add(r);services=services.add(s);add(daily,date(b.payment().at()).toString(),b.payment().amount());rows.add(row("PAGO",b.payment().id(),b.id(),b.clientId(),b.payment().at(),b.payment().amount(),r,s,b.payment().amount()));}
-      if(b.refund()!=null && q.contains(b.refund().at()) && refunds.add(b.refund().id())){refunded=refunded.add(b.refund().amount());add(daily,date(b.refund().at()).toString(),b.refund().amount().negate());rows.add(row("REEMBOLSO",b.refund().id(),b.id(),b.clientId(),b.refund().at(),b.refund().amount(),"—","—",b.refund().amount().negate()));}
+
+  private void revenue() {
+    criteria.add(
+            "Flujo operativo por fecha de pago y devolución. "
+                    + "Incluye compras independientes de servicios. "
+                    + "Las recargas no constituyen ingresos."
+    );
+
+    criteria.add(
+            "Los pagos por reservas y por servicios independientes "
+                    + "se muestran por separado. Los reembolsos de reservas "
+                    + "se descuentan del ingreso operativo."
+    );
+
+    BigDecimal paid = BigDecimal.ZERO;
+    BigDecimal refunded = BigDecimal.ZERO;
+    BigDecimal room = BigDecimal.ZERO;
+    BigDecimal services = BigDecimal.ZERO;
+    BigDecimal standalone = BigDecimal.ZERO;
+
+    List<Row> rows = new ArrayList<>();
+    Map<String, BigDecimal> daily = days();
+
+    Set<UUID> payments = new HashSet<>();
+    Set<UUID> refunds = new HashSet<>();
+
+    // Pagos y reembolsos de reservas.
+    for (var b : bookings) {
+      if (b.payment() != null
+              && q.contains(b.payment().at())
+              && payments.add(b.payment().id())) {
+
+        var allocation = MoneyAllocation.payment(b);
+
+        BigDecimal roomAmount = allocation.get("ROOM");
+        BigDecimal serviceAmount =
+                b.payment().amount().subtract(roomAmount);
+
+        paid = paid.add(b.payment().amount());
+        room = room.add(roomAmount);
+        services = services.add(serviceAmount);
+
+        add(
+                daily,
+                date(b.payment().at()).toString(),
+                b.payment().amount()
+        );
+
+        rows.add(row(
+                "PAGO RESERVA",
+                b.payment().id(),
+                b.id(),
+                b.clientId(),
+                b.payment().at(),
+                b.payment().amount(),
+                roomAmount,
+                serviceAmount,
+                b.payment().amount()
+        ));
+      }
+
+      if (b.refund() != null
+              && q.contains(b.refund().at())
+              && refunds.add(b.refund().id())) {
+
+        refunded = refunded.add(b.refund().amount());
+
+        add(
+                daily,
+                date(b.refund().at()).toString(),
+                b.refund().amount().negate()
+        );
+
+        rows.add(row(
+                "REEMBOLSO",
+                b.refund().id(),
+                b.id(),
+                b.clientId(),
+                b.refund().at(),
+                b.refund().amount(),
+                "—",
+                "—",
+                b.refund().amount().negate()
+        ));
+      }
     }
-    rows.sort(Comparator.comparing((Row r)->r.cells().get(4).display()).thenComparing(r->r.cells().get(1).display()));
-    section("Flujos operativos",List.of("Tipo","Operación","Reserva","Cliente","Fecha Bogotá","Importe COP","Habitación atribuido COP","Servicios atribuido COP","Flujo neto COP"),rows);
-    metric("payments","Pagos",paid,Unit.COP);metric("roomRevenue","Habitación atribuido",room,Unit.COP);metric("serviceRevenue","Servicios atribuido",services,Unit.COP);metric("refunds","Reembolsos",refunded,Unit.COP);metric("net","Neto operativo",paid.subtract(refunded),Unit.COP);chart("Neto por fecha",Unit.COP,series("Neto",daily));
+
+    // Compras independientes: no tienen habitación ni reserva.
+    // Los filtros de habitación, categoría y estado no aplican.
+    if (q.category() == null
+            && q.roomNumber() == null
+            && q.status() == null) {
+
+      Set<UUID> purchases = new HashSet<>();
+
+      for (var purchase : data.servicePurchases()) {
+        if (!q.client(purchase.clientId())
+                || !q.contains(purchase.at())
+                || !purchases.add(purchase.id())) {
+          continue;
+        }
+
+        standalone = standalone.add(purchase.amount());
+
+        add(
+                daily,
+                date(purchase.at()).toString(),
+                purchase.amount()
+        );
+
+        rows.add(row(
+                "SERVICIO SIN RESERVA",
+                purchase.id(),
+                "—",
+                purchase.clientId(),
+                purchase.at(),
+                purchase.amount(),
+                BigDecimal.ZERO,
+                purchase.amount(),
+                purchase.amount()
+        ));
+      }
+    }
+
+    rows.sort(
+            Comparator.comparing(
+                    (Row r) -> r.cells().get(4).display()
+            ).thenComparing(
+                    r -> r.cells().get(1).display()
+            )
+    );
+
+    section(
+            "Flujos operativos",
+            List.of(
+                    "Tipo",
+                    "Operación",
+                    "Reserva",
+                    "Cliente",
+                    "Fecha Bogotá",
+                    "Importe COP",
+                    "Habitación atribuido COP",
+                    "Servicios atribuido COP",
+                    "Flujo neto COP"
+            ),
+            rows
+    );
+
+    BigDecimal totalIncome = paid.add(standalone);
+    BigDecimal net = totalIncome.subtract(refunded);
+
+    metric("payments", "Pagos de reservas", paid, Unit.COP);
+    metric("roomRevenue", "Habitaciones", room, Unit.COP);
+
+    metric(
+            "serviceRevenue",
+            "Servicios incluidos en reservas",
+            services,
+            Unit.COP
+    );
+
+    metric(
+            "standaloneServiceRevenue",
+            "Servicios comprados sin reserva",
+            standalone,
+            Unit.COP
+    );
+
+    metric(
+            "totalIncome",
+            "Ingresos brutos operativos",
+            totalIncome,
+            Unit.COP
+    );
+
+    metric("refunds", "Reembolsos", refunded, Unit.COP);
+    metric("net", "Neto operativo", net, Unit.COP);
+
+    chart(
+            "Neto por fecha",
+            Unit.COP,
+            series("Neto", daily)
+    );
   }
+
   private void services(){
     criteria.add("Contratación: una unidad por línea de servicio en reserva pagada, por fecha de pago, incluidos servicios bonificados (ingreso asignado cero). No se multiplican por noches.");
     criteria.add("Precio bruto desde Quote histórico; ingreso COP atribuido con mayor resto. Reembolsos del periodo se atribuyen proporcionalmente al pago original, aunque el pago fuera anterior. No altera comprobantes.");
@@ -110,6 +282,56 @@ public final class ReportEngine {
         values.put(service.id(),new Values(service.id(),service.name(),old.count()+(purchase?1:0),old.raw().add(purchase?service.rawPrice():BigDecimal.ZERO),old.revenue().add(purchase?allocation.get(service.id().toString()):BigDecimal.ZERO),old.refunds().add(refund?returned.get(service.id().toString()):BigDecimal.ZERO)));
       }
     }
+
+    criteria.add(
+            "Incluye servicios de reservas pagadas y compras "
+                    + "independientes. Las compras independientes solo "
+                    + "se incluyen cuando no hay filtros de habitación, "
+                    + "categoría o estado de reserva."
+    );
+
+    if (q.category() == null
+            && q.roomNumber() == null
+            && q.status() == null) {
+
+      Set<UUID> seenPurchases = new HashSet<>();
+
+      for (var purchase : data.servicePurchases()) {
+
+        if (!q.client(purchase.clientId())
+                || !q.contains(purchase.at())
+                || (q.serviceId() != null
+                && !q.serviceId().equals(purchase.serviceId()))
+                || !seenPurchases.add(purchase.id())) {
+          continue;
+        }
+
+        var old = values.getOrDefault(
+                purchase.serviceId(),
+                new Values(
+                        purchase.serviceId(),
+                        purchase.serviceName(),
+                        0,
+                        BigDecimal.ZERO,
+                        BigDecimal.ZERO,
+                        BigDecimal.ZERO
+                )
+        );
+
+        values.put(
+                purchase.serviceId(),
+                new Values(
+                        purchase.serviceId(),
+                        purchase.serviceName(),
+                        old.count() + 1,
+                        old.raw().add(purchase.amount()),
+                        old.revenue().add(purchase.amount()),
+                        old.refunds()
+                )
+        );
+      }
+    }
+
     var sorted=values.values().stream().sorted(Comparator.comparingLong(Values::count).reversed().thenComparing(v->v.id().toString())).toList();List<Row> rows=new ArrayList<>();Map<String,BigDecimal> counts=new LinkedHashMap<>();BigDecimal quantity=BigDecimal.ZERO,revenue=BigDecimal.ZERO,refunded=BigDecimal.ZERO,raw=BigDecimal.ZERO;
     for(var value:sorted){rows.add(row(value.id(),value.name(),value.count(),value.raw(),value.revenue(),value.refunds(),value.revenue().subtract(value.refunds())));counts.put(value.name()+" ["+value.id()+"]",n(value.count()));quantity=quantity.add(n(value.count()));revenue=revenue.add(value.revenue());refunded=refunded.add(value.refunds());raw=raw.add(value.raw());}
     section("Servicios por ID histórico",List.of("Servicio ID","Nombre histórico","Cantidad","Bruto crudo COP","Ingreso atribuido COP","Reembolso atribuido COP","Neto atribuido COP"),rows);

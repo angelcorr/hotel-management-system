@@ -81,6 +81,50 @@ public class VirtualCard extends ManagedEntity {
     });
   }
 
+
+  /**
+   * Cargo exclusivo para compras de servicios.
+   * El guard del hotel valida que exista una compra
+   * autorizada por el agregado.
+   */
+  public void purchaseService(
+          BigDecimal amount,
+          String description
+  ) {
+    change(Action.SERVICE_PURCHASE, null, () -> {
+      BigDecimal total =
+              edu.hoteluq.money.CopMoney.positive(amount);
+
+      String detail =
+              DomainValidation.text(description, "Description");
+
+      checkActive();
+
+      BigDecimal updated = balance.subtract(total);
+
+      if (updated.signum() < 0) {
+        throw new InsufficientBalanceException(
+                "Insufficient funds"
+        );
+      }
+
+      edu.hoteluq.money.CopMoney.input(updated);
+
+      CardMovement movement = new CardMovement(
+              MovementType.PAYMENT,
+              total,
+              detail,
+              clock.instant(),
+              null,
+              null
+      );
+
+      movements.add(movement);
+      balance = updated;
+    });
+  }
+
+
   private void checkActive() {
     if (!active) throw new InactiveCardException("Card " + number + " is not active");
   }

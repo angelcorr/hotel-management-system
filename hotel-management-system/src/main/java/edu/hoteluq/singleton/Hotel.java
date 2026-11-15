@@ -30,7 +30,22 @@ public class Hotel {
   private final List<AdditionalService> services = new ArrayList<>();
   private final List<Promotion> promotions = new ArrayList<>();
   private final List<Reservation> reservations = new ArrayList<>();
-  // A request is not a monetary transaction; only an administrator can approve it.
+
+  private final Map<UUID, ServicePurchase> servicePurchases =
+          new LinkedHashMap<>();
+
+  private boolean servicePurchaseTransaction;
+
+  public record ServicePurchase(
+          UUID id,
+          String clientId,
+          UUID serviceId,
+          String serviceName,
+          BigDecimal amount,
+          UUID movementId,
+          Instant purchasedAt
+  ) {}
+
   private final Map<UUID, RechargeRequest> rechargeRequests = new LinkedHashMap<>();
   public enum RechargeStatus { PENDING, APPROVED, REJECTED }
   public record RechargeRequest(UUID id, String clientId, BigDecimal amount, String reason,
@@ -210,10 +225,25 @@ public class Hotel {
   }
 
   private boolean referenced(Object subject) {
-    return internal(() -> reservations.stream().anyMatch(reservation ->
-        reservation.getClient() == subject || reservation.getRoom() == subject
-        || reservation.getRoom().getType() == subject || reservation.getPromotion() == subject
-        || reservation.getServices().contains(subject)));
+    return internal(() -> {
+      boolean reservationReference =
+              reservations.stream().anyMatch(reservation ->
+                      reservation.getClient() == subject
+                              || reservation.getRoom() == subject
+                              || reservation.getRoom().getType() == subject
+                              || reservation.getPromotion() == subject
+                              || reservation.getServices().contains(subject)
+              );
+
+      boolean purchaseReference =
+              subject instanceof AdditionalService service
+                      && servicePurchases.values().stream().anyMatch(
+                      purchase ->
+                              purchase.serviceId().equals(service.getId())
+              );
+
+      return reservationReference || purchaseReference;
+    });
   }
 
   private boolean registered(ManagedEntity subject, User owner) {
@@ -237,7 +267,20 @@ public class Hotel {
             requireOwner(owner);
             if (action == Action.EMAIL) uniqueEmail(owner, (String) candidate);
           } else if (subject instanceof VirtualCard) {
-            // Registered payment/refund is reservation-linked, even for administrators.
+
+            if (action == Action.SERVICE_PURCHASE) {
+              if (!servicePurchaseTransaction) {
+                throw new AuthorizationException();
+              }
+
+              if (actor() != owner || !(owner instanceof Client)) {
+                throw new AuthorizationException();
+              }
+
+              mutation.run();
+              return;
+            }
+
             if (action == Action.CHARGE || action == Action.REFUND) {
               if (action == Action.CHARGE) requireOwner(owner); else requireAdmin();
               throw new InvalidReservationException("Use a reservation-linked payment or cancellation");
@@ -429,6 +472,109 @@ public class Hotel {
     if (referenced(room)) throw new HotelException("Room has reservations");
     rooms.remove(room);
   }
+
+
+  /**
+   * Compra autónoma de un servicio, sin reserva.
+   * El UUID permite reintentos sin duplicar el cargo.
+   */
+  public synchronized ServicePurchase purchaseService(
+          UUID operationId,
+          UUID serviceId
+  ) {
+    User requester = actor();
+
+    if (!(requester instanceof Client client)) {
+      throw new AuthorizationException();
+    }
+
+    UUID key = DomainValidation.required(
+            operationId, "Purchase operation id"
+    );
+
+    UUID selectedId = DomainValidation.required(
+            serviceId, "Service id"
+    );
+
+    ServicePurchase previous = servicePurchases.get(key);
+
+    if (previous != null) {
+      if (!previous.clientId().equals(client.getId())
+              || !previous.serviceId().equals(selectedId)) {
+        throw new HotelException(
+                "Conflicting service purchase operation"
+        );
+      }
+
+      return previous;
+    }
+
+    AdditionalService selected = findService(selectedId);
+
+    if (!selected.isAvailable()) {
+      throw new HotelException(
+              "Selected service is unavailable"
+      );
+    }
+
+    BigDecimal total = CopMoney.positive(
+            selected.getPriceAmount()
+    );
+
+    VirtualCard card = client.getCard();
+
+    if (servicePurchaseTransaction) {
+      throw new HotelException(
+              "Nested service purchase is not allowed"
+      );
+    }
+
+    servicePurchaseTransaction = true;
+
+    try {
+      card.purchaseService(
+              total,
+              "Service purchase " + key
+                      + " - " + selected.getName()
+      );
+    } finally {
+      servicePurchaseTransaction = false;
+    }
+
+    UUID movementId = card.getMovements()
+            .getLast()
+            .getId();
+
+    ServicePurchase purchase = new ServicePurchase(
+            key,
+            client.getId(),
+            selectedId,
+            selected.getName(),
+            total,
+            movementId,
+            clock.instant()
+    );
+
+    servicePurchases.put(key, purchase);
+
+    return purchase;
+  }
+
+  /**
+   * El administrador consulta todas las compras.
+   * Cada cliente consulta solamente las suyas.
+   */
+  public synchronized List<ServicePurchase> servicePurchases() {
+    User requester = actor();
+
+    return servicePurchases.values().stream()
+            .filter(purchase ->
+                    requester.getRole() == Role.ADMINISTRATOR
+                            || purchase.clientId().equals(requester.getId())
+            )
+            .toList();
+  }
+
 
   public synchronized void addService(AdditionalService service) {
     requireAdmin();

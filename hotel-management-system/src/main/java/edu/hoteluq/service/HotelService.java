@@ -66,6 +66,28 @@ public final class HotelService {
   public Hotel.RechargeRequest requestRecharge(String token, UUID requestId, java.math.BigDecimal amount, String reason) {
     return authenticated(token, () -> hotel.requestRecharge(requestId, amount, reason));
   }
+
+
+  public Hotel.ServicePurchase purchaseService(
+          String token,
+          UUID operationId,
+          UUID serviceId
+  ) {
+    return authenticated(
+            token,
+            () -> hotel.purchaseService(operationId, serviceId)
+    );
+  }
+
+  public List<Hotel.ServicePurchase> servicePurchases(
+          String token
+  ) {
+    return authenticated(
+            token,
+            hotel::servicePurchases
+    );
+  }
+
   public List<Hotel.RechargeRequest> rechargeRequests(String token) {
     return authenticated(token, hotel::rechargeRequests);
   }

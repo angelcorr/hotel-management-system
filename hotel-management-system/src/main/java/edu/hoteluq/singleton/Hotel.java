@@ -30,6 +30,12 @@ public class Hotel {
   private final List<AdditionalService> services = new ArrayList<>();
   private final List<Promotion> promotions = new ArrayList<>();
   private final List<Reservation> reservations = new ArrayList<>();
+  // A request is not a monetary transaction; only an administrator can approve it.
+  private final Map<UUID, RechargeRequest> rechargeRequests = new LinkedHashMap<>();
+  public enum RechargeStatus { PENDING, APPROVED, REJECTED }
+  public record RechargeRequest(UUID id, String clientId, BigDecimal amount, String reason,
+                                RechargeStatus status, Instant requestedAt, Instant resolvedAt) {}
+
   private final PointsLedger points = new PointsLedger();
   private final PromotionProgram promotionProgram = new PromotionProgram();
   private boolean promotionMutation;
@@ -318,11 +324,61 @@ public class Hotel {
     requireAdmin();
     User user = findUser(id);
     if (!(user instanceof Client client)) throw new AuthorizationException();
-    if (referenced(user) || client.getCard().getBalance() != 0 || !client.getCard().getMovements().isEmpty()) {
+    if (referenced(user) || rechargeRequests.values().stream().anyMatch(r -> r.clientId().equals(id))
+        || client.getCard().getBalance() != 0 || !client.getCard().getMovements().isEmpty()) {
       throw new HotelException("Client has reservation or financial records");
     }
     users.remove(user);
     sessions.values().removeIf(session -> session.user() == user);
+  }
+
+  /** Client may request a top-up, but cannot credit their own card. The key makes retries safe. */
+  public synchronized RechargeRequest requestRecharge(UUID key, BigDecimal amount, String reason) {
+    User requester = actor();
+    if (!(requester instanceof Client)) throw new AuthorizationException();
+    UUID validKey = DomainValidation.required(key, "Request id");
+    BigDecimal value = CopMoney.positive(amount);
+    String detail = DomainValidation.text(reason, "Reason");
+    RechargeRequest existing = rechargeRequests.get(validKey);
+    if (existing != null) {
+      if (!existing.clientId().equals(requester.getId()) || existing.amount().compareTo(value) != 0
+          || !existing.reason().equals(detail)) throw new HotelException("Conflicting recharge request key");
+      return existing;
+    }
+    RechargeRequest request = new RechargeRequest(validKey, requester.getId(), value, detail,
+        RechargeStatus.PENDING, clock.instant(), null);
+    rechargeRequests.put(validKey, request);
+    return request;
+  }
+
+  /** Administrators see all requests; a client only sees their own. */
+  public synchronized List<RechargeRequest> rechargeRequests() {
+    User requester = actor();
+    return rechargeRequests.values().stream()
+        .filter(r -> requester.getRole() == Role.ADMINISTRATOR || r.clientId().equals(requester.getId()))
+        .toList();
+  }
+
+  /** Approval credits exactly once, including when clients or admins retry the same request. */
+  public synchronized RechargeRequest resolveRecharge(UUID id, boolean approve) {
+    requireAdmin();
+    RechargeRequest existing = rechargeRequests.get(DomainValidation.required(id, "Request id"));
+    if (existing == null) throw new HotelException("Recharge request not found");
+    RechargeStatus target = approve ? RechargeStatus.APPROVED : RechargeStatus.REJECTED;
+    if (existing.status() != RechargeStatus.PENDING) {
+      if (existing.status() == target) return existing;
+      throw new HotelException("Recharge request already resolved");
+    }
+    if (approve) {
+      Client client = (Client) findUser(existing.clientId());
+      // Only mark APPROVED after the card has actually been credited.
+      client.getCard().recharge(existing.amount(), CopMoney.CURRENCY,
+          "Approved request " + id + ": " + existing.reason());
+    }
+    RechargeRequest resolved = new RechargeRequest(existing.id(), existing.clientId(), existing.amount(),
+        existing.reason(), target, existing.requestedAt(), clock.instant());
+    rechargeRequests.put(id, resolved);
+    return resolved;
   }
 
   public synchronized void addRoomType(RoomType type) {

@@ -36,6 +36,34 @@ final class ClientScreens {
     var id=clientField();if(selectedClient!=null)id.setText(selectedClient);var panel=new VBox(12);Runnable load=()->shell.safe(()->{String client=FormInput.required(id.getText(),"cliente");shell.actions.run(()->c.hotel.card(c.token(),client),card->{
       var movements=Ui.table(card.movements(),new Ui.Column<>("Tipo",v->v.getType()),new Ui.Column<>("Importe",v->UiText.cop(v.getExactAmount())),new Ui.Column<>("Fecha",v->UiText.at(v.getInstant())),new Ui.Column<>("Detalle",v->v.getDescription()));
       panel.getChildren().setAll(Ui.title(UiText.cop(card.exactBalance())),Ui.label(card.number()+" · "+(card.active()?"Activa":"Inactiva")),movements);
+      if(!c.admin()) {
+        var amount=Ui.field("Monto solicitado en COP");var reason=Ui.field("Motivo de la solicitud");
+        panel.getChildren().add(Ui.row(amount,reason,Ui.primary("Solicitar recarga",()->shell.safe(()->{
+          var value=FormInput.decimal(amount.getText(),"monto");String detail=FormInput.required(reason.getText(),"motivo");
+          if(Ui.confirm("Enviar solicitud","Solicitar "+UiText.cop(value)+" al administrador. Esto NO recarga la tarjeta.")) {
+            UUID requestId=UUID.randomUUID();
+            shell.actions.run(()->c.hotel.requestRecharge(c.token(),requestId,value,detail),r->{card(client);shell.message("Solicitud enviada. Estado: "+r.status());});
+          }
+        }))));
+      }
+      shell.actions.run(()->c.hotel.rechargeRequests(c.token()),requests->{
+        var requestTable=Ui.table(requests,new Ui.Column<edu.hoteluq.singleton.Hotel.RechargeRequest>("Solicitud",v->v.id()),
+            new Ui.Column<>("Cliente",v->v.clientId()),new Ui.Column<>("Monto",v->UiText.cop(v.amount())),
+            new Ui.Column<>("Motivo",v->v.reason()),new Ui.Column<>("Estado",v->v.status()));
+        panel.getChildren().add(Ui.title(c.admin()?"Solicitudes de recarga":"Mis solicitudes"));
+        panel.getChildren().add(requestTable);
+        if(c.admin()) {
+          panel.getChildren().add(Ui.row(Ui.primary("Aprobar solicitud",()->shell.safe(()->{
+            var r=Ui.selected(requestTable);
+            if(Ui.confirm("Aprobar recarga",r.clientId()+" · "+UiText.cop(r.amount())))
+              shell.actions.run(()->c.hotel.resolveRecharge(c.token(),r.id(),true),v->card(client));
+          })),Ui.button("Rechazar solicitud",()->shell.safe(()->{
+            var r=Ui.selected(requestTable);
+            if(Ui.confirm("Rechazar solicitud",r.clientId()+" · "+UiText.cop(r.amount())))
+              shell.actions.run(()->c.hotel.resolveRecharge(c.token(),r.id(),false),v->card(client));
+          }))));
+        }
+      });
       if(c.admin()){
         var amount=Ui.field("Importe COP");var reason=Ui.field("Descripción");var active=new CheckBox("Tarjeta activa");active.setSelected(card.active());
         panel.getChildren().add(Ui.row(amount,reason,Ui.primary("Recargar",()->shell.safe(()->{var value=FormInput.decimal(amount.getText(),"importe");String text=reason.getText();if(Ui.confirm("Autorizar recarga",UiText.cop(value)+"\nCliente: "+client))shell.actions.run(()->c.hotel.recharge(c.token(),client,value,"COP",text),v->card(client));})),active,Ui.button("Guardar estado",()->{boolean value=active.isSelected();shell.actions.run(()->{c.hotel.setCardActive(c.token(),client,value);return true;},v->card(client));})));

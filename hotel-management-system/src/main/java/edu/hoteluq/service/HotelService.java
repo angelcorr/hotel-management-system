@@ -63,6 +63,15 @@ public final class HotelService {
     if (!(user instanceof Client client)) throw new HotelException("User is not a client");
     return client;
   }
+  public Hotel.RechargeRequest requestRecharge(String token, UUID requestId, java.math.BigDecimal amount, String reason) {
+    return authenticated(token, () -> hotel.requestRecharge(requestId, amount, reason));
+  }
+  public List<Hotel.RechargeRequest> rechargeRequests(String token) {
+    return authenticated(token, hotel::rechargeRequests);
+  }
+  public Hotel.RechargeRequest resolveRecharge(String token, UUID requestId, boolean approve) {
+    return admin(token, () -> hotel.resolveRecharge(requestId, approve));
+  }
   public CardView card(String token, String clientId) { return authenticated(token, () -> Views.card(client(clientId).getCard())); }
   public CardView recharge(String token, String clientId, double amount, String description) {
     return admin(token, () -> {

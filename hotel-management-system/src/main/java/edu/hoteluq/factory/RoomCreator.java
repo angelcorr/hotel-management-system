@@ -6,7 +6,10 @@ import edu.hoteluq.model.RoomType;
 import edu.hoteluq.singleton.Hotel;
 
 public abstract class RoomCreator {
-  // Factory Method
+  /** Factory Method: subclasses choose the concrete Room product.
+   * Template Method: create(Hotel,...) fixes resolution -> construction -> registration.
+   * These are distinct design responsibilities sharing the same participants.
+   */
   protected abstract Room createRoom(int number, int floor, RoomType type);
 
   protected abstract RoomCategory category();
@@ -15,7 +18,7 @@ public abstract class RoomCreator {
     return create(Hotel.getInstance(), number, floor);
   }
 
-  public Room create(Hotel hotel, int number, int floor) {
+  public final Room create(Hotel hotel, int number, int floor) {
     RoomType type = hotel.getRoomType(category());
     Room room = createRoom(number, floor, type);
     hotel.addRoom(room);

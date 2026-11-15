@@ -52,6 +52,8 @@ public abstract class Room extends ManagedEntity {
     return readProtected(() -> floor);
   }
 
+  public java.math.BigDecimal getPricePerNightAmount() { return type.getPricePerNightAmount(); }
+
   public double getPricePerNight() {
     return type.getPricePerNight();
   }

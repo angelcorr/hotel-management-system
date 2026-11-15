@@ -1,0 +1,136 @@
+EVIDENCIA — CORRECCIÓN OFICIAL DE CANCELACIONES HOTELUQ
+14 de noviembre de 2026. Alcance: H-01; sin puntos, promociones, JavaFX ni otras fases.
+Fuente: documento oficial Proyecto Final HotelUQ §3.3 y solicitud posterior de corrección.
+SHA-256 del PDF: c61012dd8c9c544e63844acfba7c3993bf9405553e197202dc6985b15242d9a0.
+
+REGLA APLICADA
+Cliente: >72 h = 100%; [24 h,72 h] = 80%; <24 h = 0%.
+Exactas 72 h: 80%. Exactas 24 h: 80%, interpretación inclusiva del proyecto
+solicitada para esta corrección, sin atribuir al docente una aclaración posterior.
+Hotel: 100% del pago original elegible, independientemente de la anticipación,
+para estados cancelables. No hay un segundo abono al reintentar CANCELLED.
+Para cero y tiempos negativos se conserva la elegibilidad PENDING/CONFIRMED y
+se extiende <24 h al 0%, sin inventar derecho expreso del PDF tras llegada ni nuevos plazos.
+COMPLETED se rechaza. COP, BigDecimal, HALF_UP y America/Bogota conservados.
+
+CÓDIGO
+CancellationSchedule.official(): HOTELUQ-ACADEMIC-CANCELLATION/v1 activo por defecto.
+Partición (-infinito,24h), [24h,72h+1ns), [72h+1ns,+infinito), porcentajes 0/80/100.
+El nanosegundo es resolución de Duration para expresar >72 h, no tolerancia comercial.
+requireOfficial cruza todas las ventanas con las oficiales. Configuración incompatible
+rechazada antes de modificar registro/historial/activo. Se permite representación
+semánticamente equivalente con splits/escala distinta e ID/versiones técnicas inmutables.
+La ruta de cancelación revalida la política activa. Selector comparte las mismas fronteras.
+Datos históricos no oficiales legibles, pero no activables. Recibos previos no recalculados.
+
+Se conservaron State, Full/Partial/No RefundPolicy, bookingAtomic, VirtualCard,
+comprobantes y guardas sin cambios. Solo tres archivos principales cambiaron:
+Hotel.java, CancellationSchedule.java y RefundPolicySelector.java.
+Pago/tarjeta originales, elegibilidad no devuelta, tope al cobro y rollback exacto
+se mantienen dentro del monitor del agregado, junto a estado/recibo/auditoría.
+El perfil inicial no fabrica un evento de activación atribuido a un administrador;
+queda en el registro y en el snapshot de cada cancelación. Activaciones solicitadas
+siguen siendo administrativas, versionadas y auditadas.
+
+VERIFICACIÓN
+Java: OpenJDK 21.0.13.0.3; Gradle wrapper 8.14.3, toolchain Java 21.
+Comando desde hotel-management-system/ (carpeta de build.gradle):
+./gradlew --no-daemon clean test build
+Ejecución fuera del sandbox para acceso autorizado a ~/.gradle.
+Salida 0:
+> Task :clean
+> Task :compileJava
+> Task :processResources NO-SOURCE
+> Task :classes
+> Task :jar
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+> Task :test
+> Task :startScripts
+> Task :distTar
+> Task :distZip
+> Task :assemble
+> Task :check
+> Task :build
+BUILD SUCCESSFUL in 1m 46s
+8 actionable tasks: 8 executed
+
+RESULTADOS DE build/test-results/test/TEST-*.xml
+Clase | ejecutadas | fallos | errores | omitidas
+edu.hoteluq.model.CatalogValidationTest | 13 | 0 | 0 | 0
+edu.hoteluq.model.ReservationTest | 8 | 0 | 0 | 0
+edu.hoteluq.model.UserTest | 13 | 0 | 0 | 0
+edu.hoteluq.model.VirtualCardTest | 11 | 0 | 0 | 0
+edu.hoteluq.money.CommercialPolicyValidationTest | 20 | 0 | 0 | 0
+edu.hoteluq.singleton.AuthenticationSessionTest | 21 | 0 | 0 | 0
+edu.hoteluq.singleton.AuthorizationConcurrencyTest | 11 | 0 | 0 | 0
+edu.hoteluq.singleton.BookingRulesTest | 7 | 0 | 0 | 0
+edu.hoteluq.singleton.BookingTransactionTest | 37 | 0 | 0 | 0
+edu.hoteluq.singleton.CatalogAdministrationTest | 15 | 0 | 0 | 0
+edu.hoteluq.singleton.Commercial3BTest | 36 | 0 | 0 | 0
+edu.hoteluq.singleton.CommercialConfigurationTest | 5 | 0 | 0 | 0
+edu.hoteluq.singleton.HotelTest | 10 | 0 | 0 | 0
+edu.hoteluq.singleton.OfficialCancellationTest | 30 | 0 | 0 | 0
+edu.hoteluq.singleton.RecoveryIntegrationTest | 5 | 0 | 0 | 0
+edu.hoteluq.singleton.UserAuthorizationTest | 30 | 0 | 0 | 0
+TOTAL: 272 ejecutadas, 272 aprobadas, 0 fallidas, 0 errores, 0 omitidas.
+Los 15 XML preexistentes conservan sus mismos conteos (242); OfficialCancellationTest
+agrega 30 casos. No se eliminaron ni deshabilitaron casos para aprobar.
+Antes de agregar la nueva clase también se ejecutó scripts/verify-offline.py:
+242/242 casos previos satisfactorios después de adaptar expectativas oficiales.
+
+git diff --check: salida 0.
+Informe HTML: build/reports/tests/test/index.html
+Compilación principal/pruebas, JAR y distribuciones ZIP/TAR generadas correctamente.
+Las notas de deprecación provienen de pruebas de compatibilidad ya existentes.
+No se verifica interfaz JavaFX ni recuperación durable: siguen pendientes y sin cambios.
+
+PRUEBAS AJUSTADAS SIN ELIMINAR CASOS
+- TestCommercialPolicies: fixture de cancelación equivalente a oficial, no parcial tardía.
+- Commercial3BTest: 72 h al 80%; <24 h y llegada pasada al 0%; versiones oficiales
+  equivalentes; fallos parciales prueban devolución real del 80% a 48 h y restauración;
+  carreras de política/cancelación con la misma función y recibo único, cero sin crédito.
+- BookingRulesTest: cliente después de llegada al 0%, hotel sigue al 100%.
+- CommercialConfigurationTest: el perfil oficial ya está activo sin configuración manual;
+  ausencia de cambios administrativos no implica ausencia de política del sistema.
+- CommercialPolicyValidationTest: los dos casos de 0/100 prueban rechazo de políticas
+  constantes incompatibles, no obligación artificial de parcialidad para negativos.
+
+30 CASOS NUEVOS DE OfficialCancellationTest
+9 límites exactos/adyacentes a nanosegundo, 48 h, llegada exacta y pasada;
+4 cancelaciones por hotel con anticipaciones distintas, incluso negativas/tarjeta inactiva;
+5 políticas incompatibles, incluidas exactas 24/72 h y un segmento remoto de 1 ns;
+5 casos de cambio de día/mes/año, incluidos 04:59:59/05:00 UTC en calendario Bogotá;
+7 casos de saldo insuficiente/no pagado, devolución con saldo cero, equivalencia/versiones,
+concurrencia cliente/cliente y cliente/hotel, autorización y snapshots históricos no activables.
+
+La activación rechazada no consume ID/versión: una versión corregida puede activarse.
+El reembolso permanece vinculado al Payment original, con una sola decisión/movimiento;
+reintentos cruzados y cambios de metadatos posteriores no recalculan ni duplican dinero.
+Se comprueba que el resto de autenticación, usuarios, catálogos, reserva/pago, checkout,
+dinero y permisos conserva sus pruebas originales satisfactorias.
+
+INTEGRIDAD Y ALCANCE
+Evidencias de fases 1/2/3/3B, recuperación y auditoría anteriores preservadas byte por byte.
+Sin cambios de clases State, tarjeta, modelo monetario, guardas, build/dependencias ni Clock.
+No se hicieron commits, push, despliegues ni cambios a puntos/promociones/JavaFX.
+Atomicidad continúa en memoria; no se añadió base de datos ni migración.
+
+INVENTARIO RESPECTO A LOS CONTENIDOS AL INICIAR ESTA CORRECCIÓN
+MODIFICADO | src/main/java/edu/hoteluq/singleton/Hotel.java
+MODIFICADO | src/main/java/edu/hoteluq/strategy/CancellationSchedule.java
+MODIFICADO | src/main/java/edu/hoteluq/strategy/RefundPolicySelector.java
+MODIFICADO | src/test/java/edu/hoteluq/money/CommercialPolicyValidationTest.java
+MODIFICADO | src/test/java/edu/hoteluq/singleton/BookingRulesTest.java
+MODIFICADO | src/test/java/edu/hoteluq/singleton/Commercial3BTest.java
+MODIFICADO | src/test/java/edu/hoteluq/singleton/CommercialConfigurationTest.java
+NUEVO | src/test/java/edu/hoteluq/singleton/OfficialCancellationTest.java
+MODIFICADO | src/test/java/edu/hoteluq/singleton/TestCommercialPolicies.java
+MODIFICADO | docs/analisis.md
+MODIFICADO | docs/auditoria-diseno.md
+MODIFICADO | docs/auditoria-proyecto-final.md
+MODIFICADO | docs/configuracion-comercial.md
+NUEVO | docs/evidencia-cancelacion-oficial.txt
+MODIFICADO | docs/pendientes.md
+Total: 15 archivos; 2 nuevos y 13 modificados.

@@ -8,12 +8,16 @@ import edu.hoteluq.validation.DomainValidation;
 public class AdditionalService extends ManagedEntity {
   private final java.util.UUID id = java.util.UUID.randomUUID();
   private String name;
-  private double price;
+  private java.math.BigDecimal price;
   private boolean available = true;
 
   public AdditionalService(String name, double price) {
+    this(name, edu.hoteluq.money.CopMoney.input(price));
+  }
+
+  public AdditionalService(String name, java.math.BigDecimal price) {
     this.name = DomainValidation.text(name, "Service name");
-    this.price = DomainValidation.nonNegative(price, "Service price");
+    this.price = edu.hoteluq.money.CopMoney.input(price);
   }
 
   public java.util.UUID getId() { return readProtected(() -> id); }
@@ -23,8 +27,10 @@ public class AdditionalService extends ManagedEntity {
   }
 
   public double getPrice() {
-    return readProtected(() -> price);
+    return readProtected(() -> price.doubleValue());
   }
+
+  public java.math.BigDecimal getPriceAmount() { return readProtected(() -> price); }
 
   public boolean isAvailable() {
     return readProtected(() -> available);
@@ -37,14 +43,23 @@ public class AdditionalService extends ManagedEntity {
 
   public void updateDetails(String name, double price) {
     String validName = DomainValidation.text(name, "Service name");
-    double validPrice = DomainValidation.nonNegative(price, "Service price");
+    java.math.BigDecimal validPrice = edu.hoteluq.money.CopMoney.input(price);
     change(Action.NAME, validName, () -> { this.name = validName; this.price = validPrice; });
   }
 
+  public void updateDetails(String name, java.math.BigDecimal price) { String validName=DomainValidation.text(name,"Service name"); var validPrice=edu.hoteluq.money.CopMoney.input(price);
+    change(Action.NAME,validName,()->{this.name=validName;this.price=validPrice;}); }
+
   public void setPrice(double price) {
     change(Action.UPDATE, price, () -> {
-      this.price = DomainValidation.nonNegative(price, "Service price");
+      this.price = edu.hoteluq.money.CopMoney.input(price);
     });
+  }
+
+  public void setPrice(java.math.BigDecimal price, String currency) {
+    edu.hoteluq.money.CopMoney.currency(currency);
+    var valid = edu.hoteluq.money.CopMoney.input(price);
+    change(Action.UPDATE, valid, () -> this.price = valid);
   }
 
   public void setAvailable(boolean available) {

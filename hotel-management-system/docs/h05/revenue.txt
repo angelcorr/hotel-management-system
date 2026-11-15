@@ -1,0 +1,22 @@
+HOTELUQ — Ingresos por periodo
+Generación: 2026-11-13T12:00:00-05:00
+Zona: America/Bogota
+Periodo inclusivo: 2026-11-13 a 2026-11-13
+Filtros: cliente=null; categoría=null; habitación=null; estado al corte=null; servicio=null; comparar anterior=false
+Valores null: sin filtro.
+Criterio: Fechas inclusivas; operaciones en America/Bogota [00:00 inicial,00:00 posterior al final). Estado y última cotización/contrato al corte; no reconstruye dimensiones al cierre histórico del periodo.
+Criterio: Flujo de caja operativo: pago por Payment.at y devolución por Refund.at, aunque pertenezcan a periodos distintos. Recargas excluidas. Importes históricos reales.
+Criterio: Atribución analítica por pesos de habitación/servicios no bonificados y mayor resto COP; no es precio fiscal por línea. Habitación + servicios concilia con cada pago. Reembolsos se muestran separados.
+
+Flujos operativos
+Tipo	Operación	Reserva	Cliente	Fecha Bogotá	Importe COP	Habitación atribuido COP	Servicios atribuido COP	Flujo neto COP
+REEMBOLSO	1991d9f4-960e-47a9-9497-c336e368f244	e4436b4d-e552-4b24-8e0e-3b25ad59ab45	client-1	2026-11-13T12:00:00-05:00	0	—	—	0
+PAGO	95251295-521c-4140-bf5d-50fa551a51ed	b7ba587d-b1d3-4fd7-a22d-3ded68356445	client-1	2026-11-13T12:00:00-05:00	250	200	50	250
+Registros: 2
+
+TOTALES
+Pagos: 250 COP
+Habitación atribuido: 200 COP
+Servicios atribuido: 50 COP
+Reembolsos: 0 COP
+Neto operativo: 250 COP

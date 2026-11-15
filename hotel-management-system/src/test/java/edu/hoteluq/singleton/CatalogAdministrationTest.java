@@ -160,7 +160,7 @@ class CatalogAdministrationTest extends Phase2Fixture {
   @Test void referencesRemainProtectedAfterCancellation() {
     room(101);
     Reservation reservation = reserve("client-1", 101, null, null);
-    hotel.withSession(admin, () -> { reservation.setStatus(ReservationStatus.CANCELLED); return null; });
+    hotel.withSession(admin, () -> { hotel.cancelReservation(reservation, true); return null; });
     assertThrows(HotelException.class, () -> service.deleteRoom(admin, 101));
     assertThrows(HotelException.class, () -> service.deleteClient(admin, "client-1"));
     assertEquals(1, service.history(owner, "client-1").size());

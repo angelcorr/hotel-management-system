@@ -38,3 +38,26 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+// Optional integration suite: real JavaFX toolkit and display, separate from display-independent regression.
+sourceSets {
+    fxTest {
+        java.srcDir 'src/fxTest/java'
+        compileClasspath += sourceSets.main.output + sourceSets.test.output
+        runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+    }
+}
+configurations {
+    fxTestImplementation.extendsFrom testImplementation
+    fxTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+tasks.register('fxTest', Test) {
+    description = 'Runs real JavaFX integration tests; requires an accessible graphical display.'
+    group = 'verification'
+    testClassesDirs = sourceSets.fxTest.output.classesDirs
+    classpath = sourceSets.fxTest.runtimeClasspath
+    useJUnitPlatform()
+    maxParallelForks = 1
+    forkEvery = 1 // Each JavaFX test class owns its toolkit lifecycle.
+    systemProperty 'prism.order', 'sw'
+}

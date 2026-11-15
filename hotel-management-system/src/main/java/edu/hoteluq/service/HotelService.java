@@ -25,6 +25,7 @@ public final class HotelService {
   public UserView register(String id, String name, String email, String password) {
     return hotel.registerClient(id, name, email, password);
   }
+  public boolean initialized() { return hotel.isInitialized(); }
   public Session login(String email, String password) { return hotel.login(email, password); }
   public void logout(String token) { hotel.logout(token); }
 
@@ -70,6 +71,24 @@ public final class HotelService {
       return Views.card(card);
     });
   }
+  public CardView recharge(String token, String clientId, java.math.BigDecimal amount, String currency, String description) {
+    return admin(token, () -> {
+      VirtualCard card = client(clientId).getCard(); card.recharge(amount, currency, description); return Views.card(card);
+    });
+  }
+  public RoomTypeView createRoomType(String token, RoomCategory category, String name, java.math.BigDecimal price,
+      String currency, int capacity, String description) {
+    return admin(token, () -> {
+      edu.hoteluq.money.CopMoney.currency(currency);
+      var type = new RoomType(category, price, name, capacity, description); hotel.addRoomType(type); return Views.type(type);
+    });
+  }
+  public ServiceView createService(String token, String name, java.math.BigDecimal price, String currency) {
+    return admin(token, () -> {
+      edu.hoteluq.money.CopMoney.currency(currency);
+      var service = new AdditionalService(name, price); hotel.addService(service); return Views.service(service);
+    });
+  }
   public void setCardActive(String token, String id, boolean active) {
     admin(token, () -> { client(id).getCard().setActive(active); return null; });
   }
@@ -99,6 +118,12 @@ public final class HotelService {
   }
   public void setRoomTypeActive(String token, RoomCategory category, boolean active) {
     admin(token, () -> { hotel.getRoomType(category).setActive(active); return null; });
+  }
+  public RoomTypeView updateRoomType(String token,RoomCategory category,String name,java.math.BigDecimal price,String currency,int capacity,String description) {
+    return admin(token,()->{edu.hoteluq.money.CopMoney.currency(currency);var type=hotel.getRoomType(category);type.updateDetails(name,price,capacity,description);return type(type);});
+  }
+  public ServiceView updateService(String token,UUID id,String name,java.math.BigDecimal price,String currency) {
+    return admin(token,()->{edu.hoteluq.money.CopMoney.currency(currency);var value=hotel.findService(id);value.updateDetails(name,price);return service(value);});
   }
   public void deleteRoomType(String token, RoomCategory category) { admin(token, () -> { hotel.removeRoomType(category); return null; }); }
 

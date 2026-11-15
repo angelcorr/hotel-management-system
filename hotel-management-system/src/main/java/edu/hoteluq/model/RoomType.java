@@ -10,14 +10,18 @@ import edu.hoteluq.enums.RoomCategory;
 public class RoomType extends ManagedEntity {
   private final RoomCategory category;
   private String name;
-  private double pricePerNight;
+  private java.math.BigDecimal pricePerNight;
   private int capacity;
   private String description;
   private volatile boolean active = true;
 
   public RoomType(RoomCategory category, double pricePerNight, String name, int capacity, String description) {
+    this(category, edu.hoteluq.money.CopMoney.input(pricePerNight), name, capacity, description);
+  }
+
+  public RoomType(RoomCategory category, java.math.BigDecimal pricePerNight, String name, int capacity, String description) {
     this.category = DomainValidation.required(category, "Category");
-    this.pricePerNight = DomainValidation.nonNegative(pricePerNight, "Nightly price");
+    this.pricePerNight = edu.hoteluq.money.CopMoney.input(pricePerNight);
     this.name = DomainValidation.text(name, "Name");
     this.capacity = DomainValidation.positive(capacity, "Capacity");
     this.description = DomainValidation.text(description, "Description");
@@ -32,8 +36,10 @@ public class RoomType extends ManagedEntity {
   }
 
   public double getPricePerNight() {
-    return readProtected(() -> pricePerNight);
+    return readProtected(() -> pricePerNight.doubleValue());
   }
+
+  public java.math.BigDecimal getPricePerNightAmount() { return readProtected(() -> pricePerNight); }
 
   public int getCapacity() {
     return readProtected(() -> capacity);
@@ -51,8 +57,14 @@ public class RoomType extends ManagedEntity {
 
   public void setPricePerNight(double pricePerNight) {
     change(Action.UPDATE, pricePerNight, () -> {
-      this.pricePerNight = DomainValidation.nonNegative(pricePerNight, "Nightly price");
+      this.pricePerNight = edu.hoteluq.money.CopMoney.input(pricePerNight);
     });
+  }
+
+  public void setPricePerNight(java.math.BigDecimal price, String currency) {
+    edu.hoteluq.money.CopMoney.currency(currency);
+    var valid = edu.hoteluq.money.CopMoney.input(price);
+    change(Action.UPDATE, valid, () -> pricePerNight = valid);
   }
 
   public void setCapacity(int capacity) {
@@ -69,7 +81,20 @@ public class RoomType extends ManagedEntity {
 
   public void updateDetails(String name, double price, int capacity, String description) {
     String validName = DomainValidation.text(name, "Name");
-    double validPrice = DomainValidation.nonNegative(price, "Nightly price");
+    java.math.BigDecimal validPrice = edu.hoteluq.money.CopMoney.input(price);
+    int validCapacity = DomainValidation.positive(capacity, "Capacity");
+    String validDescription = DomainValidation.text(description, "Description");
+    change(Action.NAME, validName, () -> {
+        this.name = validName;
+        this.pricePerNight = validPrice;
+        this.capacity = validCapacity;
+        this.description = validDescription;
+    });
+  }
+
+  public void updateDetails(String name, java.math.BigDecimal price, int capacity, String description) {
+    String validName = DomainValidation.text(name, "Name");
+    java.math.BigDecimal validPrice = edu.hoteluq.money.CopMoney.input(price);
     int validCapacity = DomainValidation.positive(capacity, "Capacity");
     String validDescription = DomainValidation.text(description, "Description");
     change(Action.NAME, validName, () -> {

@@ -24,19 +24,19 @@ class ReservationTest {
     Reservation reservation = builder().additionalService(breakfast).promotion(new Promotion("Promo", 15)).build();
     assertEquals(2, reservation.getNights());
     assertEquals(210, reservation.getSubtotal());
-    assertEquals(31.5, reservation.getDiscount());
-    assertEquals(178.5, reservation.getTotal());
+    assertEquals(31, reservation.getDiscount());
+    assertEquals(179, reservation.getTotal());
     breakfast.setPrice(1000);
     type.setPricePerNight(1000);
-    assertEquals(178.5, reservation.getTotal());
+    assertEquals(179, reservation.getTotal());
     assertThrows(UnsupportedOperationException.class, () -> reservation.getServices().clear());
   }
 
   @Test
   void decimalPricesAndFullDiscountDoNotProduceNegativeOrNonFiniteTotals() {
     type.setPricePerNight(0.1);
-    assertEquals(0.3, builder().checkOut(from.plusDays(3)).build().getTotal());
-    assertEquals(0, builder().promotion(new Promotion("Full", 100)).build().getTotal());
+    assertThrows(HotelException.class, () -> builder().checkOut(from.plusDays(3)).build());
+    assertThrows(HotelException.class, () -> builder().promotion(new Promotion("Full", 100)).build());
     type.setPricePerNight(Double.MAX_VALUE);
     Reservation huge = builder().checkOut(from.plusDays(1)).promotion(new Promotion("Half", 50)).build();
     assertTrue(Double.isFinite(huge.getDiscount()));

@@ -1,0 +1,148 @@
+HOTELUQ — H-04 — Evidencia reproducible JavaFX/MVC
+Fecha: 2026-11-15
+Raíz Git: /home/luis/Documentos/hotel-management-system
+Directorio Gradle: hotel-management-system/
+Java: OpenJDK 21.0.13.0.3; toolchain JavaLanguageVersion.of(21)
+Gradle Wrapper: 8.14.3; JavaFX: 21.0.2 (controls/fxml), dependencias previas.
+Entorno gráfico: Linux / DISPLAY=:0, toolkit JavaFX real. Sin Xvfb, TestFX ni simulación del cobro.
+
+COMANDOS
+Canónico independiente de pantalla: ./gradlew --no-daemon clean test build
+Integración opcional con pantalla: ./gradlew --no-daemon fxTest
+Interactivo: ./gradlew run
+Diagnóstico del arranque real y salida automática: ./gradlew --no-daemon run --args=--smoke-ui
+Ejecución final conjunta: ./gradlew --no-daemon clean test build fxTest run --args=--smoke-ui
+Salida final: 0; BUILD SUCCESSFUL in 2m 50s; 12 actionable tasks: 12 executed.
+run imprimió: HOTELUQ_UI_STARTED: JavaFX stage shown; FXML/CSS loaded; startup scene captured
+No se introducen credenciales ni configuraciones al ejecutar el modo diagnóstico. Cierra solo sus ventanas.
+Advertencias de API deprecated existentes; sin errores de compilación.
+git diff --check: salida 0, sin incidencias; repetido al cierre después de generar esta evidencia.
+
+CONTEOS JUNIT EXTRAÍDOS DE XML
+test: 457 ejecutadas/aprobadas; 0 fallidas; 0 errores; 0 omitidas.
+  416 anteriores conservadas sin editar sus fuentes; 41 nuevas:
+  DesktopIntegrationTest=26; FormInputTest=15.
+fxTest: 3 ejecutadas/aprobadas; 0 fallidas; 0 errores; 0 omitidas.
+  JavaFxIntegrationTest: flujo cliente completo, administración y registro real por FXML.
+Total de esta ejecución: 460 ejecutadas/aprobadas; 0 fallidas/errores/omitidas.
+fxTest es una sourceSet/tarea separada para no hacer depender test/build de un DISPLAY. No se excluyó ni desactivó ninguna prueba anterior.
+
+SUITES: tarea; clase; ejecutadas / fallidas / errores / omitidas; SHA-256 XML
+test; edu.hoteluq.loyalty.BenefitValidationTest; 8 / 0 / 0 / 0; a7769d2e0e2c65f1fd417507a7390672db5c8b4d773958e51f361700bff9025c
+test; edu.hoteluq.loyalty.PointsLedgerTest; 28 / 0 / 0 / 0; c1592659b29ed2c1560d15b6e47c07be55dcad92acdf365843c95f1bb3c223bf
+test; edu.hoteluq.model.CatalogValidationTest; 13 / 0 / 0 / 0; f121911be76b435ad5243aa721a5999d32df8509a4acd811dec3684615037f88
+test; edu.hoteluq.model.ReservationTest; 8 / 0 / 0 / 0; 7ee76f2f01a0347de98d4664478ef8e398ec92c717d4d67442b7c886c4b9d066
+test; edu.hoteluq.model.UserTest; 13 / 0 / 0 / 0; 945ae5bbb5982859370c45a5ba627a97145fb9ac4c94e57b5104258e4e4a88ad
+test; edu.hoteluq.model.VirtualCardTest; 11 / 0 / 0 / 0; 04c886b1f015ab81faec4d575c482927c84a7c4597bcdd88307e4141168725d5
+test; edu.hoteluq.money.CommercialPolicyValidationTest; 20 / 0 / 0 / 0; b88cf80ddd61b5ab753b7291a83d88c60d93325e63589aa57dc7d721f3af8530
+test; edu.hoteluq.promotion.PromotionRulesTest; 22 / 0 / 0 / 0; f4ffe4838c1a72703fa9ec0dd04047fe1dec33aa2f2d2a5b188ef967beac31a4
+test; edu.hoteluq.singleton.AuthenticationSessionTest; 21 / 0 / 0 / 0; e0747eeb8af6155f98b87493fddc9fc419e2e4707e3d925791566d02cf21fc67
+test; edu.hoteluq.singleton.AuthorizationConcurrencyTest; 11 / 0 / 0 / 0; 1a758af81e386fb678690e317fbe601c3a2b1f679fa8c9069f6c62726d36ed17
+test; edu.hoteluq.singleton.BookingRulesTest; 7 / 0 / 0 / 0; 30386fdce09fff981038b3ede8a583ab2a47365e091ca2779f4316bc73657fe5
+test; edu.hoteluq.singleton.BookingTransactionTest; 37 / 0 / 0 / 0; b8f3082ca2f11ebf48b0933502a70d9c8873ac7f9a17e77cd2911f2f111683fd
+test; edu.hoteluq.singleton.CatalogAdministrationTest; 15 / 0 / 0 / 0; f8d87b54c90f2f81e0fa39199d3eff02e83e7bad1a7d667bafadc197aebbb22c
+test; edu.hoteluq.singleton.Commercial3BTest; 36 / 0 / 0 / 0; 4dd832ba2284dc66529629d18834bfc258241202c8fc354c799e4f8bded4937e
+test; edu.hoteluq.singleton.CommercialConfigurationTest; 5 / 0 / 0 / 0; c44bfb490404b169cf576127db3873150eec614b3c1d974769441a9eb28e2e16
+test; edu.hoteluq.singleton.DesktopIntegrationTest; 26 / 0 / 0 / 0; decf756550514b176a4e706112eee82e2413a73abafae49b65ae9122f922a26f
+test; edu.hoteluq.singleton.HotelTest; 10 / 0 / 0 / 0; 9ca6852ed1dc434174bc9bcdb7bf9f9572aecfbe59c9c7c7ead062baf11a8298
+test; edu.hoteluq.singleton.LoyaltyIntegrationTest; 43 / 0 / 0 / 0; 015de7786b51302d6093c420bd17517e3ac2add7fd45d8a45a8d0cf8b538f10b
+test; edu.hoteluq.singleton.OfficialCancellationTest; 30 / 0 / 0 / 0; c4d4dcdaecca3e0d525f59f2c8d505aa20bf536dffb7bb2587da5b5e2dead82e
+test; edu.hoteluq.singleton.PromotionIntegrationTest; 43 / 0 / 0 / 0; 138b7cc0916a9f5572e4dda35309c237f16ea8a4ff1561e886eb2933bd916bd1
+test; edu.hoteluq.singleton.RecoveryIntegrationTest; 5 / 0 / 0 / 0; 05f960b766c366a641d9a9e7887fd7fd6ed388968a8493c059e5ea6f4580d09f
+test; edu.hoteluq.singleton.UserAuthorizationTest; 30 / 0 / 0 / 0; 75fd9a3a6d8dd8a073c8ca75f0fb7304475fb03c9c9a62b1c6a107a807bd6cff
+test; edu.hoteluq.ui.FormInputTest; 15 / 0 / 0 / 0; 933fc1424b18caa420bd6c8dc8caf5752501c83d8e35d7da5944fd85c556a820
+fxTest; edu.hoteluq.singleton.JavaFxIntegrationTest; 3 / 0 / 0 / 0; fea2fbed3acefd86f8c1aaece4d50609172c0a828c1f6185727c9d40a2456c80
+
+VERIFICACIÓN FUNCIONAL
+- Main abre HotelApplication; FXML shell/login, CSS y Stage reales; primer arranque pide operador, sin semillas.
+- UI cliente: registro/login/logout, búsqueda, detalle/tipos, servicios/paquetes/promociones, cotización, creación/modificación PENDING, pago, cancelación, tarjeta, historial y puntos/canjes.
+- UI administración: clientes, habitaciones, tipos, servicios/paquetes, promociones, recargas, reservas/check-out y parámetros explícitos.
+- Modelo calcula cotización y devolución; controllers no calculan descuentos, cargos, reembolsos ni puntos.
+- Confirmación revalida expectedVersion; cancelación revalida porcentaje/importe aceptados con reloj del servidor.
+- Previews no crean reservas ni movimientos; preview de canje no consume puntos ni modifica Terms.
+- Gate de envíos y tarea única de fondo evitan doble clic simultáneo; cobro/canje/check-out conservan idempotencia del dominio.
+- Autorización de fachadas conservada; navegación valida rol/sesión; expiración revoca estado de presentación.
+- DTOs/edición monetaria usan BigDecimal exacto; formato COP y fechas Bogotá/DD/MM/AAAA.
+- La recarga explícita posterior sigue siendo otra operación: no se atribuye idempotencia durable al servicio antiguo de recargas.
+
+PRUEBAS GRÁFICAS REALES
+- Eventos FXML: registro de un cliente, login y logout con token revocado.
+- Selección de habitación/fechas, cotización pura, diálogo de borrador, diálogo de cargo y pago registrado.
+- Consulta y aceptación de devolución oficial, cancelación y saldo restaurado.
+- Navegación a tarjeta/movimientos y puntos sin tasa con mensaje de configuración ausente.
+- Administración: navegación a parámetros/promociones con campos sin valores comerciales inventados.
+- Capturas scene-only inspeccionadas visualmente; no capturan escritorio ni otras aplicaciones.
+- Falta campaña visual exhaustiva de cada CRUD/combinación comercial: implementación de pantallas no equivale a esa cobertura completa.
+
+CAPTURAS PERSISTIDAS; SHA-256
+docs/h04/acceso.png; 2c0092462418224ee19ebf5e5dc9dd5eb3d3bb8cbbc7b70aa8a911cbe97d7ce7
+docs/h04/administrador-parametros.png; 5068663d2a408ee3e5e85e44f237f15ec8d4f0341c3ce6f1b6410bb28cdfdfb7
+docs/h04/administrador-promociones.png; fab332e4e8155391bbf37acb69e5cfa96f48f6267afe4d79443477013253691b
+docs/h04/cliente-cotizacion.png; 7831b3ad56f08db08de73c8e406977afcb47900234f6dbdae2b7ba3f4b2b0957
+docs/h04/cliente-pago.png; 925d2d4934a1bf83f2c6a110fcf19ae709b59de79dc6f65f73fb305fbd25c942
+docs/h04/cliente-puntos.png; 609e251fd31daf9edd1ac931673bc167f5e9e55d58e62d00efda4319aeb95d3a
+docs/h04/cliente-reembolso.png; 4b6912ce134f31054abda0dd1c61220e80e1ab184b28ab1bbe8f4bcc03d5d7e4
+docs/h04/cliente-tarjeta.png; 2096d845f90dcf34b794299d212c67b6a5ee96de39f6428bcc3262ca5eed9b50
+docs/h04/lanzamiento.png; 4d3970b336a7c6125bce3fe7ad843f2bffc5edb3a7182d3820d333270f8c7efc
+
+CONSERVACIÓN
+Se compararon con SHA-256 las fuentes anteriores copiadas al iniciar H-04. Ningún archivo previo de src/test cambió.
+State, Strategy y promotion/ (Decorator/Specification) permanecen idénticos. Composite y las políticas oficiales se conservan.
+Los cambios en modelo/fachadas son consultas previas, validación atómica de versión, extracción compartida de cálculo, getters de configuración y adaptación monetaria exacta; justificación en la guía.
+No hay cambios de porcentajes oficiales, equivalencias comerciales nuevas ni semillas de producción.
+
+INVENTARIO EXCLUSIVO H-04 (respecto al árbol inicial, no al HEAD antiguo)
+MODIFICADO: build.gradle
+CREADO: src/fxTest/java/edu/hoteluq/singleton/JavaFxIntegrationTest.java
+MODIFICADO: src/main/java/edu/hoteluq/Main.java
+MODIFICADO: src/main/java/edu/hoteluq/model/AdditionalService.java
+MODIFICADO: src/main/java/edu/hoteluq/model/Reservation.java
+MODIFICADO: src/main/java/edu/hoteluq/model/RoomType.java
+MODIFICADO: src/main/java/edu/hoteluq/service/HotelService.java
+MODIFICADO: src/main/java/edu/hoteluq/service/LoyaltyService.java
+MODIFICADO: src/main/java/edu/hoteluq/service/ReservationService.java
+MODIFICADO: src/main/java/edu/hoteluq/service/Views.java
+MODIFICADO: src/main/java/edu/hoteluq/singleton/Hotel.java
+CREADO: src/main/java/edu/hoteluq/ui/AdminScreens.java
+CREADO: src/main/java/edu/hoteluq/ui/BookingScreen.java
+CREADO: src/main/java/edu/hoteluq/ui/ClientScreens.java
+CREADO: src/main/java/edu/hoteluq/ui/CommercialScreens.java
+CREADO: src/main/java/edu/hoteluq/ui/DesktopController.java
+CREADO: src/main/java/edu/hoteluq/ui/FormInput.java
+CREADO: src/main/java/edu/hoteluq/ui/FxActions.java
+CREADO: src/main/java/edu/hoteluq/ui/FxCapture.java
+CREADO: src/main/java/edu/hoteluq/ui/HotelApplication.java
+CREADO: src/main/java/edu/hoteluq/ui/LoginController.java
+CREADO: src/main/java/edu/hoteluq/ui/ShellController.java
+CREADO: src/main/java/edu/hoteluq/ui/Ui.java
+CREADO: src/main/java/edu/hoteluq/ui/UiText.java
+CREADO: src/main/resources/edu/hoteluq/ui/hotel.css
+CREADO: src/main/resources/edu/hoteluq/ui/login.fxml
+CREADO: src/main/resources/edu/hoteluq/ui/shell.fxml
+CREADO: src/test/java/edu/hoteluq/singleton/DesktopIntegrationTest.java
+CREADO: src/test/java/edu/hoteluq/ui/FormInputTest.java
+MODIFICADO: docs/auditoria-diseno.md
+MODIFICADO: docs/auditoria-proyecto-final.md
+CREADO: docs/ejecucion-javafx-h04.md
+CREADO: docs/h04/acceso.png
+CREADO: docs/h04/administrador-parametros.png
+CREADO: docs/h04/administrador-promociones.png
+CREADO: docs/h04/cliente-cotizacion.png
+CREADO: docs/h04/cliente-pago.png
+CREADO: docs/h04/cliente-puntos.png
+CREADO: docs/h04/cliente-reembolso.png
+CREADO: docs/h04/cliente-tarjeta.png
+CREADO: docs/h04/lanzamiento.png
+MODIFICADO: docs/pendientes.md
+CREADO: docs/evidencia-h04.txt
+
+Total archivos creados/modificados por H-04: 43.
+
+LÍMITES Y SIGUIENTE ETAPA
+Datos exclusivamente en memoria: cerrar JVM pierde usuarios/pagos/reservas/puntos/configuración/claves/historial.
+Comercial: configurar valores aprobados; no se activan ejemplos. Modificaciones CONFIRMED, compras autónomas y plazo PENDING siguen pendientes previos.
+RF en matriz local: 9 completos / 13 parciales / 4 pendientes; criterios generales: 17 completos / 21 parciales / 6 pendientes / 3 bloqueados.
+Persistencia durable y recuperación requieren autorización separada. No se incorporó DB.
+H-05 recomendado: servicios de reportes/estadísticas, filtros/totales conciliados y luego gráficos/exportador autorizado, sin cálculo en controllers.
+No se iniciaron reportes, estadísticas ni diagramas finales. No hubo commits, push ni despliegues.
+Guía: docs/ejecucion-javafx-h04.md. Auditorías y docs/pendientes.md actualizados.

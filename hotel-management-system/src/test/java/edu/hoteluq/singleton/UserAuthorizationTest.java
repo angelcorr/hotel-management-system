@@ -152,13 +152,13 @@ class UserAuthorizationTest extends Phase2Fixture {
 
   @Test void rechargeIsAdministratorOnlyAndCreatesExactlyOneMovement() {
     var card = service.recharge(admin, "client-1", 123.45, "Administrative recharge");
-    assertEquals(123.45, card.balance());
+    assertEquals(123, card.balance());
     assertEquals(1, card.movements().size());
     assertEquals(MovementType.RECHARGE, card.movements().getFirst().getType());
     assertEquals(card, service.card(owner, "client-1"));
     service.setCardActive(admin, "client-1", false);
     assertThrows(InactiveCardException.class, () -> service.recharge(admin, "client-1", 1, "Rejected"));
-    assertEquals(123.45, service.card(owner, "client-1").balance());
+    assertEquals(123, service.card(owner, "client-1").balance());
     assertEquals(1, service.card(owner, "client-1").movements().size());
   }
 

@@ -1,0 +1,124 @@
+EVIDENCIA DE AUDITORÍA INTEGRAL HOTELUQ
+Fecha de auditoría: 14 de noviembre de 2026.
+Auditoría exclusiva de documentación, sin implementación funcional.
+
+FUENTE PRINCIPAL
+/home/luis/Descargas/Proyecto Final (HotelUQ) PGII - 2026-2.pdf
+SHA-256: c61012dd8c9c544e63844acfba7c3993bf9405553e197202dc6985b15242d9a0
+18 páginas físicas; numeración impresa hasta 16. Texto completo extraído con
+pdftotext -layout y páginas renderizadas con pdftoppm para revisión visual.
+Secciones normativas del sistema hotelero prevalecen sobre propuestas 3B.
+Las extracciones/renderizados intermedios permanecen en /tmp, no en el código.
+
+ALCANCE VERIFICADO
+57 archivos Java principales; 15 clases JUnit más fixtures.
+Leídos: analisis.md, pendientes.md, configuracion-comercial.md,
+propuesta-persistencia.md y evidencia-fase3b.txt, además del código/pruebas.
+Revisión local de historial, ramas, autores y origin. HEAD local: 53df80f.
+No hubo consulta/actualización remota, fetch, pull, reset, commit, push ni despliegue.
+No se certifica el estado actual de GitHub ni el roster del equipo.
+
+ENTORNO
+openjdk version "21.0.13.0.3" 2026-10-24
+OpenJDK Runtime Environment (build 21.0.13.0.3+1-1-24.04.1-Ubuntu)
+OpenJDK 64-Bit Server VM (build 21.0.13.0.3+1-1-24.04.1-Ubuntu, mixed mode, sharing)
+Gradle wrapper 8.14.3; toolchain Java 21 en build.gradle.
+JUnit Jupiter 5.11.4 / Platform 1.11.4.
+
+VALIDACIÓN SOLICITADA
+Desde hotel-management-system/ (directorio de build.gradle):
+./gradlew --no-daemon clean test build
+
+Intento dentro del sandbox: salida 1 antes de tareas, archivo de bloqueo de
+~/.gradle en sistema de archivos de solo lectura.
+Primer intento fuera del sandbox: salida 143 después de compileTestJava/testClasses,
+sin resultado completo de JUnit. No se declara aprobado ni se infiere fallo de negocio.
+Repetición fuera del sandbox: salida 0, resultado completo siguiente.
+
+> Task :clean
+> Task :compileJava
+> Task :processResources NO-SOURCE
+> Task :classes
+> Task :jar
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+> Task :test
+> Task :startScripts
+> Task :distTar
+> Task :distZip
+> Task :assemble
+> Task :check
+> Task :build
+BUILD SUCCESSFUL in 1m 33s
+8 actionable tasks: 8 executed
+
+Notas de deprecación ya presentes: adaptadores legados ejercitados por pruebas.
+No se cambiaron dependencias, wrapper, fuentes ni casos para obtener este resultado.
+
+RESULTADOS LEÍDOS DE build/test-results/test/TEST-*.xml
+Clase | ejecutadas | fallos | errores | omitidas
+edu.hoteluq.model.CatalogValidationTest | 13 | 0 | 0 | 0
+edu.hoteluq.model.ReservationTest | 8 | 0 | 0 | 0
+edu.hoteluq.model.UserTest | 13 | 0 | 0 | 0
+edu.hoteluq.model.VirtualCardTest | 11 | 0 | 0 | 0
+edu.hoteluq.money.CommercialPolicyValidationTest | 20 | 0 | 0 | 0
+edu.hoteluq.singleton.AuthenticationSessionTest | 21 | 0 | 0 | 0
+edu.hoteluq.singleton.AuthorizationConcurrencyTest | 11 | 0 | 0 | 0
+edu.hoteluq.singleton.BookingRulesTest | 7 | 0 | 0 | 0
+edu.hoteluq.singleton.BookingTransactionTest | 37 | 0 | 0 | 0
+edu.hoteluq.singleton.CatalogAdministrationTest | 15 | 0 | 0 | 0
+edu.hoteluq.singleton.Commercial3BTest | 36 | 0 | 0 | 0
+edu.hoteluq.singleton.CommercialConfigurationTest | 5 | 0 | 0 | 0
+edu.hoteluq.singleton.HotelTest | 10 | 0 | 0 | 0
+edu.hoteluq.singleton.RecoveryIntegrationTest | 5 | 0 | 0 | 0
+edu.hoteluq.singleton.UserAuthorizationTest | 30 | 0 | 0 | 0
+TOTAL: 242 ejecutadas, 242 aprobadas, 0 fallidas, 0 errores, 0 omitidas.
+No se añadieron, eliminaron ni deshabilitaron pruebas en esta auditoría.
+Informe HTML: build/reports/tests/test/index.html
+JAR y ZIP/TAR se generaron mediante las tareas de build.
+No se probó UI inexistente ni recuperación durable.
+
+COMPROBACIÓN DE ARRANQUE
+java -cp build/classes/java/main edu.hoteluq.Main
+Salida 0; imprime Hello and welcome! y los números i = 1 a i = 5.
+No crea Stage/Scene ni inicializa datos demo. Un build verde no certifica JavaFX/MVC.
+
+git diff --check: salida 0.
+
+CONTEO DE LA MATRIZ
+26 RF existentes: 0 COMPLETO, 19 PARCIAL, 7 PENDIENTE, 0 BLOQUEADO.
+21 criterios técnicos/académicos/SOLID/patrones: 6 COMPLETO, 8 PARCIAL,
+4 PENDIENTE, 3 BLOQUEADO.
+Matriz principal: 47 indicadores, 6 COMPLETO, 27 PARCIAL, 11 PENDIENTE, 3 BLOQUEADO.
+Son indicadores desglosados por el auditor, no 47 RF numerados por el docente.
+Desgloses de puntos/reportes refinan RF y no se suman otra vez.
+RF-027 y RF-028 son propuestas de cobertura, no implementación ni RF oficiales aprobados.
+No se calcula una nota o porcentaje académico con estos conteos.
+
+HALLAZGOS CRÍTICOS
+- Perfil oficial de cancelación no asegurado por la ruta productiva del cliente.
+  Selector legado sí respeta exactas 72/24 h = 80%; configuración genérica admite
+  otros porcentajes y exige parcial para negativos. Una prueba espera 100% a 72 h
+  y 40% a menos de 24 h. Pruebas verdes no corrigen esta incompatibilidad normativa.
+- No JavaFX/MVC funcional ni pantallas o datos demo en Main.
+- No cuenta/lotes/redención/vencimiento/FEFO de puntos, paquetes ni promociones elegibles.
+- No cálculos/reportes/estadísticas ni exportación/gráficos administrativos de operación.
+- Conteo seguro de patrones: 3 creacionales, 1 estructural, 2 de comportamiento;
+  Template Method es candidato solapado con Factory Method, documentado sin usarlo
+  para certificar el tercer comportamiento. Guardas no acreditan por sí solas Proxy.
+- SOLID tiene evidencia puntual y limitaciones; no se certifican los cinco globalmente.
+- Faltan PDF del diagrama de clases y documento final/plantilla; participación completa
+  del equipo y sustentación requieren información externa.
+- Estado/idempotencia solo en memoria; el PDF no impone expresamente una base de datos.
+
+CONTROL DE INTEGRIDAD
+95 archivos originales comparados por SHA-256: 0 modificados o eliminados.
+Fuentes, pruebas, configuración comercial, build y documentación previa conservados.
+107 enlaces a fuentes/pruebas comprobados contra archivos y líneas existentes.
+Únicos archivos creados por la auditoría:
+- docs/auditoria-proyecto-final.md
+- docs/auditoria-diseno.md
+- docs/evidencia-auditoria.txt
+Los archivos generados de build/.gradle son producto de la validación solicitada,
+no cambios funcionales. El árbol ya tenía cambios de fases previas sin commit al iniciar.

@@ -1,0 +1,17 @@
+HOTELUQ — Recargas de tarjetas
+Generación: 2026-11-13T12:00:00-05:00
+Zona: America/Bogota
+Periodo inclusivo: 2026-11-13 a 2026-11-13
+Filtros: cliente=null; categoría=null; habitación=null; estado al corte=null; servicio=null; comparar anterior=false
+Valores null: sin filtro.
+Criterio: Fechas inclusivas; operaciones en America/Bogota [00:00 inicial,00:00 posterior al final). Estado y última cotización/contrato al corte; no reconstruye dimensiones al cierre histórico del periodo.
+Criterio: Solo movimientos RECHARGE reales por fecha del movimiento; no son ingresos operativos. Identificadores de tarjeta/credenciales omitidos.
+
+Movimientos de recarga
+Movimiento	Cliente	Fecha Bogotá	Importe COP
+0e5b7851-14ce-4a7e-b9a3-e37a5554d118	client-1	2026-11-13T12:00:00-05:00	1000
+Registros: 1
+
+TOTALES
+Recargas: 1 cantidad
+Total recargado (no ingreso): 1000 COP

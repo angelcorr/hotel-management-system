@@ -24,15 +24,15 @@ class VirtualCardTest {
   @Test
   void decimalOperationsDoNotLeaveResidualBalance() {
     VirtualCard card = new VirtualCard("CARD-1");
-    card.recharge(0.1, "First");
-    card.recharge(0.2, "Second");
-    card.charge(0.3, "Payment");
+    card.recharge(1.1, "First");
+    card.recharge(2.2, "Second");
+    card.charge(3.3, "Payment");
     assertEquals(0, card.getBalance());
     assertEquals(3, card.getMovements().size());
     assertEquals(MovementType.PAYMENT, card.getMovements().get(2).getType());
-    assertEquals(0.3, card.getMovements().get(2).getAmount());
-    card.refund(0.3, "Refund");
-    assertEquals(0.3, card.getBalance());
+    assertEquals(3, card.getMovements().get(2).getAmount());
+    card.refund(3.3, "Refund");
+    assertEquals(3, card.getBalance());
     assertEquals(MovementType.REFUND, card.getMovements().get(3).getType());
   }
 

@@ -1,10 +1,19 @@
 package edu.hoteluq.singleton;
 
 import edu.hoteluq.enums.*;
+import edu.hoteluq.loyalty.*;
+import edu.hoteluq.promotion.*;
 import edu.hoteluq.exceptions.*;
 import edu.hoteluq.model.*;
 import edu.hoteluq.security.*;
 import edu.hoteluq.service.Views;
+import edu.hoteluq.service.BookingRequest;
+import edu.hoteluq.service.BookingRules;
+import edu.hoteluq.model.BookingRecords.*;
+import edu.hoteluq.strategy.*;
+import java.math.BigDecimal;
+import edu.hoteluq.money.CopMoney;
+import edu.hoteluq.config.HotelTime;
 import edu.hoteluq.validation.DomainValidation;
 
 import java.security.SecureRandom;
@@ -21,6 +30,10 @@ public class Hotel {
   private final List<AdditionalService> services = new ArrayList<>();
   private final List<Promotion> promotions = new ArrayList<>();
   private final List<Reservation> reservations = new ArrayList<>();
+  private final PointsLedger points = new PointsLedger();
+  private final PromotionProgram promotionProgram = new PromotionProgram();
+  private boolean promotionMutation;
+  private final LoyaltyCatalog loyaltyCatalog = new LoyaltyCatalog(this::findService);
   private final Map<String, SessionState> sessions = new HashMap<>();
   private final SecureRandom random = new SecureRandom();
   private final Clock clock;
@@ -29,17 +42,31 @@ public class Hotel {
   private final ThreadLocal<Integer> internalDepth = ThreadLocal.withInitial(() -> 0);
   private final Client dummy = new Client(UUID.randomUUID().toString(), "Authentication", "authentication@example.invalid", UUID.randomUUID().toString());
   private boolean initialized;
+  private BookingRules bookingRules;
+  private boolean bookingTransaction;
+  private CancellationSchedule cancellationSchedule = CancellationSchedule.official();
+  private final Map<String, CancellationSchedule> cancellationPolicies = new HashMap<>();
+  private final List<PolicyChange> policyChanges = new ArrayList<>();
+  private final Map<String, Creation> creationKeys = new HashMap<>();
+  private record Creation(BookingRequest request, Reservation reservation) {}
+  // Package-private injection only for deterministic failure tests. Never supplied by request callers.
+  enum Stage { AFTER_TRANSFER, AFTER_STATE, AFTER_RECEIPT }
+  java.util.function.Consumer<Stage> transactionProbe = stage -> {};
+
 
   private record SessionState(User user, long credentialVersion, Instant expiresAt) {}
   private record Frame(String token, Frame previous) {}
 
-  private Hotel() { this(Clock.systemUTC(), Duration.ofMinutes(30)); }
+  private Hotel() { this(HotelTime.systemClock(), Duration.ofMinutes(30)); }
 
   // Package-private injection for deterministic integration tests; public access remains Singleton.
   Hotel(Clock clock, Duration sessionLifetime) {
-    this.clock = DomainValidation.required(clock, "Clock");
+    this.clock = HotelTime.inHotelZone(DomainValidation.required(clock, "Clock"));
     this.sessionLifetime = validLifetime(sessionLifetime);
+    cancellationPolicies.put(cancellationSchedule.id() + "/" + cancellationSchedule.version(), cancellationSchedule);
   }
+
+  public synchronized boolean isInitialized() { return initialized; }
 
   public static Hotel getInstance() { return Holder.INSTANCE; }
 
@@ -198,15 +225,27 @@ public class Hotel {
       @Override public void mutate(Action action, Object candidate, Runnable mutation) {
         synchronized (Hotel.this) {
           if (!registered(subject, owner)) throw new HotelException("Entity is no longer registered");
-          if (subject instanceof User) {
+          if (action == Action.BOOKING_TRANSACTION) {
+            if (!bookingTransaction) { requireAdmin(); throw new AuthorizationException(); }
+          } else if (subject instanceof User) {
             requireOwner(owner);
             if (action == Action.EMAIL) uniqueEmail(owner, (String) candidate);
           } else if (subject instanceof VirtualCard) {
-            if (action == Action.CHARGE) requireOwner(owner); else requireAdmin();
+            // Registered payment/refund is reservation-linked, even for administrators.
+            if (action == Action.CHARGE || action == Action.REFUND) {
+              if (action == Action.CHARGE) requireOwner(owner); else requireAdmin();
+              throw new InvalidReservationException("Use a reservation-linked payment or cancellation");
+            }
+            requireAdmin();
           } else {
             requireAdmin();
-            if (action != Action.AVAILABILITY && !(subject instanceof Reservation) && referenced(subject)) {
-              throw new HotelException("Referenced catalog details cannot be changed before historical snapshots are supported");
+            if (subject instanceof Reservation && !bookingTransaction) {
+              throw new InvalidReservationException("Use the reservation service for state transitions");
+            }
+            if(subject instanceof Promotion p && promotionProgram.configured(p.getId()) && !promotionMutation)
+              throw new HotelException("Use the versioned promotion service");
+            if (action != Action.AVAILABILITY && !(subject instanceof Reservation) && !(subject instanceof Promotion && promotionMutation) && referenced(subject)) {
+              throw new HotelException("Referenced catalog details are protected");
             }
             if (action == Action.NAME) uniqueName(subject, (String) candidate);
           }
@@ -233,7 +272,7 @@ public class Hotel {
     if (users.stream().anyMatch(existing -> existing.getId().equals(user.getId()))) throw new HotelException("Id is already registered");
     uniqueEmail(null, user.getEmail());
     VirtualCard card = user instanceof Client client ? client.getCard() : null;
-    if (card != null) ensureDetached(card);
+    if (card != null) { ensureDetached(card); card.configureClock(clock); }
     bind(user, user);
     if (card != null) bind(card, user);
     users.add(user);
@@ -353,7 +392,7 @@ public class Hotel {
   public synchronized void removeService(UUID id) {
     requireAdmin();
     AdditionalService service = findService(id);
-    if (referenced(service)) throw new HotelException("Service has reservations");
+    if (referenced(service) || loyaltyCatalog.references(id) || promotionProgram.referencesService(id)) throw new HotelException("Service has reservations or loyalty references");
     services.remove(service);
   }
 
@@ -375,7 +414,7 @@ public class Hotel {
   public synchronized void removePromotion(UUID id) {
     requireAdmin();
     Promotion promotion = findPromotion(id);
-    if (referenced(promotion)) throw new HotelException("Promotion has reservations");
+    if (referenced(promotion) || promotionProgram.configured(id)) throw new HotelException("Promotion has reservations or version history; deactivate instead");
     promotions.remove(promotion);
   }
 
@@ -396,8 +435,10 @@ public class Hotel {
     DomainValidation.required(reservation, "Reservation");
     synchronized (reservation) {
       requireOwner(reservation.getClient());
+      if (bookingRules != null && !clock.instant().isBefore(reservation.getCheckIn().atTime(bookingRules.checkInTime())
+          .atZone(bookingRules.zone()).toInstant())) throw new InvalidReservationException("Check-in has already started");
       ensureDetached(reservation);
-      if (reservation.getStatus() != ReservationStatus.PENDING) {
+      if (reservation.getState().getClass() != edu.hoteluq.state.PendingState.class) {
         throw new InvalidReservationException("New reservations must start pending; registration does not confirm payment");
       }
       if (!users.contains(reservation.getClient())) throw new HotelException("Client is not registered");
@@ -406,10 +447,505 @@ public class Hotel {
         if (!services.contains(service) || !service.isAvailable()) throw new HotelException("Service is not registered or unavailable");
       }
       if (reservation.getPromotion() != null && !promotions.contains(reservation.getPromotion())) throw new HotelException("Promotion is not registered");
+      validatePackageSelection(reservation);
+      if(reservation.getPromotionDefinition()!=null || (reservation.getPromotion()!=null && promotionProgram.configured(reservation.getPromotion().getId())))
+        validatePromotion(reservation,clock.instant());
       if (!isAvailable(reservation.getRoom(), reservation.getCheckIn(), reservation.getCheckOut())) throw new RoomNotAvailableException("Room is not available for this period");
       bind(reservation, reservation.getClient());
       reservations.add(reservation);
+      try {
+        bookingAtomic(reservation, () -> {
+          reservation.recordSchedule(scheduleFor(reservation));
+          audit(reservation, "CREATED", actorId(), "Reservation created", null);
+          transactionProbe.accept(Stage.AFTER_RECEIPT);
+          return null;
+        });
+      } catch (RuntimeException | Error failure) {
+        reservations.remove(reservation); // failed creation must not retain an orphan availability block
+        throw failure;
+      }
     }
+  }
+
+  private Schedule scheduleFor(Reservation r) {
+    if (bookingRules == null) return null;
+    return new Schedule(HotelTime.instant(r.getCheckIn(), rules().checkInTime()),
+        rules().completionTime() == null ? null : HotelTime.instant(r.getCheckOut(), rules().completionTime()), HotelTime.ZONE);
+  }
+  private String actorId() { return actor().getId(); }
+  private void audit(Reservation r, String type, String who, String reason, Quote before) {
+    audit(r, type, who, reason, before, UUID.randomUUID());
+  }
+  private void audit(Reservation r, String type, String who, String reason, Quote before, UUID operation) {
+    audit(r, type, who, reason, before, operation, clock.instant());
+  }
+  private void audit(Reservation r, String type, String who, String reason, Quote before, UUID operation, Instant at) {
+    r.audit(new AuditEvent(operation, type, who, at, r.getVersion(), reason, before, r.getQuote()));
+  }
+  public synchronized void configureCancellation(CancellationSchedule policy) {
+    requireAdmin();
+    DomainValidation.required(policy, "Cancellation schedule");
+    policy.requireOfficial(); // Validate before changing active policy, registry or activation history.
+    String key = policy.id() + "/" + policy.version();
+    CancellationSchedule previous = cancellationPolicies.get(key);
+    if (previous != null && !previous.equals(policy)) throw new HotelException("Policy version cannot be rewritten");
+    if (previous == null && cancellationPolicies.values().stream().anyMatch(p -> p.id().equals(policy.id()) && p.version() >= policy.version())) throw new HotelException("New policy version must increase");
+    if (policy.equals(cancellationSchedule)) return;
+    if (previous != null) throw new HotelException("Cannot reactivate an older policy version");
+    var event = new PolicyChange(UUID.randomUUID(), actorId(), clock.instant(), policy);
+    cancellationPolicies.put(key, policy); cancellationSchedule = policy; policyChanges.add(event);
+  }
+  public synchronized List<PolicyChange> cancellationPolicyHistory() { requireAdmin(); return List.copyOf(policyChanges); }
+
+  /** Configure once from trusted/admin startup. Existing bookings prevent policy replacement. */
+  public synchronized void configureBookingRules(BookingRules rules) {
+    requireAdmin();
+    if (bookingRules != null || !reservations.isEmpty()) throw new HotelException("Booking rules already in use");
+    bookingRules = DomainValidation.required(rules, "Booking rules");
+  }
+
+  /** Complete a previously absent timing decision without changing any contractual dates or hours. */
+  public synchronized void configureCheckoutWindow(BookingRules.CheckoutWindow window) {
+    requireAdmin();
+    BookingRules existing = rules();
+    DomainValidation.required(window, "Explicit checkout window");
+    if (existing.checkoutWindow() != null || existing.completionTime() == null) throw new HotelException("Checkout window already configured or contractual checkout hour missing");
+    bookingRules = new BookingRules(existing.checkInTime(), existing.completionTime(), window);
+  }
+
+  private BookingRules rules() {
+    if (bookingRules == null) throw new HotelException("Explicit hotel booking rules must be configured first");
+    return bookingRules;
+  }
+
+  public synchronized Reservation findReservation(UUID id) {
+    actor();
+    Reservation reservation = internal(() -> reservations.stream().filter(r -> r.getId().equals(id))
+        .findFirst().orElseThrow(() -> new InvalidReservationException("Reservation not found")));
+    User owner = internal(reservation::getClient);
+    requireOwner(owner);
+    return reservation;
+  }
+
+  private void requireRegistered(Reservation reservation) {
+    actor();
+    if (reservation == null || !reservations.contains(reservation)) {
+      throw new InvalidReservationException("Reservation is not registered in this hotel");
+    }
+    requireOwner(internal(reservation::getClient));
+  }
+
+  private Reservation draft(Client client, BookingRequest request) {
+    rules();
+    DomainValidation.required(request, "Booking request");
+    if (!clock.instant().isBefore(request.checkIn().atTime(rules().checkInTime()).atZone(rules().zone()).toInstant())) {
+      throw new InvalidReservationException("Check-in has already started");
+    }
+    Room room = findRoom(request.roomNumber());
+    if (room == null) throw new InvalidReservationException("Room not found");
+    var builder = new Reservation.Builder().client(client).room(room).checkIn(request.checkIn())
+        .checkOut(request.checkOut()).guests(request.guests());
+    LinkedHashSet<AdditionalService> selected=new LinkedHashSet<>();
+    request.serviceIds().forEach(id -> selected.add(findService(id)));
+    for(UUID id:request.packageIds()) for(AdditionalService service:loyaltyCatalog.packageServices(id))
+      if(!selected.add(service)) throw new InvalidReservationException("Duplicate service across selections/packages");
+    selected.forEach(builder::additionalService); builder.packages(request.packageIds());
+    if(request.promotionId()!=null) builder.promotion(findPromotion(request.promotionId())).promotionDefinition(promotionProgram.get(request.promotionId()));
+    Reservation result=builder.build();
+    if(result.getPromotion()!=null) validatePromotion(result,clock.instant());
+    return result;
+  }
+
+  public synchronized BookingView createReservation(String clientId, String key, BookingRequest request) {
+    User user = findUser(clientId);
+    if (!(user instanceof Client client)) throw new InvalidReservationException("Client required");
+    String normalized = DomainValidation.text(key, "Idempotency key");
+    String actualId = client.getId();
+    String scopedKey = actualId.length() + ":" + actualId + ":" + normalized;
+    DomainValidation.required(request, "Booking request");
+    Creation prior = creationKeys.get(scopedKey);
+    if (prior != null) {
+      if (!prior.request().equals(request)) throw new InvalidReservationException("Idempotency key reused with different data");
+      return prior.reservation().view();
+    }
+    Reservation reservation = draft(client, request);
+    addReservation(reservation);
+    creationKeys.put(scopedKey, new Creation(request, reservation));
+    return reservation.view();
+  }
+
+  private boolean availableExcept(Reservation except, Room room, LocalDate from, LocalDate to) {
+    return internal(() -> room.isActive() && reservations.stream().noneMatch(r -> r != except
+        && r.getRoom() == room && r.overlaps(from, to)));
+  }
+
+  /** All mutations and rollback occur while the Hotel monitor excludes readers and competing writers. */
+  private <T> T bookingAtomic(Reservation reservation, Supplier<T> operation) {
+    if (bookingTransaction) throw new IllegalStateException("Nested booking transaction");
+    return internal(() -> {
+      VirtualCard card = reservation.getClient().getCard();
+      Object reservationBefore = reservation.checkpoint();
+      Object cardBefore = card.checkpoint();
+      Object pointsBefore = points.checkpoint();
+      bookingTransaction = true;
+      try { return operation.get(); }
+      catch (RuntimeException | Error failure) {
+        // Restore exact pre-state, not an extra refund: failed operations leave no financial movement.
+        card.restore(cardBefore);
+        points.restore(pointsBefore);
+        reservation.restore(reservationBefore);
+        throw failure;
+      } finally { bookingTransaction = false; }
+    });
+  }
+
+  public synchronized BookingView modifyReservation(UUID id, long expectedVersion, BookingRequest request) {
+    Reservation reservation = findReservation(id);
+    if (reservation.getStatus() != ReservationStatus.PENDING || reservation.getVersion() != expectedVersion) {
+      throw new InvalidReservationException("Only the current pending version can be modified");
+    }
+    Reservation replacement = draft(reservation.getClient(), request);
+    if (!availableExcept(reservation, replacement.getRoom(), replacement.getCheckIn(), replacement.getCheckOut())) {
+      throw new RoomNotAvailableException("Room unavailable");
+    }
+    String who = actorId();
+    Quote before = reservation.getQuote();
+    return bookingAtomic(reservation, () -> {
+      reservation.replacePending(replacement); reservation.recordSchedule(scheduleFor(reservation));
+      transactionProbe.accept(Stage.AFTER_STATE);
+      audit(reservation, "PENDING_MODIFIED", who, "Pending conditions changed", before);
+      transactionProbe.accept(Stage.AFTER_RECEIPT);
+      return reservation.view();
+    });
+  }
+
+  public synchronized BookingView confirmReservation(UUID id,long expectedVersion) {
+    Reservation r=findReservation(id);
+    if(r.getStatus()==ReservationStatus.PENDING && r.getVersion()!=expectedVersion) throw new InvalidReservationException("Stale reservation version");
+    return confirmReservation(r);
+  }
+  public synchronized BookingRules bookingConfiguration() { actor(); return bookingRules; }
+  public synchronized Quote previewPendingModification(UUID id,long version,BookingRequest request) {
+    Reservation r=findReservation(id);
+    if(r.getStatus()!=ReservationStatus.PENDING || r.getVersion()!=version) throw new InvalidReservationException("Stale reservation version");
+    Reservation draft=draft(r.getClient(),request);
+    if(!availableExcept(r,draft.getRoom(),draft.getCheckIn(),draft.getCheckOut())) throw new RoomNotAvailableException("Room unavailable");
+    return draft.getQuote();
+  }
+  public synchronized Quote previewBooking(String clientId,BookingRequest request) {
+    User user=findUser(clientId);
+    if(!(user instanceof Client client)) throw new InvalidReservationException("Client required");
+    Reservation draft=draft(client,request);
+    if(!availableExcept(null,draft.getRoom(),draft.getCheckIn(),draft.getCheckOut())) throw new RoomNotAvailableException("Room unavailable");
+    return draft.getQuote();
+  }
+  public record PromotionOffer(PromotionDefinition promotion,boolean eligible,String message,Quote quote) {}
+  public synchronized List<PromotionOffer> promotionOffers(String clientId,BookingRequest request) {return promotionOffers(clientId,request,null,0);}
+  public synchronized List<PromotionOffer> promotionOffers(String clientId,BookingRequest request,UUID editing,long version) {
+    if(editing!=null && !findReservation(editing).getClient().getId().equals(clientId)) throw new AuthorizationException();
+    pointsClient(clientId); List<PromotionOffer> result=new ArrayList<>();
+    for(var definition:promotionProgram.list()) {
+      var selected=new BookingRequest(request.roomNumber(),request.checkIn(),request.checkOut(),request.guests(),request.serviceIds(),definition.id(),request.packageIds());
+      try { result.add(new PromotionOffer(definition,true,"Elegible",editing==null?previewBooking(clientId,selected):previewPendingModification(editing,version,selected))); }
+      catch(HotelException ex) { result.add(new PromotionOffer(definition,false,ex.getMessage(),null)); }
+    }
+    return List.copyOf(result);
+  }
+  public synchronized Quote previewPointRedemption(UUID id,long version,UUID benefitId) {
+    Reservation r=findReservation(id);
+    if(r.getStatus()!=ReservationStatus.PENDING || r.getVersion()!=version) throw new InvalidReservationException("Stale reservation version");
+    if(points.policy()==null) throw new HotelException("Loyalty and refund configuration required");
+    Benefit benefit=loyaltyCatalog.benefit(benefitId);
+    if(points.account(r.getClient().getId(),clock.instant()).available()<benefit.cost()) throw new HotelException("Insufficient non-expired points");
+    Quote quote=r.previewPointsBenefit(loyaltyCatalog.services(benefit),benefit.kind()==Benefit.Kind.RESERVATION_DISCOUNT?benefit.discount():BigDecimal.ZERO,
+        benefit.kind()==Benefit.Kind.PACKAGE?List.of(benefit.targetId()):List.of());
+    if(r.getPromotion()!=null) {
+      var context=promotionContext(r); Set<UUID> packages=new HashSet<>(r.getPackageIds());
+      if(benefit.kind()==Benefit.Kind.PACKAGE) packages.add(benefit.targetId());
+      promotionProgram.validate(r.getPromotionDefinition(),new PromotionCondition.Context(r.getCheckIn(),r.getCheckOut(),context.roomType(),
+          quote.services().stream().map(ServiceLine::id).collect(java.util.stream.Collectors.toSet()),packages,context.completedReservations()),clock.instant());
+    }
+    return quote;
+  }
+
+  public synchronized BookingView confirmReservation(Reservation reservation) {
+    return confirmReservation(reservation, null, -1, null);
+  }
+  private BookingView confirmReservation(Reservation reservation, Benefit benefit, long version, String key) {
+    requireRegistered(reservation);
+    if (reservation.getStatus() == ReservationStatus.CONFIRMED && reservation.getPayment() != null) {
+      if (benefit != null) throw new InvalidReservationException("A paid reservation cannot receive a new redemption");
+      return reservation.view(); // natural idempotency key: registered reservation UUID
+    }
+    if (reservation.getStatus() != ReservationStatus.PENDING) throw new InvalidReservationException("Reservation cannot be confirmed");
+    rules();
+    Instant confirmedAt = clock.instant();
+    if (!confirmedAt.isBefore(reservation.getSchedule().checkIn())) {
+      throw new InvalidReservationException("Check-in has already started");
+    }
+    validatePackageSelection(reservation);
+    if(reservation.getPromotion()!=null) validatePromotion(reservation,confirmedAt);
+    if (!availableExcept(reservation, reservation.getRoom(), reservation.getCheckIn(), reservation.getCheckOut())) {
+      throw new RoomNotAvailableException("Room unavailable");
+    }
+    if (reservation.getGuests() > reservation.getRoom().getCapacity()) throw new InvalidReservationException("Capacity exceeded");
+    for (AdditionalService service : reservation.getServices()) {
+      if (!services.contains(service) || !service.isAvailable()) throw new InvalidReservationException("Service unavailable");
+    }
+    if (benefit != null && reservation.getVersion() != version) throw new InvalidReservationException("Stale reservation version");
+    CopMoney.positive(reservation.getTotalAmount());
+    CopMoney.integral(reservation.getTotalAmount());
+    String who = actorId();
+    return bookingAtomic(reservation, () -> {
+      VirtualCard card = reservation.getClient().getCard();
+      if (benefit != null) {
+        var included = loyaltyCatalog.services(benefit);
+        for (AdditionalService service : included) if (!services.contains(service) || !service.isAvailable()) throw new InvalidReservationException("Benefit service unavailable");
+        Quote before = reservation.getQuote();
+        reservation.applyPointsBenefit(included, benefit.kind() == Benefit.Kind.RESERVATION_DISCOUNT ? benefit.discount() : BigDecimal.ZERO,
+            benefit.kind()==Benefit.Kind.PACKAGE?List.of(benefit.targetId()):List.of());
+        if(reservation.getPromotion()!=null) validatePromotion(reservation,confirmedAt);
+        var redemption = points.redeem(reservation.getClient().getId(),reservation.getId(),version,key,benefit,confirmedAt);
+        audit(reservation,"POINTS_BENEFIT",who,"Redemption " + redemption.id(),before,redemption.id(),confirmedAt);
+      }
+      BigDecimal amount = CopMoney.positive(reservation.getTotalAmount());
+      Payment payment = new Payment(UUID.randomUUID(), reservation.getId(), card.getNumber(), amount, confirmedAt);
+      card.bookingTransfer(false, amount, reservation.getId(), payment.id(), payment.at());
+      transactionProbe.accept(Stage.AFTER_TRANSFER);
+      reservation.pay();
+      transactionProbe.accept(Stage.AFTER_STATE);
+      reservation.recordPayment(payment);
+      if(reservation.getPromotionDefinition()==null || reservation.getPromotionDefinition().settings().pointsAccrual()==PromotionDefinition.PointsAccrual.EARN_ON_NET_PAYMENT)
+        points.paid(reservation.getClient().getId(), payment);
+      audit(reservation, "CONFIRMED", who, "COP payment approved", null, payment.id(), payment.at());
+      transactionProbe.accept(Stage.AFTER_RECEIPT);
+      return reservation.view();
+    });
+  }
+
+  public synchronized BookingView cancelReservation(Reservation reservation, boolean byHotel) {
+    return cancelReservation(reservation,byHotel,clock.instant());
+  }
+  private BookingView cancelReservation(Reservation reservation,boolean byHotel,Instant cancelledAt) {
+    requireRegistered(reservation);
+    if (byHotel) requireAdmin();
+    else if (actor() != internal(reservation::getClient)) throw new AuthorizationException();
+    if (reservation.getStatus() == ReservationStatus.CANCELLED && reservation.getRefund() != null) return reservation.view();
+    if (reservation.getStatus() != ReservationStatus.PENDING && reservation.getStatus() != ReservationStatus.CONFIRMED) {
+      throw new InvalidReservationException("Reservation cannot be cancelled");
+    }
+    rules();
+    CancellationCalculation calculation=cancellationCalculation(reservation,byHotel,cancelledAt);
+    Duration left=calculation.left(); CancellationSchedule selectedSchedule=calculation.schedule();
+    RefundPolicy refundPolicy=calculation.policy(); BigDecimal percent=calculation.percent();
+    Payment payment=calculation.payment(); BigDecimal amount=calculation.amount();
+    String who = actorId();
+    return bookingAtomic(reservation, () -> {
+      VirtualCard card = reservation.getClient().getCard();
+      if (payment != null && !payment.cardNumber().equals(card.getNumber())) throw new InvalidReservationException("Original card mismatch");
+      Refund refund = new Refund(UUID.randomUUID(), reservation.getId(), payment == null ? null : payment.id(),
+          card.getNumber(), amount, refundPolicy.getName(), byHotel, cancelledAt, CopMoney.CURRENCY,
+          byHotel ? "HOTEL_FULL_REFUND" : selectedSchedule.id(), byHotel ? 1 : selectedSchedule.version(), percent, left, selectedSchedule);
+      if (payment != null) card.bookingTransfer(true, amount, reservation.getId(), payment.id(), refund.at());
+      transactionProbe.accept(Stage.AFTER_TRANSFER);
+      reservation.cancel(refundPolicy);
+      transactionProbe.accept(Stage.AFTER_STATE);
+      reservation.recordRefund(refund);
+      points.refunded(reservation.getClient().getId(), refund, payment);
+      audit(reservation, "CANCELLED", who, refundPolicy.getName(), null, refund.id(), refund.at());
+      transactionProbe.accept(Stage.AFTER_RECEIPT);
+      return reservation.view();
+    });
+  }
+
+  private record CancellationCalculation(Duration left,CancellationSchedule schedule,RefundPolicy policy,BigDecimal percent,Payment payment,BigDecimal amount) {}
+  private CancellationCalculation cancellationCalculation(Reservation reservation,boolean byHotel,Instant cancelledAt) {
+    Duration left = Duration.between(cancelledAt, reservation.getSchedule().checkIn());
+    CancellationSchedule selectedSchedule = byHotel ? null : cancellationSchedule;
+    if (!byHotel) selectedSchedule.requireOfficial();
+    RefundPolicy refundPolicy = byHotel ? new FullRefundPolicy() : selectedSchedule.select(left);
+    BigDecimal percent = byHotel ? new BigDecimal("100") : ((CancellationSchedule.ConfiguredRefundPolicy) refundPolicy).percent();
+    Payment payment = reservation.getPayment();
+    BigDecimal paid = payment == null ? BigDecimal.ZERO : payment.amount();
+    BigDecimal previouslyReturned = reservation.getRefund() == null ? BigDecimal.ZERO : reservation.getRefund().amount();
+    BigDecimal eligible = paid.subtract(previouslyReturned);
+    if (eligible.signum() < 0) throw new InvalidReservationException("Invalid historical refund balance");
+    BigDecimal amount = CopMoney.rounded(refundPolicy.calculateRefund(eligible));
+    if (amount.signum() < 0 || amount.compareTo(eligible) > 0) throw new InvalidReservationException("Refund exceeds original payment");
+    return new CancellationCalculation(left,selectedSchedule,refundPolicy,percent,payment,amount);
+  }
+  public record CancellationQuote(UUID reservationId,long version,boolean byHotel,Instant at,BigDecimal percent,BigDecimal amount) {}
+  private CancellationQuote cancellationQuote(Reservation r,boolean byHotel,Instant at) {
+    requireRegistered(r); if(byHotel) requireAdmin(); else if(actor()!=internal(r::getClient)) throw new AuthorizationException();
+    if(r.getStatus()==ReservationStatus.CANCELLED && r.getRefund()!=null) return new CancellationQuote(r.getId(),r.getVersion(),byHotel,at,r.getRefund().percent(),r.getRefund().amount());
+    if(r.getStatus()!=ReservationStatus.PENDING && r.getStatus()!=ReservationStatus.CONFIRMED) throw new InvalidReservationException("Reservation cannot be cancelled");
+    rules(); var c=cancellationCalculation(r,byHotel,at);return new CancellationQuote(r.getId(),r.getVersion(),byHotel,at,c.percent(),c.amount());
+  }
+  public synchronized CancellationQuote previewCancellation(UUID id,boolean byHotel) { return cancellationQuote(findReservation(id),byHotel,clock.instant()); }
+  public synchronized BookingView cancelQuoted(CancellationQuote accepted) {
+    DomainValidation.required(accepted,"Cancellation quote"); Reservation r=findReservation(accepted.reservationId()); Instant at=clock.instant();
+    var current=cancellationQuote(r,accepted.byHotel(),at);
+    if(r.getStatus()!=ReservationStatus.CANCELLED && (current.version()!=accepted.version() || current.amount().compareTo(accepted.amount())!=0 || current.percent().compareTo(accepted.percent())!=0))
+      throw new InvalidReservationException("Cancellation quote changed; review the new refund");
+    return cancelReservation(r,accepted.byHotel(),at);
+  }
+
+  private PromotionCondition.Context promotionContext(Reservation r) {
+    long completed=internal(()->reservations.stream().filter(old->old!=r && old.getClient()==r.getClient()
+        && old.getStatus()==ReservationStatus.COMPLETED && old.getPayment()!=null && old.getRefund()==null).count());
+    return new PromotionCondition.Context(r.getCheckIn(),r.getCheckOut(),r.getRoom().getType().getCategory(),
+        r.getServices().stream().map(AdditionalService::getId).collect(java.util.stream.Collectors.toSet()),Set.copyOf(r.getPackageIds()),completed);
+  }
+  private void validatePromotion(Reservation r,Instant now) {
+    if(r.getPromotion()==null || !promotions.contains(r.getPromotion())) throw new HotelException("Registered promotion required");
+    var definition=r.getPromotionDefinition();
+    if(definition==null || !definition.id().equals(r.getPromotion().getId())) throw new InvalidReservationException("Promotion eligibility not configured");
+    promotionProgram.validate(definition,promotionContext(r),now);
+  }
+  private void validatePackageSelection(Reservation r) {
+    for(UUID id:r.getPackageIds()) for(AdditionalService service:loyaltyCatalog.packageServices(id))
+      if(!r.getServices().contains(service) || !service.isAvailable()) throw new HotelException("Package services missing/unavailable");
+  }
+  private void validatePromotionReference(PromotionCondition condition) {
+    if(condition instanceof PromotionCondition.Services selected) selected.ids().forEach(this::findService);
+    if(condition instanceof PromotionCondition.Packages selected) selected.ids().forEach(loyaltyCatalog::packageServices);
+  }
+  public synchronized PromotionDefinition createConditionalPromotion(PromotionDefinition.Settings settings) {
+    requireAdmin(); DomainValidation.required(settings,"Promotion settings");
+    Promotion promotion=new Promotion(settings.name(),settings.percent());
+    var prepared=promotionProgram.prepare(promotion.getId(),0,settings,this::validatePromotionReference);
+    addPromotion(promotion); promotionProgram.publish(prepared,actorId(),clock.instant()); return prepared;
+  }
+  public synchronized PromotionDefinition configurePromotion(UUID id,long expectedVersion,PromotionDefinition.Settings settings) {
+    requireAdmin(); Promotion promotion=findPromotion(id);
+    var prepared=promotionProgram.prepare(id,expectedVersion,settings,this::validatePromotionReference);
+    uniqueName(promotion,settings.name());
+    promotionMutation=true;
+    try { promotion.updateDetails(settings.name(),settings.percent()); }
+    finally { promotionMutation=false; }
+    promotionProgram.publish(prepared,actorId(),clock.instant()); return prepared;
+  }
+  public synchronized PromotionDefinition setPromotionActive(UUID id,long expectedVersion,boolean active) {
+    requireAdmin(); return configurePromotion(id,expectedVersion,promotionProgram.get(id).settings().withActive(active));
+  }
+  public synchronized List<PromotionDefinition> conditionalPromotions() { actor(); return promotionProgram.list(); }
+  public synchronized List<PromotionProgram.Change> promotionHistory() { requireAdmin(); return promotionProgram.history(); }
+
+  /** One monitor/instant for every report family; generation never observes half a payment/refund. */
+  public synchronized edu.hoteluq.report.ReportSnapshot reportSnapshot() {
+    requireAdmin(); Instant at=clock.instant();
+    return internal(()->{
+      var roomData=rooms.stream().map(r->new edu.hoteluq.report.ReportSnapshot.Room(r.getNumber(),r.getType().getCategory(),r.isActive() && r.getType().isActive())).toList();
+      var bookingData=reservations.stream().map(r->{
+        var q=r.getQuote();var p=r.getPayment();var f=r.getRefund();var redemption=points.redemption(r.getId());Set<UUID> waived=new HashSet<>();
+        if(redemption!=null && redemption.benefit().kind()!=Benefit.Kind.RESERVATION_DISCOUNT) loyaltyCatalog.services(redemption.benefit()).forEach(v->waived.add(v.getId()));
+        Instant created=r.view().history().stream().filter(e->e.type().equals("CREATED")).map(edu.hoteluq.model.BookingRecords.AuditEvent::at).findFirst().orElse(null);
+        return new edu.hoteluq.report.ReportSnapshot.Booking(r.getId(),r.getClient().getId(),q.roomNumber(),q.category(),q.typeName(),r.getStatus(),q.checkIn(),q.checkOut(),created,
+            q.nightlyPrice().multiply(BigDecimal.valueOf(r.getNights())),q.services().stream().map(v->new edu.hoteluq.report.ReportSnapshot.Service(v.id(),v.name(),v.price())).toList(),waived,
+            p==null?null:new edu.hoteluq.report.ReportSnapshot.Payment(p.id(),p.amount(),p.at()),
+            f==null?null:new edu.hoteluq.report.ReportSnapshot.Refund(f.id(),f.paymentId(),f.amount(),f.percent(),f.byHotel(),f.at()));
+      }).toList();
+      var rechargeData=new ArrayList<edu.hoteluq.report.ReportSnapshot.Recharge>();var accounts=new ArrayList<PointsLedger.Account>();
+      for(User user:users)if(user instanceof Client client){
+        for(var movement:client.getCard().getMovements())if(movement.getType()==edu.hoteluq.enums.MovementType.RECHARGE)
+          rechargeData.add(new edu.hoteluq.report.ReportSnapshot.Recharge(movement.getId(),client.getId(),movement.getExactAmount(),movement.getInstant()));
+        accounts.add(points.snapshotAccount(client.getId(),at));
+      }
+      return new edu.hoteluq.report.ReportSnapshot(at,roomData,bookingData,rechargeData,accounts);
+    });
+  }
+  public synchronized void authorizeReports() { requireAdmin(); }
+
+  // Loyalty endpoints share the aggregate monitor, session checks and financial transaction boundary.
+  public synchronized void configureLoyalty(LoyaltyPolicy policy) {
+    requireAdmin(); points.configure(policy, actorId(), clock.instant());
+  }
+  public synchronized LoyaltyPolicy loyaltyPolicy() { actor(); return points.policy(); }
+  public synchronized void configureBenefit(Benefit benefit) { requireAdmin(); loyaltyCatalog.configure(benefit); }
+  public synchronized List<Benefit> loyaltyBenefits() { actor(); return loyaltyCatalog.benefits(); }
+  public synchronized LoyaltyCatalog.PackageView createServicePackage(String name, String description, List<UUID> serviceIds, List<UUID> childIds) {
+    requireAdmin(); return loyaltyCatalog.create(name,description,serviceIds,childIds);
+  }
+  public synchronized List<LoyaltyCatalog.PackageView> servicePackages() { actor(); return loyaltyCatalog.packages(); }
+  private Client pointsClient(String id) {
+    User user=findUser(id); if (!(user instanceof Client client)) throw new HotelException("Client required"); return client;
+  }
+  public synchronized PointsLedger.Account pointsAccount(String clientId) {
+    Client client=pointsClient(clientId); return points.account(client.getId(),clock.instant());
+  }
+  public synchronized List<PointsLedger.Deferred> deferredPoints(String clientId) {
+    Client client=pointsClient(clientId); return points.deferred(client.getId());
+  }
+  public synchronized void settleDeferredPoints(String clientId, UUID paymentId) {
+    requireAdmin(); Client client=pointsClient(clientId);
+    if (points.deferred(client.getId()).stream().noneMatch(d -> d.payment().id().equals(paymentId))) {
+      if (points.account(client.getId(),clock.instant()).lots().stream().anyMatch(l -> l.paymentId().equals(paymentId))) return;
+      throw new HotelException("Payment does not belong to client");
+    }
+    Object before=points.checkpoint();
+    try { points.settle(paymentId,clock.instant()); }
+    catch (RuntimeException | Error failure) { points.restore(before); throw failure; }
+  }
+  public synchronized BookingView redeemPoints(UUID reservationId, long version, String key, UUID benefitId) {
+    Reservation reservation=findReservation(reservationId);
+    var previous=points.redemption(reservationId);
+    if (previous!=null) {
+      if (!previous.key().equals(key) || !previous.benefit().id().equals(benefitId) || previous.expectedVersion()!=version)
+        throw new HotelException("Conflicting redemption retry");
+      return reservation.view();
+    }
+    return confirmReservation(reservation,loyaltyCatalog.benefit(benefitId),version,key);
+  }
+
+  /** Compatibility alias: only an explicit call can check out, never a scheduled-date timer. */
+  public synchronized BookingView completeReservation(UUID id) { return checkoutReservation(id, "legacy-checkout:" + id); }
+
+  public synchronized BookingView checkoutReservation(UUID id, String key) {
+    requireAdmin();
+    Reservation reservation = findReservation(id);
+    String validKey = DomainValidation.text(key, "Check-out idempotency key");
+    if (reservation.getCheckout() != null) {
+      if (reservation.getCheckout().idempotencyKey().equals(validKey)) return reservation.view();
+      throw new InvalidReservationException("Check-out already recorded with another operation key");
+    }
+    if (reservation.getStatus() != ReservationStatus.CONFIRMED || reservation.getPayment() == null) throw new InvalidReservationException("Only paid confirmed reservations can check out");
+    BookingRules policy = rules();
+    Instant scheduled = reservation.getSchedule().checkOut(), actual = clock.instant();
+    if (scheduled == null || policy.checkoutWindow() == null) throw new InvalidReservationException("Explicit check-out time and early/late policy required");
+    if (!policy.checkoutWindow().allows(scheduled, actual)) throw new InvalidReservationException("Outside authorized check-out window");
+    String who = actorId();
+    return bookingAtomic(reservation, () -> {
+      Checkout checkout = new Checkout(UUID.randomUUID(), validKey, who, actual, scheduled, HotelTime.ZONE.getId(), policy.checkoutWindow());
+      reservation.recordCheckout(checkout);
+      transactionProbe.accept(Stage.AFTER_STATE);
+      audit(reservation, "CHECKED_OUT", who, "Explicit check-out", null, checkout.operationId(), checkout.at());
+      transactionProbe.accept(Stage.AFTER_RECEIPT);
+      return reservation.view();
+    });
+  }
+
+  /** Read-only economic preparation with audit. Application remains blocked pending a settlement policy. */
+  public synchronized ModificationProposal prepareConfirmedModification(UUID id, long version, String reason, BookingRequest request) {
+    requireAdmin();
+    String validReason = DomainValidation.text(reason, "Modification reason");
+    Reservation reservation = findReservation(id);
+    if (reservation.getStatus() != ReservationStatus.CONFIRMED || reservation.getVersion() != version) throw new InvalidReservationException("Current confirmed reservation required");
+    Reservation proposed = draft(reservation.getClient(), request);
+    if (!availableExcept(reservation, proposed.getRoom(), proposed.getCheckIn(), proposed.getCheckOut())) throw new RoomNotAvailableException("Room unavailable");
+    ModificationProposal proposal = new ModificationProposal(UUID.randomUUID(), id, version, actorId(), clock.instant(), validReason,
+        reservation.getQuote(), proposed.getQuote(), proposed.getTotalAmount().subtract(reservation.getPayment().amount()), "Economic settlement rules are undefined; application is blocked");
+    return bookingAtomic(reservation, () -> {
+      reservation.audit(new AuditEvent(proposal.operationId(), "CONFIRMED_CHANGE_PROPOSED", proposal.actorId(), proposal.at(),
+          version, validReason + "; " + proposal.blockedReason(), proposal.before(), proposal.proposed()));
+      return proposal;
+    });
+  }
+  public synchronized void applyConfirmedModification(UUID id, long version, String reason, BookingRequest request) {
+    requireAdmin();
+    DomainValidation.text(reason, "Modification reason");
+    Reservation r = findReservation(id);
+    if (r.getStatus() != ReservationStatus.CONFIRMED || r.getVersion() != version) throw new InvalidReservationException("Current confirmed reservation required");
+    throw new InvalidReservationException("Confirmed modification settlement policy is undefined; no changes applied");
   }
 
   public synchronized List<Reservation> getReservations() {

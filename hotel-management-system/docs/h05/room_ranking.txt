@@ -1,0 +1,18 @@
+HOTELUQ — Habitaciones más reservadas
+Generación: 2026-11-13T12:00:00-05:00
+Zona: America/Bogota
+Periodo inclusivo: 2026-11-13 a 2026-11-13
+Filtros: cliente=null; categoría=null; habitación=null; estado al corte=null; servicio=null; comparar anterior=false
+Valores null: sin filtro.
+Criterio: Fechas inclusivas; operaciones en America/Bogota [00:00 inicial,00:00 posterior al final). Estado y última cotización/contrato al corte; no reconstruye dimensiones al cierre histórico del periodo.
+Criterio: Ranking por reservas CREATED en el periodo, todos los estados salvo filtro. Empates: número de habitación ascendente.
+
+Ranking
+Posición	Habitación	Categoría	Tipo histórico	Reservas
+1	101	STANDARD	Standard	1
+2	102	STANDARD	Standard	1
+Registros: 2
+
+TOTALES
+Reservas: 2 cantidad
+Habitaciones con reservas: 2 cantidad

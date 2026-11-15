@@ -79,9 +79,9 @@ class AuthorizationConcurrencyTest extends Phase2Fixture {
 
   @Test void concurrentAdministrativeRechargesPreserveBalanceAndEveryMovement() throws Exception {
     assertEquals(2, race(
-        () -> service.recharge(admin, "client-1", 0.1, "One"),
-        () -> service.recharge(admin, "client-1", 0.2, "Two")));
-    assertEquals(0.3, service.card(owner, "client-1").balance());
+        () -> service.recharge(admin, "client-1", 1.1, "One"),
+        () -> service.recharge(admin, "client-1", 2.2, "Two")));
+    assertEquals(3, service.card(owner, "client-1").balance());
     assertEquals(2, service.card(owner, "client-1").movements().size());
   }
   @Test void concurrentRegistrationsCannotDuplicateIds() throws Exception {

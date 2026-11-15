@@ -1,0 +1,85 @@
+HOTELUQ — H-02 — Evidencia de implementación y regresión
+Fecha: 2026-11-14
+Raíz Git: /home/luis/Documentos/hotel-management-system
+Directorio Gradle: hotel-management-system/
+Java: OpenJDK 21.0.13.0.3; toolchain JavaLanguageVersion.of(21)
+Gradle wrapper: 8.14.3
+
+COMANDO FINAL: ./gradlew --no-daemon clean test build
+Salida: 0
+BUILD SUCCESSFUL in 2m 9s
+8 actionable tasks: 8 executed
+Compilación, JAR, scripts, distTar/distZip, test, check y build satisfactorios.
+Advertencias existentes de API deprecated; sin errores de compilación.
+
+JUnit XML, no estimación por número de métodos:
+Ejecutadas=351; aprobadas=351; fallidas=0; errores=0; omitidas=0.
+272 anteriores conservadas; 79 nuevas (28 PointsLedgerTest + 43 LoyaltyIntegrationTest + 8 BenefitValidationTest).
+No se editaron, borraron ni deshabilitaron archivos de pruebas anteriores: comparados por SHA-256 con copia al inicio de H-02.
+State y Strategy: todos sus archivos coinciden por SHA-256 con el inicio de H-02.
+git diff --check: salida 0, sin incidencias (verificación anterior a generar esta evidencia; se repite al cierre).
+
+SUITES (ejecutadas / fallidas / errores / omitidas; SHA-256 del XML):
+edu.hoteluq.loyalty.BenefitValidationTest: 8 / 0 / 0 / 0; 7e89d6c558de6507709361bd8393a66e1787c9208751d401826a540aec646783
+edu.hoteluq.loyalty.PointsLedgerTest: 28 / 0 / 0 / 0; 4011fd92a2caf454469edd9221408ede201c1d8f40663d772ad814086a71af22
+edu.hoteluq.model.CatalogValidationTest: 13 / 0 / 0 / 0; 609a5301a2822a35b6292d493aefdf498470a9602c5b15f2b7c69e6a53a05027
+edu.hoteluq.model.ReservationTest: 8 / 0 / 0 / 0; a0f364f37f61e303d199585db1a5a7576536c6ead53bd3c323423aafa0d89307
+edu.hoteluq.model.UserTest: 13 / 0 / 0 / 0; 43f293f4738bb0feedf842e5708bd93e9dba7cfd72643dc481ffe4b696b3f499
+edu.hoteluq.model.VirtualCardTest: 11 / 0 / 0 / 0; 1b79d7178638dcbfe257f011b93b08ca1eb6ad1bbf86c99b7dc1840990600487
+edu.hoteluq.money.CommercialPolicyValidationTest: 20 / 0 / 0 / 0; bdc3914ba3c19d61ab23d33f6f17e45cef657f4b7fb63bae78070fdc380a0778
+edu.hoteluq.singleton.AuthenticationSessionTest: 21 / 0 / 0 / 0; 16716b7a26a6449a6dd117ed23d31e6a9f988801b9808d07687901462042c3dd
+edu.hoteluq.singleton.AuthorizationConcurrencyTest: 11 / 0 / 0 / 0; 74409508ea65f02b01a5f58a305e0d941d9ff2f120b702ef86854b975ccbc5b3
+edu.hoteluq.singleton.BookingRulesTest: 7 / 0 / 0 / 0; 3a75d8f0412cb97bb2d572d0a693158a3ed89727b90d15d1873f4966c9c30b05
+edu.hoteluq.singleton.BookingTransactionTest: 37 / 0 / 0 / 0; 77617812e68700bce52f487833ec1a25ad2357b1704f89cff47e8eced9295061
+edu.hoteluq.singleton.CatalogAdministrationTest: 15 / 0 / 0 / 0; 105807849ffdeadd64edf30f0d423398d4734879dfc2dada048ac5bb4eb265b5
+edu.hoteluq.singleton.Commercial3BTest: 36 / 0 / 0 / 0; 00442c1a18af43f629f0da608f2752b61e01dd49a7f2409c4e753ff7b6b0d0a7
+edu.hoteluq.singleton.CommercialConfigurationTest: 5 / 0 / 0 / 0; 8f0b4790a571e3bc0cbd89349863b0c4d3b3a882b055f739ed1d1a23cf804d02
+edu.hoteluq.singleton.HotelTest: 10 / 0 / 0 / 0; d8eec80c4e445e24b152d34c03d5ecb1a99f71570d7ca51eaa5ca75484e4af21
+edu.hoteluq.singleton.LoyaltyIntegrationTest: 43 / 0 / 0 / 0; 63b3c4d29c9927e3ff86aeff1e6f2375aa3ca582d95fd5f9b49c01dee6d711c4
+edu.hoteluq.singleton.OfficialCancellationTest: 30 / 0 / 0 / 0; f275a9661550a99f876e8059720cf2bcfed3ac0cbd118fa84026ed3c9847c3c0
+edu.hoteluq.singleton.RecoveryIntegrationTest: 5 / 0 / 0 / 0; 2aa7dbaf95fb91e509eb8eb1c378ffd3471b3ef413e1cc0531a447a357fa01e8
+edu.hoteluq.singleton.UserAuthorizationTest: 30 / 0 / 0 / 0; 91c3e630a5f9e8b27c5a44889b57dc202697d9fbb458ac035662c5046c4c2ed9
+
+CAMBIOS EXCLUSIVOS DE H-02 (respecto al árbol al inicio, no al HEAD viejo de Git):
+CREADO: src/main/java/edu/hoteluq/loyalty/Benefit.java
+CREADO: src/main/java/edu/hoteluq/loyalty/LoyaltyCatalog.java
+CREADO: src/main/java/edu/hoteluq/loyalty/LoyaltyPolicy.java
+CREADO: src/main/java/edu/hoteluq/loyalty/PointsLedger.java
+CREADO: src/main/java/edu/hoteluq/loyalty/ServiceComponent.java
+MODIFICADO: src/main/java/edu/hoteluq/model/Reservation.java
+CREADO: src/main/java/edu/hoteluq/service/LoyaltyService.java
+MODIFICADO: src/main/java/edu/hoteluq/singleton/Hotel.java
+CREADO: src/test/java/edu/hoteluq/loyalty/BenefitValidationTest.java
+CREADO: src/test/java/edu/hoteluq/loyalty/PointsLedgerTest.java
+CREADO: src/test/java/edu/hoteluq/singleton/LoyaltyIntegrationTest.java
+MODIFICADO: docs/auditoria-diseno.md
+MODIFICADO: docs/auditoria-proyecto-final.md
+MODIFICADO: docs/configuracion-comercial.md
+MODIFICADO: docs/pendientes.md
+CREADO: docs/programa-puntos-h02.md
+CREADO: docs/evidencia-h02.txt
+
+CONSISTENCIA COMPROBADA:
+- Créditos sobre Payment real después de débito y comprobante; rechazos/recargas no acreditan.
+- UUID de pago impide doble acumulación. Versión/clave de cliente/reserva impiden doble canje.
+- Saldo vigente, vencimiento calendario Bogotá, límite exacto, bisiestos y zona del servidor distinta.
+- FEFO por vencimiento/obtención/UUID, asignaciones históricas por lote; sin usar el futuro crédito del propio pago.
+- Descuentos, servicios y paquetes bonificados se confirman/pagan en una transacción con contrato histórico.
+- Tres puntos de fallo en confirmación y cancelación restauran reserva, tarjeta, libro y auditoría.
+- Concurrencia: confirmación, mismo canje, canjes que compiten por saldo, cancelación y consulta de vencimiento.
+- Reembolso parcial oficial real, reversión de puntos, deuda por puntos usados, restauración sin revivir puntos revocados/vencidos.
+- Equivalencias/políticas versionadas y snapshots no se reescriben por cambios posteriores.
+- Precios COP BigDecimal/HALF_UP, total residual positivo, insuficiencia de efectivo y desbordamiento sin efectos parciales.
+- Paquetes inmutables/nested, duplicados/refs inválidas, disponibilidad, precio antes del registro, bloqueo de eliminación.
+- Los 30 casos oficiales de cancelación continúan aprobados; perfiles/estrategias no se modifican.
+
+ALCANCE Y DECISIONES:
+- Sin tasas/equivalencias de producción por defecto. Los ejemplos numéricos son exclusivamente fixtures.
+- Aprobar tasa, piso por pago sin arrastre, equivalencias, reversión, deuda dinámica y restauración.
+- Servicios pagados dentro de reservas sí acumulan; compra autónoma fuera de reserva todavía no implementada.
+- Un beneficio por reserva y pago residual positivo; promociones/combinación múltiple no implementadas.
+- RF-012/013/017/025 con negocio comprobado/configurable, parciales como aplicación final por configuración, compras autónomas/UI.
+- Composite añade un estructural real: 3 creacionales / 2 estructurales / 2 comportamientos; no se certifica mínimo 3/4/3.
+- Memoria únicamente: reinicio pierde reservas/pagos/puntos/configuración/claves. Persistencia sigue propuesta, sin base nueva.
+- No se inició promociones ni JavaFX. No hubo commits, push ni despliegues.
+- Contrato detallado: docs/programa-puntos-h02.md; estados: docs/pendientes.md y auditorías.

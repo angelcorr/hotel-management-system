@@ -16,9 +16,10 @@ class RecoveryIntegrationTest extends Phase2Fixture {
     room(101);
     Reservation reservation = reserve("client-1", 101, null, null);
     hotel.withSession(admin, () -> {
-      reservation.setStatus(ReservationStatus.CONFIRMED);
-      assertInstanceOf(ConfirmedState.class, reservation.getState());
-      reservation.setState(new CancelledState());
+      // Phase 3 intentionally closes the old administrative confirmation bypass.
+      assertThrows(InvalidReservationException.class, () -> reservation.setStatus(ReservationStatus.CONFIRMED));
+      assertInstanceOf(PendingState.class, reservation.getState());
+      hotel.cancelReservation(reservation, true);
       assertEquals(ReservationStatus.CANCELLED, reservation.getStatus());
       assertTrue(hotel.isAvailable(hotel.findRoom(101), FROM, FROM.plusDays(2)));
       assertThrows(HotelException.class, () -> reservation.setState(null));
@@ -66,14 +67,15 @@ class RecoveryIntegrationTest extends Phase2Fixture {
     hotel.withSession(admin, () -> {
       Reservation reservation = detached();
       var before = service.card(admin, "client-1");
-      assertThrows(InvalidReservationException.class, () -> new ReservationService().confirm(reservation));
+      assertThrows(InvalidReservationException.class, () -> new ReservationService(hotel).confirm(reservation));
       assertEquals(before, service.card(admin, "client-1"));
       assertEquals(ReservationStatus.PENDING, reservation.getStatus());
       assertTrue(hotel.getReservations().isEmpty());
       hotel.addReservation(reservation);
-      assertThrows(InvalidReservationException.class, () -> new ReservationService().confirm(reservation));
-      assertEquals(before, service.card(admin, "client-1"));
-      assertEquals(ReservationStatus.PENDING, reservation.getStatus());
+      new ReservationService(hotel).confirm(reservation);
+      assertEquals(before.balance() - 200, service.card(admin, "client-1").balance());
+      assertEquals(ReservationStatus.CONFIRMED, reservation.getStatus());
+      assertNotNull(reservation.getPayment());
       assertEquals(1, hotel.getReservations().size());
       return null;
     });

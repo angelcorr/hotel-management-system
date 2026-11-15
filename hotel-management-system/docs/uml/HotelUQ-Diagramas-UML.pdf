@@ -1,0 +1,924 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 9 /Kids [5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R 21 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 1191 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 8086 >>
+stream
+0.06 0.22 0.3 rg 0.16 0.27 0.36 RG 0.8 w 0 778 1191 64 re B
+1 1 1 rg BT /F2 18 Tf 1 0 0 1 35.00 811.00 Tm (HOTELUQ  /  UML DEL CODIGO REAL) Tj ET
+0.83 0.93 0.95 rg BT /F1 13 Tf 1 0 0 1 35.00 791.00 Tm (1. Dominio: usuarios, catalogos y dinero) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 35.00 751.00 Tm (Rombo lleno: valor exclusivo; rombo vacio: registro/agrupacion; linea: referencia compartida. Multiplicidades en los extremos/roles.) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 567 235 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 664 235 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 687.00 Tm (<<abstract>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 671.00 Tm (User) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 646.00 Tm (- id, name, email) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 631.00 Tm (- passwordHash, salt) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 626 m 275 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 608.00 Tm (+ checkPassword\(password\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 352 235 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 449 235 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 472.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 456.00 Tm (Client) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 431.00 Tm (- card: VirtualCard) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 411 m 275 411 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 393.00 Tm (+ getCard\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 315 352 235 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 315 449 235 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 325.00 472.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 325.00 456.00 Tm (Administrator) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 325.00 431.00 Tm (role: ADMINISTRATOR) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 315 411 m 550 411 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 137 235 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 234 235 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 257.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 241.00 Tm (VirtualCard) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 216.00 Tm (- balance: BigDecimal) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 201.00 Tm (- movements: List) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 196 m 275 196 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 178.00 Tm (+ recharge\(...\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 163.00 Tm (+ bookingTransfer\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 315 137 235 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 315 234 235 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 325.00 257.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 325.00 241.00 Tm (CardMovement) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 325.00 216.00 Tm (id, amount, type, at) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 325.00 201.00 Tm (reservationId, paymentId) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 315 196 m 550 196 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 325.00 178.00 Tm (+ getExactAmount\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 640 567 235 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 640 664 235 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 650.00 687.00 Tm (<<abstract>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 650.00 671.00 Tm (Room) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 650.00 646.00 Tm (number, floor, active) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 650.00 631.00 Tm (type: RoomType) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 640 626 m 875 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 650.00 608.00 Tm (+ getFeatures\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 915 567 235 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 915 664 235 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 925.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 925.00 671.00 Tm (RoomType) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 925.00 646.00 Tm (category, pricePerNight) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 925.00 631.00 Tm (capacity, active) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 915 626 m 1150 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 925.00 608.00 Tm (+ updateDetails\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 640 352 235 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 640 449 235 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 650.00 472.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 650.00 456.00 Tm (AdditionalService) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 650.00 431.00 Tm (id, name, price) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 650.00 416.00 Tm (available) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 640 411 m 875 411 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 650.00 393.00 Tm (+ updateDetails\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 915 352 235 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 915 449 235 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 925.00 472.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 925.00 456.00 Tm (Promotion) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 925.00 431.00 Tm (id, name, discountPercent) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 915 411 m 1150 411 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 925.00 393.00 Tm (+ updateDetails\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 640 137 235 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 640 234 235 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 650.00 257.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 650.00 241.00 Tm (Hotel) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 650.00 216.00 Tm (registered collections) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 650.00 201.00 Tm (one synchronization monitor) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 640 196 m 875 196 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 650.00 178.00 Tm (+ getInstance\(\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 650.00 163.00 Tm (+ withSession\(...\)) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 157.5 487 m 157.5 567 l S [] 0 d
+1 1 1 rg 157.5 567 m 164.5 553.0 l 150.5 553.0 l h B
+0.24 0.32 0.40 RG 1 w [] 0 d 432.5 487 m 432 522 l 157 522 l 157.5 567 l S [] 0 d
+1 1 1 rg 157.5 567 m 164.34402198698984 552.9230911403959 l 150.34488610451064 553.0786370946457 l h B
+0.24 0.32 0.40 RG 1 w [] 0 d 157.5 352 m 157.5 272 l S [] 0 d
+0.18 0.29 0.39 rg 157.5 352 m 152.5 343.0 l 157.5 334.0 l 162.5 343.0 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 67 303 35 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 70.00 307.00 Tm (1 card) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 275 204.5 m 315 204.5 l S [] 0 d
+0.18 0.29 0.39 rg 275 204.5 m 284.0 199.5 l 293.0 204.5 l 284.0 209.5 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 273 281 100.7 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 276.00 285.00 Tm (1 -> 0..* movements) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 875 634.5 m 915 634.5 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 862 658 74.2 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 865.00 662.00 Tm (0..* -> 1 type) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 757.5 272 m 757.5 352 l S [] 0 d
+1 1 1 rg 757.5 272 m 762.5 281.0 l 757.5 290.0 l 752.5 281.0 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 677 308 79.5 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 680.00 312.00 Tm (0..* registered) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 875 204.5 m 1030 205 l 1032.5 352 l S [] 0 d
+1 1 1 rg 875 204.5 m 884.0160821224836 199.5290581213785 l 892.9999063482855 204.55806421402667 l 883.983824225802 209.52900609264816 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 925 277 79.5 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 928.00 281.00 Tm (0..* registered) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 94.00 Tm (Room has StandardRoom, FamilyRoom and SuiteRoom subtypes \(page 4\). Client and Administrator inherit User.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 77.00 Tm (Hotel registers references; shared catalog entities are not copied into reservations. Financial values are immutable records/snapshots.) Tj ET
+0.35 0.42 0.49 rg BT /F1 10 Tf 1 0 0 1 35 22 Tm (H-06 | Arbol local sin commit | Pagina 1 / 9 | 15/11/2026) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 1191 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 7367 >>
+stream
+0.06 0.22 0.3 rg 0.16 0.27 0.36 RG 0.8 w 0 778 1191 64 re B
+1 1 1 rg BT /F2 18 Tf 1 0 0 1 35.00 811.00 Tm (HOTELUQ  /  UML DEL CODIGO REAL) Tj ET
+0.83 0.93 0.95 rg BT /F1 13 Tf 1 0 0 1 35.00 791.00 Tm (2. Reserva, contratos y State) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 35.00 751.00 Tm (Una reserva conserva su identidad y copias historicas. La UI no cambia State directamente: Hotel autoriza y coordina la transaccion.) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 567 260 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 664 260 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 671.00 Tm (Reservation) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 646.00 Tm (client, terms, state) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 631.00 Tm (payment, refund, history) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 626 m 300 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 608.00 Tm (+ pay\(\), cancel\(\), complete\(\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 593.00 Tm (+ checkpoint\(\), restore\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 390 567 260 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 390 664 260 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 400.00 687.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 400.00 671.00 Tm (BookingRecords.Quote) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 646.00 Tm (prices, dates, service lines) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 631.00 Tm (promotionDefinition snapshot) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 390 626 m 650 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 608.00 Tm (+ currency\(\): COP) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 567 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 664 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 687.00 Tm (<<interface>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 671.00 Tm (ReservationState) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 626 m 1120 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 608.00 Tm (+ pay\(Reservation\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 593.00 Tm (+ cancel\(Reservation, policy\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 578.00 Tm (+ complete\(Reservation\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 307 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 404 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 427.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 411.00 Tm (PendingState) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 386.00 Tm (status is explicit) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 366 m 285 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 348.00 Tm (transitions or rejection) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 325 307 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 325 404 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 335.00 427.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 335.00 411.00 Tm (ConfirmedState) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 335.00 386.00 Tm (status is explicit) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 325 366 m 570 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 335.00 348.00 Tm (transitions or rejection) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 610 307 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 610 404 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 620.00 427.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 620.00 411.00 Tm (CancelledState) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 620.00 386.00 Tm (status is explicit) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 610 366 m 855 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 620.00 348.00 Tm (transitions or rejection) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 895 307 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 895 404 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 905.00 427.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 905.00 411.00 Tm (CompletedState) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 905.00 386.00 Tm (status is explicit) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 895 366 m 1140 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 905.00 348.00 Tm (transitions or rejection) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 300 634.5 m 390 634.5 l S [] 0 d
+0.18 0.29 0.39 rg 300 634.5 m 309.0 629.5 l 318.0 634.5 l 309.0 639.5 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 302 668 95.39999999999999 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 305.00 672.00 Tm (1 current contract) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 170.0 567 m 170 517 l 770 517 l 770 637 l 820 634.5 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 417 523 79.5 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 420.00 527.00 Tm (1 current state) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 162.5 442 m 162.5 487 l 970 487 l 970.0 567 l S [] 0 d
+1 1 1 rg 970.0 567 m 977.0 553.0 l 963.0 553.0 l h B
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 447.5 442 m 447.5 487 l 970 487 l 970.0 567 l S [] 0 d
+1 1 1 rg 970.0 567 m 977.0 553.0 l 963.0 553.0 l h B
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 732.5 442 m 732.5 487 l 970 487 l 970.0 567 l S [] 0 d
+1 1 1 rg 970.0 567 m 977.0 553.0 l 963.0 553.0 l h B
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 1017.5 442 m 1017.5 487 l 970 487 l 970.0 567 l S [] 0 d
+1 1 1 rg 970.0 567 m 977.0 553.0 l 963.0 553.0 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 92 260 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 189 260 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 212.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 196.00 Tm (BookingRecords.Payment) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 171.00 Tm (reservationId, card, amount) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 156.00 Tm (at, currency) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 151 m 300 151 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 390 92 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 390 189 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 400.00 212.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 400.00 196.00 Tm (BookingRecords.Refund) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 171.00 Tm (paymentId, amount, percent) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 156.00 Tm (policy/version, byHotel, at) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 390 151 m 690 151 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 92 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 189 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 212.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 196.00 Tm (BookingRecords.Checkout) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 171.00 Tm (operationId, actorId, at) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 156.00 Tm (scheduledAt, authorizedWindow) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 151 m 1120 151 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 272.00 Tm (Owned values per Reservation: Payment 0..1, Refund 0..1, Checkout 0..1 and AuditEvent 0..*. Quote contains ServiceLine 0..*.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 255.00 Tm (State protocol: PENDING -> CONFIRMED/CANCELLED; CONFIRMED -> CANCELLED/COMPLETED. COMPLETED only through recorded checkout.) Tj ET
+0.35 0.42 0.49 rg BT /F1 10 Tf 1 0 0 1 35 22 Tm (H-06 | Arbol local sin commit | Pagina 2 / 9 | 15/11/2026) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 1191 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 5865 >>
+stream
+0.06 0.22 0.3 rg 0.16 0.27 0.36 RG 0.8 w 0 778 1191 64 re B
+1 1 1 rg BT /F2 18 Tf 1 0 0 1 35.00 811.00 Tm (HOTELUQ  /  UML DEL CODIGO REAL) Tj ET
+0.83 0.93 0.95 rg BT /F1 13 Tf 1 0 0 1 35.00 791.00 Tm (3. Strategy de cancelacion y reglas comunes) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 35.00 751.00 Tm (Norma monetaria: cliente >72 h = 100%; [24,72] h = 80%; <24 h = 0%; hotel = 100%. Se leen instantes de Bogota.) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 567 310 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 664 310 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 687.00 Tm (<<interface>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 671.00 Tm (RefundPolicy) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 626 m 730 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 608.00 Tm (+ calculateRefund\(BigDecimal\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 593.00 Tm (+ getName\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 327 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 424 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 447.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 431.00 Tm (FullRefundPolicy) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 406.00 Tm (calculation in BigDecimal) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 386 m 285 386 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 368.00 Tm (+ calculateRefund\(...\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 162.5 462 m 162 507 l 575 507 l 575.0 567 l S [] 0 d
+1 1 1 rg 575.0 567 m 582.0 553.0 l 568.0 553.0 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 325 327 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 325 424 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 335.00 447.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 335.00 431.00 Tm (PartialRefundPolicy) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 335.00 406.00 Tm (calculation in BigDecimal) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 325 386 m 570 386 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 335.00 368.00 Tm (+ calculateRefund\(...\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 447.5 462 m 447 507 l 575 507 l 575.0 567 l S [] 0 d
+1 1 1 rg 575.0 567 m 582.0 553.0 l 568.0 553.0 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 610 327 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 610 424 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 620.00 447.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 620.00 431.00 Tm (NoRefundPolicy) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 620.00 406.00 Tm (calculation in BigDecimal) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 610 386 m 855 386 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 620.00 368.00 Tm (+ calculateRefund\(...\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 732.5 462 m 732 507 l 575 507 l 575.0 567 l S [] 0 d
+1 1 1 rg 575.0 567 m 582.0 553.0 l 568.0 553.0 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 895 327 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 895 424 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 905.00 447.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 905.00 431.00 Tm (CancellationSchedule.ConfiguredRefundPolicy) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 905.00 406.00 Tm (calculation in BigDecimal) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 895 386 m 1140 386 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 905.00 368.00 Tm (+ calculateRefund\(...\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 1017.5 462 m 1017 507 l 575 507 l 575.0 567 l S [] 0 d
+1 1 1 rg 575.0 567 m 582.0 553.0 l 568.0 553.0 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 107 310 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 204 310 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 227.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 211.00 Tm (CancellationSchedule) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 186.00 Tm (id, version, windows: List) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 166 m 350 166 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 148.00 Tm (+ official\(\), requireOfficial\(\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 133.00 Tm (+ select\(Duration\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 107 310 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 204 310 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 227.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 211.00 Tm (HotelTime) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 186.00 Tm (ZONE: America/Bogota) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 166 m 730 166 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 148.00 Tm (+ inHotelZone\(Clock\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 107 310 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 204 310 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 227.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 211.00 Tm (CopMoney) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 186.00 Tm (CURRENCY: COP) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 171.00 Tm (ROUNDING: HALF_UP) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 166 m 1130 166 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 148.00 Tm (+ positive\(\), integral\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 195.0 242 m 195 287 l 385 287 l 385 637 l 420 634.5 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 409.66917775175307 630.2251770007254 m 420 634.5 l 410.3816482516322 640.1997639990327 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 217 291 95.39999999999999 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 220.00 295.00 Tm (selects 1 strategy) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 80.00 Tm (Hotel uses the selected RefundPolicy inside bookingAtomic. Refunds preserve original payment/policy/version; helpers do not change official rates.) Tj ET
+0.35 0.42 0.49 rg BT /F1 10 Tf 1 0 0 1 35 22 Tm (H-06 | Arbol local sin commit | Pagina 3 / 9 | 15/11/2026) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 1191 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 12 0 R >>
+endobj
+12 0 obj
+<< /Length 5984 >>
+stream
+0.06 0.22 0.3 rg 0.16 0.27 0.36 RG 0.8 w 0 778 1191 64 re B
+1 1 1 rg BT /F2 18 Tf 1 0 0 1 35.00 811.00 Tm (HOTELUQ  /  UML DEL CODIGO REAL) Tj ET
+0.83 0.93 0.95 rg BT /F1 13 Tf 1 0 0 1 35.00 791.00 Tm (4. Singleton, Factory Method, Builder y Template Method) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 35.00 751.00 Tm (Factory Method varia el producto. Template Method fija resolver tipo -> hook de construccion -> registrar. Son problemas distintos del mismo recorrido.) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 385 567 355 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 385 664 355 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 395.00 687.00 Tm (<<abstract>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 395.00 671.00 Tm (RoomCreator) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 385 626 m 740 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 395.00 608.00 Tm (+ create\(Hotel, number, floor\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 395.00 593.00 Tm (  resolve -> createRoom -> addRoom) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 395.00 578.00 Tm (- # createRoom\(...\), # category\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 327 310 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 424 310 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 447.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 431.00 Tm (StandardRoomCreator) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 386 m 350 386 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 368.00 Tm (# createRoom\(...\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 353.00 Tm (# category\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 195.0 462 m 195 507 l 560 507 l 562.5 567 l S [] 0 d
+1 1 1 rg 562.5 567 m 568.9111038856759 552.7207231637218 l 554.923240862383 553.3035507896924 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 327 310 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 424 310 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 447.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 431.00 Tm (FamilyRoomCreator) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 386 m 730 386 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 368.00 Tm (# createRoom\(...\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 353.00 Tm (# category\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 575.0 462 m 575 507 l 560 507 l 562.5 567 l S [] 0 d
+1 1 1 rg 562.5 567 m 568.9111038856759 552.7207231637218 l 554.923240862383 553.3035507896924 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 800 327 310 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 800 424 310 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 810.00 447.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 810.00 431.00 Tm (SuiteRoomCreator) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 800 386 m 1110 386 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 810.00 368.00 Tm (# createRoom\(...\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 810.00 353.00 Tm (# category\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 955.0 462 m 955 507 l 560 507 l 562.5 567 l S [] 0 d
+1 1 1 rg 562.5 567 m 568.9111038856759 552.7207231637218 l 554.923240862383 553.3035507896924 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 107 310 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 204 310 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 227.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 211.00 Tm (StandardRoom) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 186.00 Tm (Room subtype) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 166 m 350 166 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 148.00 Tm (+ getFeatures\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 195.0 327 m 195.0 242 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 190.0 252.0 m 195.0 242 l 200.0 252.0 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 212 275 37.1 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 215.00 279.00 Tm (creates) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 107 310 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 204 310 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 227.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 211.00 Tm (FamilyRoom) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 186.00 Tm (Room subtype) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 166 m 730 166 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 148.00 Tm (+ getFeatures\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 575.0 327 m 575.0 242 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 570.0 252.0 m 575.0 242 l 580.0 252.0 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 592 275 37.1 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 595.00 279.00 Tm (creates) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 800 107 310 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 800 204 310 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 810.00 227.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 810.00 211.00 Tm (SuiteRoom) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 810.00 186.00 Tm (Room subtype) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 800 166 m 1110 166 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 810.00 148.00 Tm (+ getFeatures\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 955.0 327 m 955.0 242 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 950.0 252.0 m 955.0 242 l 960.0 252.0 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 972 275 37.1 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 975.00 279.00 Tm (creates) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 100.00 Tm (All three room classes inherit Room. RoomCreatorRegistry aggregates creators by RoomCategory.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 83.00 Tm (Singleton: Hotel.Holder owns default INSTANCE; getInstance\(\) returns it. Tests/demo use separate controlled instances.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 66.00 Tm (Builder: Reservation.Builder holds terms and build\(\) validates/calculates before returning a Reservation \(constructor private\).) Tj ET
+0.35 0.42 0.49 rg BT /F1 10 Tf 1 0 0 1 35 22 Tm (H-06 | Arbol local sin commit | Pagina 4 / 9 | 15/11/2026) Tj ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 1191 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 14 0 R >>
+endobj
+14 0 obj
+<< /Length 6003 >>
+stream
+0.06 0.22 0.3 rg 0.16 0.27 0.36 RG 0.8 w 0 778 1191 64 re B
+1 1 1 rg BT /F2 18 Tf 1 0 0 1 35.00 811.00 Tm (HOTELUQ  /  UML DEL CODIGO REAL) Tj ET
+0.83 0.93 0.95 rg BT /F1 13 Tf 1 0 0 1 35.00 791.00 Tm (5. Programa de puntos y Composite de paquetes) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 35.00 751.00 Tm (La cuenta es una proyeccion por cliente del PointsLedger privado de Hotel; no se agrega un segundo usuario ni una segunda tarjeta.) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 567 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 664 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 671.00 Tm (PointsLedger) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 646.00 Tm (lots, redemptions, events) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 631.00 Tm (deferred sources, policy) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 626 m 340 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 608.00 Tm (+ paid\(\), redeem\(\), refunded\(\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 593.00 Tm (+ snapshotAccount\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 567 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 664 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 687.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 671.00 Tm (PointsLedger.Lot) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 646.00 Tm (paymentId, clientId, earned) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 631.00 Tm (entitlement, used, expiry) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 626 m 720 626 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 567 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 664 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 687.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 671.00 Tm (PointsLedger.Redemption) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 646.00 Tm (reservationId, benefit, policy) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 631.00 Tm (allocations: List) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 626 m 1120 626 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 340 634.5 m 420 634.5 l S [] 0 d
+0.18 0.29 0.39 rg 340 634.5 m 349.0 629.5 l 358.0 634.5 l 349.0 639.5 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 343 658 79.5 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 346.00 662.00 Tm (0..* owned lots) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 720 634.5 m 820 634.5 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 727 658 159.0 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 730.00 662.00 Tm (0..* allocations reference lot) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 307 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 404 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 427.00 Tm (<<interface>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 411.00 Tm (ServiceComponent) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 366 m 720 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 348.00 Tm (+ services\(\), rawPrice\(\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 333.00 Tm (+ price\(\), available\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 87 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 184 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 207.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 191.00 Tm (ServiceComponent.Leaf) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 166.00 Tm (service: AdditionalService) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 146 m 340 146 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 128.00 Tm (+ services\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 87 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 184 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 207.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 191.00 Tm (ServiceComponent.Package) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 166.00 Tm (id, name, description) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 151.00 Tm (children: List<ServiceComponent>) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 146 m 720 146 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 128.00 Tm (+ services\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 87 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 184 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 207.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 191.00 Tm (Benefit) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 166.00 Tm (id, version, cost, kind) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 151.00 Tm (discount or targetId) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 146 m 1120 146 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 190.0 222 m 190 267 l 570 267 l 570.0 307 l S [] 0 d
+1 1 1 rg 570.0 307 m 577.0 293.0 l 563.0 293.0 l h B
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 570.0 222 m 570.0 307 l S [] 0 d
+1 1 1 rg 570.0 307 m 577.0 293.0 l 563.0 293.0 l h B
+0.24 0.32 0.40 RG 1 w [] 0 d 720 154.5 m 775 155 l 775 375 l 720 374.5 l S [] 0 d
+0.18 0.29 0.39 rg 720 154.5 m 729.0450807895077 149.58202139987577 l 737.9992562444473 154.66362960222227 l 728.9541754549398 159.5816082023465 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 781 268 68.89999999999999 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 784.00 272.00 Tm (1..* children) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 502.00 Tm (Hotel owns one ledger; Client ID selects Account. A Lot references one original payment; a Redemption owns Allocation 1..*.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 485.00 Tm (LoyaltyCatalog registers immutable packages and versioned benefits. Package construction rejects invalid/duplicate leaves.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 468.00 Tm (LoyaltyPolicy records explicit accrual/refund decisions; no production defaults for rates or equivalences.) Tj ET
+0.35 0.42 0.49 rg BT /F1 10 Tf 1 0 0 1 35 22 Tm (H-06 | Arbol local sin commit | Pagina 5 / 9 | 15/11/2026) Tj ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 1191 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 16 0 R >>
+endobj
+16 0 obj
+<< /Length 6409 >>
+stream
+0.06 0.22 0.3 rg 0.16 0.27 0.36 RG 0.8 w 0 778 1191 64 re B
+1 1 1 rg BT /F2 18 Tf 1 0 0 1 35.00 811.00 Tm (HOTELUQ  /  UML DEL CODIGO REAL) Tj ET
+0.83 0.93 0.95 rg BT /F1 13 Tf 1 0 0 1 35.00 791.00 Tm (6. Decorator y Specification \(patron de dominio\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 35.00 751.00 Tm (Decorator compone importes crudos en orden explicito. Specification no pertenece al catalogo GoF ni se cuenta como tercer comportamiento.) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 567 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 664 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 687.00 Tm (<<interface>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 671.00 Tm (PriceComponent) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 626 m 285 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 608.00 Tm (+ amount\(\): BigDecimal) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 325 567 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 325 664 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 335.00 687.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 335.00 671.00 Tm (PriceComponent.Base) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 335.00 646.00 Tm (value or wrapped component) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 325 626 m 570 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 335.00 608.00 Tm (+ amount\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 447.5 567 m 445 517 l 160 517 l 162.5 567 l S [] 0 d
+1 1 1 rg 162.5 567 m 168.7921397349304 552.6679039371029 l 154.8096069906406 553.3670305743174 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 610 567 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 610 664 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 620.00 687.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 620.00 671.00 Tm (PriceComponent.Percent) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 620.00 646.00 Tm (value or wrapped component) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 610 626 m 855 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 620.00 608.00 Tm (+ amount\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 732.5 567 m 730 517 l 160 517 l 162.5 567 l S [] 0 d
+1 1 1 rg 162.5 567 m 168.7921397349304 552.6679039371029 l 154.8096069906406 553.3670305743174 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 895 567 245 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 895 664 245 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 905.00 687.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 905.00 671.00 Tm (PriceComponent.Fixed) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 905.00 646.00 Tm (value or wrapped component) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 895 626 m 1140 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 905.00 608.00 Tm (+ amount\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 1017.5 567 m 1015 517 l 160 517 l 162.5 567 l S [] 0 d
+1 1 1 rg 162.5 567 m 168.7921397349304 552.6679039371029 l 154.8096069906406 553.3670305743174 l h B
+0.24 0.32 0.40 RG 1 w [] 0 d 732.5 702 m 730 724 l 160 724 l 162.5 702 l S [] 0 d
+1 1 1 rg 732.5 702 m 736.45183908155 711.506995733329 l 730.4676256152028 719.884894586215 l 726.5157865336529 710.377898852886 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 377 727 47.699999999999996 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 380.00 731.00 Tm (1 wrapped) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 307 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 404 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 427.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 411.00 Tm (PromotionDefinition) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 386.00 Tm (id, version, settings) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 366 m 340 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 348.00 Tm (+ requireEligible\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 307 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 404 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 427.00 Tm (<<interface>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 411.00 Tm (PromotionCondition) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 366 m 720 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 348.00 Tm (+ satisfiedBy\(Context\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 333.00 Tm (+ and\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 307 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 404 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 427.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 411.00 Tm (PromotionCondition.All) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 386.00 Tm (conditions: List) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 366 m 1120 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 348.00 Tm (+ satisfiedBy\(...\)) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 340 374.5 m 420 374.5 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 342 398 79.5 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 345.00 402.00 Tm (1..* conditions) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 820 374.5 m 720 374.5 l S [] 0 d
+1 1 1 rg 720 374.5 m 734.0 381.5 l 734.0 367.5 l h B
+0.24 0.32 0.40 RG 1 w [] 0 d 970.0 442 m 970 477 l 570 477 l 570.0 442 l S [] 0 d
+0.18 0.29 0.39 rg 970.0 442 m 975.0 451.0 l 970.0 460.0 l 965.0 451.0 l h B
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 737 484 68.89999999999999 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 740.00 488.00 Tm (1..* children) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 232.00 Tm (Other real Specifications: StayWindow, RoomTypes, MinimumNights, FrequentClient, Services and Packages implement PromotionCondition.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 215.00 Tm (PromotionProgram stores immutable versions and Change history; validates current version against accepted Quote.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 198.00 Tm (Fixed/Percent both wrap PriceComponent. No rounding during wrapping; CopMoney defines final positive integral obligation.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 181.00 Tm (Hotel builds the trusted Context from registered data; UI cannot assert eligibility by sending a boolean.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 164.00 Tm (Combination choices are explicit: EXCLUSIVE, PROMOTION_THEN_POINTS, POINTS_THEN_PROMOTION. No approved fixture implied.) Tj ET
+0.35 0.42 0.49 rg BT /F1 10 Tf 1 0 0 1 35 22 Tm (H-06 | Arbol local sin commit | Pagina 6 / 9 | 15/11/2026) Tj ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 1191 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 18 0 R >>
+endobj
+18 0 obj
+<< /Length 6673 >>
+stream
+0.06 0.22 0.3 rg 0.16 0.27 0.36 RG 0.8 w 0 778 1191 64 re B
+1 1 1 rg BT /F2 18 Tf 1 0 0 1 35.00 811.00 Tm (HOTELUQ  /  UML DEL CODIGO REAL) Tj ET
+0.83 0.93 0.95 rg BT /F1 13 Tf 1 0 0 1 35.00 791.00 Tm (7. Reportes, Adapter y exportacion) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 35.00 751.00 Tm (El modelo de reporte no depende de JavaFX. El adaptador resuelve contratos incompatibles de datos de charts sin recalcular negocio.) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 567 260 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 664 260 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 671.00 Tm (ReportService) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 646.00 Tm (hotel: Hotel) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 626 m 300 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 608.00 Tm (+ generate\(token, query\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 593.00 Tm (+ export\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 390 567 260 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 390 664 260 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 400.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 400.00 671.00 Tm (ReportEngine) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 646.00 Tm (one invocation per cut) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 390 626 m 650 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 608.00 Tm (+ generate\(snapshot,query\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 567 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 664 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 687.00 Tm (<<record>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 671.00 Tm (ReportResult) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 646.00 Tm (sections, totals, charts) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 631.00 Tm (query, generatedAt, criteria) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 626 m 1120 626 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 300 634.5 m 390 634.5 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 380.0 629.5 m 390 634.5 l 380.0 639.5 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 306 653 63.599999999999994 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 309.00 657.00 Tm (creates/uses) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 650 634.5 m 820 634.5 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 810.0 629.5 m 820 634.5 l 810.0 639.5 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 657 653 42.4 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 660.00 657.00 Tm (produces) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 307 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 404 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 427.00 Tm (<<interface>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 411.00 Tm (ReportChartView) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 366 m 340 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 348.00 Tm (+ render\(ChartSpec, Type\): Node) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 307 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 404 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 427.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 411.00 Tm (ReportChartAdapter) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 366 m 720 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 348.00 Tm (+ render\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 307 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 404 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 427.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 411.00 Tm (ReportScreen) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 386.00 Tm (chartView: ReportChartView) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 371.00 Tm (displayed: ReportResult) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 366 m 1120 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 348.00 Tm (+ show\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 420 374.5 m 340 374.5 l S [] 0 d
+1 1 1 rg 340 374.5 m 354.0 381.5 l 354.0 367.5 l h B
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 970.0 307 m 970 267 l 190 267 l 190.0 307 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 195.0 297.0 m 190.0 307 l 185.0 297.0 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 462 271 58.3 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 465.00 275.00 Tm (target port) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 570.0 442 m 570 505 l 970 505 l 970.0 567 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 975.0 557.0 m 970.0 567 l 965.0 557.0 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 703 510 90.1 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 706.00 514.00 Tm (ChartSpec adaptee) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 57 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 154 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 177.00 Tm (<<interface>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 161.00 Tm (ReportExporter) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 116 m 340 116 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 98.00 Tm (+ extension\(\), render\(result\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 57 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 154 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 177.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 161.00 Tm (TxtReportExporter) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 136.00 Tm (UTF-8 formatting) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 116 m 720 116 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 98.00 Tm (+ render\(result\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 57 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 154 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 177.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 161.00 Tm (ReportFiles) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 136.00 Tm (temporary file -> destination) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 116 m 1120 116 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 98.00 Tm (+ write\(...\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 420 124.5 m 340 124.5 l S [] 0 d
+1 1 1 rg 340 124.5 m 354.0 131.5 l 354.0 117.5 l h B
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 232.00 Tm (Adapter transforms ChartSpec into XYChart.Series/Data or PieChart.Data. ReportSnapshot is copied under Hotel monitor.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 215.00 Tm (MoneyAllocation and PointsReportData are pure helpers. ReportExporter is extensible; TXT implemented, PDF export is future work.) Tj ET
+0.35 0.42 0.49 rg BT /F1 10 Tf 1 0 0 1 35 22 Tm (H-06 | Arbol local sin commit | Pagina 7 / 9 | 15/11/2026) Tj ET
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 1191 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 20 0 R >>
+endobj
+20 0 obj
+<< /Length 6220 >>
+stream
+0.06 0.22 0.3 rg 0.16 0.27 0.36 RG 0.8 w 0 778 1191 64 re B
+1 1 1 rg BT /F2 18 Tf 1 0 0 1 35.00 811.00 Tm (HOTELUQ  /  UML DEL CODIGO REAL) Tj ET
+0.83 0.93 0.95 rg BT /F1 13 Tf 1 0 0 1 35.00 791.00 Tm (8. MVC, sesiones y proteccion de entidades) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 35.00 751.00 Tm (La vista usa DTOs y servicios; no llama setters de entidades. La proteccion sigue en el agregado, no solo en botones o navegacion.) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 567 260 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 664 260 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 671.00 Tm (HotelApplication) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 646.00 Tm (shell: ShellController) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 626 m 300 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 608.00 Tm (+ start\(Stage\), stop\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 390 567 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 390 664 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 400.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 400.00 671.00 Tm (ShellController) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 646.00 Tm (DesktopController, FxActions) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 631.00 Tm (FXML root/content/navigation) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 390 626 m 690 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 608.00 Tm (+ navigate\(\), logout\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 567 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 664 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 671.00 Tm (DesktopController) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 646.00 Tm (token, user, screen, busy) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 631.00 Tm (service facades) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 626 m 1120 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 608.00 Tm (+ execute\(\), navigate\(\)) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 300 634.5 m 390 634.5 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 380.0 629.5 m 390 634.5 l 380.0 639.5 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 302 661 53.0 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 305.00 665.00 Tm (FXML loads) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 690 634.5 m 820 634.5 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 702 661 63.599999999999994 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 705.00 665.00 Tm (1 controller) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 307 260 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 404 260 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 427.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 411.00 Tm (FxActions) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 386.00 Tm (one background executor) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 371.00 Tm (busy property) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 366 m 300 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 348.00 Tm (+ run\(...\), close\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 390 307 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 390 404 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 400.00 427.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 400.00 411.00 Tm (Hotel) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 386.00 Tm (sessions, authorization) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 371.00 Tm (monitor / bookingAtomic) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 390 366 m 690 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 400.00 348.00 Tm (+ withSession\(...\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 307 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 404 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 427.00 Tm (<<abstract>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 411.00 Tm (ManagedEntity) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 386.00 Tm (guard: EntityGuard 0..1) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 366 m 1120 366 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 348.00 Tm (# change\(...\), readProtected\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 57 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 154 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 177.00 Tm (<<interface>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 161.00 Tm (EntityGuard) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 116 m 1120 116 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 98.00 Tm (+ mutate\(...\), read\(...\)) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 970.0 307 m 970.0 192 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 984 231 106.0 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 987.00 235.00 Tm (0..1 installed guard) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 970.0 567 m 970 507 l 540 507 l 540.0 442 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 535.0 452.0 m 540.0 442 l 545.0 452.0 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 617 513 58.3 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 620.00 517.00 Tm (via facades) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 540.0 567 m 540 507 l 170 507 l 170.0 442 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 177 513 100.7 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 180.00 517.00 Tm (1 execution adapter) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 232.00 Tm (Views: shell.fxml, login.fxml, hotel.css, Ui components. Controllers: LoginController and screen classes.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 215.00 Tm (Screen classes: BookingScreen, ClientScreens, AdminScreens, CommercialScreens, ReportScreen. They dispatch facade requests.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 198.00 Tm (HotelService, ReservationService, LoyaltyService, PromotionService, ReportService are Facade participants \(one pattern\).) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 181.00 Tm (User/Room/RoomType/Reservation/Promotion/AdditionalService/VirtualCard inherit ManagedEntity; Hotel installs its guard.) Tj ET
+0.35 0.42 0.49 rg BT /F1 10 Tf 1 0 0 1 35 22 Tm (H-06 | Arbol local sin commit | Pagina 8 / 9 | 15/11/2026) Tj ET
+endstream
+endobj
+21 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 1191 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 22 0 R >>
+endobj
+22 0 obj
+<< /Length 4363 >>
+stream
+0.06 0.22 0.3 rg 0.16 0.27 0.36 RG 0.8 w 0 778 1191 64 re B
+1 1 1 rg BT /F2 18 Tf 1 0 0 1 35.00 811.00 Tm (HOTELUQ  /  UML DEL CODIGO REAL) Tj ET
+0.83 0.93 0.95 rg BT /F1 13 Tf 1 0 0 1 35.00 791.00 Tm (9. Alcance, demostracion y trazabilidad) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 35.00 751.00 Tm (Diagrama complementario de la carga academica aislada y referencia para defender patrones; no inventa clases ni participacion.) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 40 567 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 40 664 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 50.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 50.00 671.00 Tm (DemoDataFactory) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 646.00 Tm (Credentials \(secrets redacted\)) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 631.00 Tm (ReplayClock: private Clock) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 40 626 m 340 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 50.00 608.00 Tm (+ create\(credentials\): Context) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 420 567 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 420 664 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 430.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 430.00 671.00 Tm (DemoFixtures) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 646.00 Tm (explicit academic values only) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 420 626 m 720 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 430.00 608.00 Tm (+ rules\(\), points\(\)) Tj ET
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 820 567 300 135 re B
+0.89 0.95 0.96 rg 0.16 0.27 0.36 RG 0.8 w 820 664 300 38 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 830.00 687.00 Tm (<<class>>) Tj ET
+0.1 0.18 0.27 rg BT /F2 12 Tf 1 0 0 1 830.00 671.00 Tm (DemoSetupDialog) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 646.00 Tm (operator-supplied secrets) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 631.00 Tm (explicit fixture consent) Tj ET
+0.24 0.32 0.40 RG 1 w [] 0 d 820 626 m 1120 626 l S [] 0 d
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 830.00 608.00 Tm (+ ask\(\): Optional) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 340 634.5 m 420 634.5 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 410.0 629.5 m 420 634.5 l 410.0 639.5 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 342 658 100.7 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 345.00 662.00 Tm (reads fixtures only) Tj ET
+0.24 0.32 0.40 RG 1 w [5 3] 0 d 970.0 567 m 970 517 l 190 517 l 190.0 567 l S [] 0 d
+0.24 0.32 0.40 RG 1 w [] 0 d 195.0 557.0 m 190.0 567 l 185.0 557.0 l S [] 0 d
+1 1 1 rg 0.16 0.27 0.36 RG 0.8 w 467 524 116.6 15 re B
+0.1 0.18 0.27 rg BT /F1 10 Tf 1 0 0 1 470.00 528.00 Tm (explicit --demo branch) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 452.00 Tm (DemoDataFactory creates a separate Hotel instance via package-scoped constructor; it never resets the normal Singleton.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 435.00 Tm (ReplayClock records real domain operations on fixture dates and then delegates to live clock. No fake status setters.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 418.00 Tm (Credentials are provided by operator, distinct, >=12 characters; never saved or logged. Normal startup has no seeds.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 401.00 Tm () Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 384.00 Tm (Pattern to page: Singleton / Factory Method / Builder / Template Method -> 4; State -> 2; Strategy -> 3;) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 367.00 Tm (Composite -> 5; Decorator -> 6; Adapter -> 7; Facade -> 8. Specification -> 6 \(domain, not GoF\).) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 350.00 Tm () Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 333.00 Tm (Relationships intentionally show relevant domain/architectural dependencies, not every getter, enum or helper.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 316.00 Tm (Full declaration inventory and source SHA-256: docs/uml/inventario-codigo.md. Source generator: docs/uml/generar_uml.py.) Tj ET
+0.1 0.18 0.27 rg BT /F1 11 Tf 1 0 0 1 38.00 299.00 Tm (This provisional academic artifact is not the teachers official template. Team roles and external approvals remain pending.) Tj ET
+0.35 0.42 0.49 rg BT /F1 10 Tf 1 0 0 1 35 22 Tm (H-06 | Arbol local sin commit | Pagina 9 / 9 | 15/11/2026) Tj ET
+endstream
+endobj
+xref
+0 23
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000175 00000 n 
+0000000272 00000 n 
+0000000374 00000 n 
+0000000511 00000 n 
+0000008649 00000 n 
+0000008786 00000 n 
+0000016205 00000 n 
+0000016343 00000 n 
+0000022261 00000 n 
+0000022400 00000 n 
+0000028437 00000 n 
+0000028576 00000 n 
+0000034632 00000 n 
+0000034771 00000 n 
+0000041233 00000 n 
+0000041372 00000 n 
+0000048098 00000 n 
+0000048237 00000 n 
+0000054510 00000 n 
+0000054649 00000 n 
+trailer << /Size 23 /Root 1 0 R >>
+startxref
+59065
+%%EOF
+1 1 obj
+<< /Type /Catalog /Pages 2 0 R  /AF [24 0 R] /Names << /EmbeddedFiles << /Names [(Content Credentials) 24 0 R] >> >> >>
+endobj
+23 0 obj
+<< /Length 24294 /Type /EmbeddedFile /Subtype /application#2Fc2pa >>
+stream
+  ^Êjumb   jumdc2pa  Ä  ™ 8õqc2pa   ^¿jumb   Gjumdc2ma  Ä  ™ 8õqurn:c2pa:c9a6e0dd-e695-41c8-8aa0-38e9256e712f   ∞jumb   )jumdc2as  Ä  ™ 8õqc2pa.assertions   	πjumb   #jumd@À2ªäHùß*÷ÙCic2pa.icon    bfdb image/svg+xml   	wbidb<svg width="716" height="716" viewBox="0 0 716 716" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M508.749 317.399C516.777 287.314 508.991 253.884 485.389 230.282C461.788 206.681 428.36 198.895 398.273 206.923C376.231 184.928 343.39 174.956 311.148 183.596C278.906 192.234 255.45 217.292 247.36 247.361C217.291 255.451 192.233 278.91 183.595 311.149C174.957 343.391 184.927 376.232 206.924 398.274C198.896 428.359 206.683 461.789 230.284 485.391C253.885 508.992 287.313 516.779 317.401 508.75C339.442 530.745 372.286 540.717 404.525 532.079C436.767 523.441 460.223 498.384 468.313 468.315C498.383 460.224 523.44 436.766 532.078 404.526C540.716 372.285 530.747 339.443 508.749 317.402V317.399ZM470.899 244.776C486.892 260.77 493.488 282.601 490.687 303.412L415.577 260.046C412.411 258.218 408.509 258.218 405.345 260.046L317.401 310.82V277.526C317.401 275.191 318.652 273.005 320.676 271.837L387.644 233.174C414.178 218.353 448.346 222.223 470.901 244.776H470.899ZM357.837 311.144L398.275 334.491V381.185L357.837 404.532L317.398 381.185V334.491L357.837 311.144ZM264.776 269.693C265.207 239.305 285.644 211.649 316.453 203.393C338.3 197.54 360.505 202.744 377.127 215.573L302.014 258.937C298.848 260.764 296.898 264.144 296.898 267.798V369.346L268.065 352.699C266.043 351.531 264.776 349.353 264.776 347.017V269.691V269.693ZM203.391 316.454C209.244 294.608 224.854 277.978 244.276 269.999V356.73C244.276 360.384 246.226 363.763 249.392 365.591L337.337 416.365L308.503 433.013C306.481 434.181 303.961 434.188 301.939 433.02L234.971 394.357C208.868 378.789 195.138 347.261 203.391 316.454ZM244.775 470.9C228.781 454.906 222.186 433.075 224.986 412.264L300.096 455.63C303.263 457.457 307.164 457.457 310.328 455.63L398.273 404.856V438.149C398.273 440.485 397.022 442.671 394.997 443.839L328.029 482.502C301.495 497.322 267.327 493.452 244.772 470.9H244.775ZM450.897 445.982C450.466 476.371 430.029 504.027 399.22 512.283C377.373 518.136 355.168 512.932 338.547 500.102L413.659 456.738C416.826 454.911 418.775 451.532 418.775 447.877V346.329L447.609 362.977C449.631 364.145 450.897 366.323 450.897 368.659V445.985V445.982ZM512.282 399.221C506.429 421.068 490.819 437.697 471.397 445.676V358.946C471.397 355.292 469.448 351.912 466.281 350.085L378.336 299.311L407.17 282.663C409.192 281.495 411.712 281.487 413.734 282.655L480.702 321.318C506.805 336.887 520.536 368.415 512.282 399.221Z" fill="black"/>
+</svg>
+  "jumb   )jumdcbor  Ä  ™ 8õqc2pa.actions.v2    Òcbor¢gactionsÅ§factionlc2pa.createdqdigitalSourceTypexFhttp://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMediamsoftwareAgent¢dnamengpt-6-thinkinggversionngpt-6-thinkingdwhenx2026-11-15T17:12:28.585605ZrallActionsIncludedÙ   §jumb   (jumdcbor  Ä  ™ 8õqc2pa.hash.data    tcbor•jexclusionsÅ¢estartÈ§flength^Êdnamenjumbf manifestcalgfsha256dhashX Û#©JÀ–ﬁxNïE™AÃxáã« Ï}à⁄±sçãÊlcpad@  âjumb   'jumdc2cl  Ä  ™ 8õqc2pa.claim.v2   Zcbor¶jinstanceIDx,xmp:iid:0eaff965-4cc8-4a60-9512-3c250f60db90tclaim_generator_info£dnamegChatGPTdicon¢curlx$self#jumbf=c2pa.assertions/c2pa.icondhashX u>=W1í≥®NÎL˚¡åt∑'w÷–6«e6„ÒkspecVersione2.2.0isignaturexMself#jumbf=/c2pa/urn:c2pa:c9a6e0dd-e695-41c8-8aa0-38e9256e712f/c2pa.signaturercreated_assertionsÉ¢curlx$self#jumbf=c2pa.assertions/c2pa.icondhashX u>=W1í≥®NÎL˚¡åt∑'w÷–6«e6„Ò¢curlx*self#jumbf=c2pa.assertions/c2pa.actions.v2dhashX ÿV-µ÷óÒ#<¥ÔkàΩ∏Ô–´`µÿ∑Ω“6S¢curlx)self#jumbf=c2pa.assertions/c2pa.hash.datadhashX ÄEv!îp\#ÔﬂÂˇn¥≥}Üzö¬ÏŒYzóP2Jhdc:titleiimage.pdfcalgfsha256  P8jumb   (jumdc2cs  Ä  ™ 8õqc2pa.signature   Pcbor“ÑYË¢8$!ÇYà0ÇÑ0Çl†•¸ÈpåÚÄ1ÓDds0	*ÜHÜ˜ 0J1!0USSL.com C2PA ICA R1 202510U
+SSL Corporation10	UUS0260422155105Z270423155104Z0G10	UUS10U
+OpenAI OpCo, LLC10UOpenAI Media Service0Ç"0	*ÜHÜ˜ Ç 0Ç
+Ç ù∫jLMóÍÅâ∂—æ^XNr°ôﬂiq|Â!#”Å¢5úL£J<Ôn+øÊdÆ◊ÑKi$ZcœÍv
+ê≤e€|<ç·˛¡3wØ'ﬁ; :¥cáòÕMúø¥3D™T07F∏˝öyDsWU£c|›¨X/ÊzÆﬁ•ò√ìNHZ¯‡|§íK’l∫ ¬*»íæu‘îgµW™jöm00,◊Uaåj“S∂ x^ECûNí£ÄÒØ[—≤Î˛ãÔ∫◊7	ï´d-ô…áö¯ø.–ÁcÄñöy†7ì6£5…H…,òcÈDõ5¨πßSlúhs»
+9ÃIÛ £Çg0Çc0Uˇ0 0U#0Ä9=G‹óèØà{MsÕÂÓ§•*0o+c0a09+0Ü-http://crt-c2pa.ssl.com/SSL.com-C2PA-I-R1.cer0$+0Ühttp://ocsp-c2pa.ssl.com0U 00
++ÉË^0)U%"0 ++$
++ÉË^0UÛùM‘Àùr¯F
+vG•hOt0Uˇ¿0	+ÉË^
++ÉË^
+03	+ÉË^&$019bc403-5cd7-7669-afe6-fdb17177d4280	*ÜHÜ˜ Ç Ç8óle°7 Ò˘Ìt∫’¶[5ıglœ+fi@Õı¸“rVﬂ ï(Í¯fﬁBC=¯x†h(â≠µÓ¸ı2“å∏_ÁlÄnÎ[|ó[0Á.B∏∆pö˛˛ 	¨5F’†åIEÄ√∫íU«Zùo“Îÿyõñ:ºDê44}ÙA•3ó/.lQR
+m=I∞À«ÜXÃ‹Óû.È∆9∏3\ ⁄Ó W3T.p(J%)Oí|.“˙›g.zËPx9Q∫É:⁄à~ê#êíıbXöÂ¬®sÜû≈ÿqÈÔ\d{ëÓ7/vòxVdÁoB—}íºÖjomdÖÿˇ"ñÌπÔ≤–\Ñ}h]5[K±≈iHyÊhé†ƒaò:L¯¿$yÂ¶h‡Ô˝÷ê÷.-AduV_ìî∂°úä<∂¿ËmÛ≈CÁv,h§ÚÊÀãàïË{*r$Å=!∆cm/%Ä£ô[™)•˝GÍ·˜kÂ˚[P&m+°Ç]1ı›b®|2‹L«•,r0PÄWìÇ‚ËÆ≥ßØY4ÆrÔ*ùÆx¨‚3ÏSµ…ô“(®*7°N´¸Ã~Xõ'mE·¥*úΩ0W°1. .…‚»T€°íOæ$5ò˛/i‹∏M„ﬁ/Ëlı¡ä‚”˛rw”®+‘WóÆáÿ æì∂âYS0ÇO0Ç7†'+c»ÃM-õÑQrlÙú^2QÆﬁ0	*ÜHÜ˜ 0O1&0$USSL.com C2PA RSA Root CA 202510U
+SSL Corporation10	UUS0251222181730Z301221181730Z0J1!0USSL.com C2PA ICA R1 202510U
+SSL Corporation10	UUS0Ç"0	*ÜHÜ˜ Ç 0Ç
+Ç À:¥Õ∏úÀ)V∏yß¯kˆ˘ÿèr√¶ò≠*A⁄a.GRΩtQæ]ÏzÇ∂¿˚˙Ë'•ãË˛bÛ`Ò_H ssï‰NnÃNz5ﬁX·◊Ç‹“GCwõﬂHàyü£9§YN^‡NGóÚuB◊v=∂§"‹Ì∆o‘rFå÷Q«µ∑zÚì˘#'’ÄPuäp†hÈÁºÑ(|ú*Í)©¿/˛…vFU∞/cÍ}ûÙ∞D§@ﬁ@6\DäTkWHˇªo§’Íé¬◊|ÿºŒiø† MìE;ô.y“œûü)ªFŸxc0ñ3Qú^ìm˙Â4JXx≥)l]|∏uï<ôw!{ÿ¥JÎ⁄Õ«
+÷…¢ﬁÆó≥∂Qñ⁄íõ√≤ªPƒ˛∂§Lï]-íjObÂ‡*˜i†ú’πì ⁄—ª^O∆Ø˘)L–…ÏÎÛ≤qP{v'hë˘Pà∏w5ÿÕ°·◊”)ÁJ∆áTY$¬g≤m	5€∫Œ∏F•‡ã⁄·ßüjŒ`“ƒ˜¡ﬁsyU‡p¥ÔÍÃ«˛vâNf
+ià-Ì√F¢*‰å‘úWF-Xb’ ®˙~¯¬ŸajÀ5]†ì£≤e®/ÌÔòÁ¸~∫HÙ™°q¸ìØÍßNsài’B¿˘ÑíÖOÀT≥=:¯›)ey Cûñ∏áXñ!Ô—ë{ £Ç&0Ç"0Uˇ0ˇ 0Uˇ0)U%"0 ++$
++ÉË^0U9=G‹óèØà{MsÕÂÓ§•*0U 00
++ÉË^0U#0Ä¸*Ju:Ä˙ôcìsWÏæì∞}√{0x+l0j0$+0Ühttp://ocsp-c2pa.ssl.com0B+0Ü6http://crt-c2pa.ssl.com/SSL.com-C2PA-Root-2025-RSA.cer0	*ÜHÜ˜ Ç Œ6˙>Ôñ6-éØUfˇ{+ kVıÀ≠Ω*Å≠•¶–M£>ì‰ìi’‰å®nÊ7T‚%úÏef(<3=¢ö¢ªÕgdJÁæt!°n√´&ƒ;,⁄Uπ˝GN‡çxõ7Éƒt;≈GaÔmAr§€]CS…ñNÂ‡:ﬂ®›.—ØXó÷ÁÙ_r#<kœΩ9´åì®èßvY>·íı˜Ÿ˚Fb´nn‘àF†≥/*j_•N⁄¯‘¸ÃŸ£<©wE
+¡˘òπ9ÀÃ°q¿*Çq”‰ˆ%‚Q!m÷ﬂ‰SçoJ}é^¿∫’wy!ÅzŒÌ˜õé∂≤äBVùèkA*˛kúãÓ£(œ_ÛÈ–d÷Ó¬âKÎíœıØ¬'M∏ë°7%ôÊ˝Ä‹Ùº«7{æ¥-gX/Á√≥ãqÂDz0∂•≤u>[#~;”T¶:π«Ã3’j5zÅv/˛W⁄i¯>?ÔTèã{F√cû˙Ìƒ/pÑ+ˆVÇÙßÀ$◊l^${:Ω©X;i≥úè“ptˇãn&ª√´E«SñúGµ∆F´^ı¸àãh£5Â|jïeµ´Îπˇ∫∏‡õJG≤ŒÏ/â}ÓØúMƒ…Œı2=è˜&4˛"ãzÌ˘^^g_Q[€$V˚—Y°∑ﬁöf	∂—Ü.˙}~ïyõDf|6Öˆı£gsigTst2°itstTokensÅ°cvalYå0Çà	*ÜHÜ˜†Çy0Çu10	`ÜHe 0Åà*ÜHÜ˜	†yw0u
++Éø0010	`ÜHe  /†ŒHD1&@Ω$F∆2Ö⁄=ÿÆ¿1ˇ>|ï`√aß	 ˛CÚ+∑]y20261115171231.364612Z0Ä	 ∫UÕ¢@ö¶I†Çf0Çˆ0Ç^†a€F(2äåçJ∑ø˛`„l?q∑0	*ÜHÜ˜ 0{10	UUS10	UCA10USan Francisco10U
+OpenAI OpCo, LLC10
+UTSA10UOpenAI TSA Issuing CA0260408174626Z370709174626Z0u10	UUS10	UCA10USan Francisco10U
+OpenAI OpCo, LLC10
+UTSA10UOpenAI TSA Leaf0Ç¢0	*ÜHÜ˜ Çè 0ÇäÇÅ Í ≈≠î˝˝'ü«xßa ˇ)a*˚°àÕ_®¢óùâ/ãë»º∞ñê=UÇ¡ñé6j≠âiËê€,D2É®
+ÕwÂ5ËÓ®d[˛∏‡éùÁ °(√5›ß7È"˜	Móö¥Ñs¿.|©PG(†¥i∞á)zY˛5B˘ŸiRJ 7ÚhÃÒ-∑Çñ KF\=§Ü∏KEf8¢NM' ï∫uÃNájüt√ $_ƒ~\Æ˛ÛïÌ ëﬂ<ıÜõ*^÷–›…˙»M√…ÑZI,‰8s`R∏LÓ∆Û∑∂ÿ›j©Œ ∫]÷ƒ\5dÚ#S?bée]p+‘…k	ÅERËWÌZF]⁄]vú%yhÉQ§òÑuëròUˇÿ„Cb±Ìig'Aº≈èÚj+ÉIË·-4ª9ØgΩ¥ï»≤ΩEgÕràî_UK,≠ØÌ•Ù$Øw>ÉädQèëå9ñK∞=Æ˙ô°>å=æ6°.ıcµ £x0v0Uˇ0 0Uˇ¿0U%ˇ0
++0U§'TÇ¢äÄ{=≈ÜÕ?pŸ¬ÉôQx0U#0ÄÚ∞«T=#CÖ‹ s–rÄ=∏®0	*ÜHÜ˜ ÇÅ  ˚$OA¿¿ºò≤2 ç ôH5OƒFV~ß>?∂•#˘*H>‡QùE@x¡ªÉNìP…õ'ñhﬂMŒÚˆ“y´ÔÍ¡⁄?ıòYÊpÕâÙÓGã™ÀÏˇå~·FÿëÊú∏‰4Fˇa“x¯}89„RÌ_fËs¿ r;‰®´éÜ*£7!˘;ﬂ{\TÿL«j*KœCt`Äs£…—wØá©˝µ±Ñjnøà*Œö°ö´¢ûÇH7≈cQó€R|og…iB’œı˚≠^ãê‚‡y<.Éjû•Ë%AèÖÌ‰¡†:ç˛ùRPÔáﬁ·dÕU˘! ﬂ∂)Ôü'n—∫4F´J"OÁbw›E#›a-¬1)èƒπ~y´¥W‘¡Ïœ·\{eI∞ÎM´§«'@N¶¥µèœ|√¥Cßv”^0cÓ®Æ5(td´Z5„[/:>N
+a÷0MCõˇN.∆!π>:, W0ujédK¢–	—◊†g&Amg¯pv∏%&V˘ë&'√KI0Ç~0Çf†ç ∆≈≈⁄∞ºÒNï•Íº0	*ÜHÜ˜ 0x10	UUS10	UCA10USan Francisco10U
+OpenAI OpCo, LLC10
+UTSA10UOpenAI TSA Root CA0 260408174626Z21260409174626Z0{10	UUS10	UCA10USan Francisco10U
+OpenAI OpCo, LLC10
+UTSA10UOpenAI TSA Issuing CA0Ç¢0	*ÜHÜ˜ Çè 0ÇäÇÅ âº‘π‚»°æaªﬁ<df~ßæúm”©0&<Ù‡k 9ﬂï4Ì©¢eH€7Ü2ÉéÃ
+J†¿Û4l†¿òÕ+ü•ÙÀ|Ÿ&ﬁ~…M¢Ôc[ëÊˆY®“˙N˘Ÿ8+ZÕ`ZòÅò®◊S∆„÷.H¨CW	ÈîÚG˘lEä`∑˜Æ/^¢5NÖ8Öiü4ù–MÿC=Õ4m¸cì¸”pªJËvËjNfI†Ì¸¯æÔö∑®w¨Ô∑8Ãπ‘*3ƒv÷@wÀ˛«]-@”ﬁã<¿÷@AôÀî?,} kR¸û P∑	GE·#U˙±OoTòïÙ}∫¯h·"z‹äëCã∂.C±b†æ $é.Ôø§—MË∏?1œ&=≈ PÍÚŸ$ dÌ’sû.px™ﬁV<˘‘Ä¢Ë≠Øˆ˚®£\Àh´D€0wÚƒ4tkUm∆á˚Ú2<ûqE˜ÏP˚˛÷1&ª–ƒMa‚B€Ø√+n_+Ê‚∞Ôç\DÕ¿s}è¢ÈΩmÇº%eÑ0iÌ £{0y0Uˇ0ˇ 0Uˇ0U%0
++0UÚ∞«T=#CÖ‹ s–rÄ=∏®0U#0ÄX¬@†<Gv+®Ên®ëñéñ»∑Ÿ‰0	*ÜHÜ˜ Ç íÏ7\ﬁlÎd⁄Æ°	0rÆ‹rı;ºz=÷∆·/ˆÉ3}ËW@NLô™k‘ôŸã€k÷L¯ –Y3”°†8\#àD$˚á·ˆì'º°ÌL_g]ˇ5´1“Ï{‘@C7O¬Ñú∫d»∞¢~ö6¯·–Ç≥PC≤‡UΩÄî»YRNJtﬁ]«EXõ∑˙0™;‹Gº’.,π8c,yZ∑›U≠=BﬂàœÒh˛s ‘Z∑ﬁ$óë¿Ág˛‹¶
+Û•F≥QœçØ_„»∏@∆Ω„˘÷Kq–d]Âd¬K¿^w—=«[ûœ{˝îîÁKQ⁄˚dÙ´5îÒˆæ~+›≤ö=P›P√ñdém´sü(;w–óÌoEO±3._FÎÉ∂©aº◊ÇÆ¯Äo¬„i0Êm|:Dí+ò-Ø‹4¡æ•*HÁá»ﬁ8µ3 „ÑPpÒ≤KﬁçOˆë‹_Ö˙ÒÊ—◊ ßÓ¥üˆ!x)Å„pXwÜ§:KóÉFË⁄¬jv…©À!Eæe±†Ü.ÄºYKMõCm¥◊Ñ‡¸’»aêCéjù√Ò!<Ñ]˛;÷ÿ#9E_q˙2˝†ÄïDµO Â√t˝‚NárÜÙQáΩ‘µ+5lí§;kjù∫˝¿;úv¬’9I⁄„î>Pj◊L‚âaùÔÎœ≈√@npz80ÇÊ0ÇŒ†P;lâå$3,è˜Oé˚}ÇÏ0	*ÜHÜ˜ 0x10	UUS10	UCA10USan Francisco10U
+OpenAI OpCo, LLC10
+UTSA10UOpenAI TSA Root CA0 260408174625Z21260409174625Z0x10	UUS10	UCA10USan Francisco10U
+OpenAI OpCo, LLC10
+UTSA10UOpenAI TSA Root CA0Ç"0	*ÜHÜ˜ Ç 0Ç
+Ç ˆíÈ“∫≠û·¨u®Vÿ™±≥jí_ñyıí∑-$¯ø¿Ø`æ¡öÕyö‹lö˛6ö¡ò§?‰,ù∫••Ps≥
+¬˘ÛƒI/xΩ“ÏºÁ?Ùõ—Ú†a¢,â% Q˘%ú“∆/ÙâƒA˛&”m5ÕÏª5`@®ÖQæˆÓêòÒ*ÿùzkjŸ.ŸcÛÂ\)≈Ü"¡ähÕÎ8û©Pñ[#C˚8ˇB|;:°Q/%…H‹1ˇPrÓ|°wÕoÅaÛ?ønË“±¶6‰k2˚˛w®^õ\››1êLéeˇÅÀAŒ(1S CŒHn}÷d≥)‰¥.:∑TZrVWÛ®j}ÔÊa›e»H	Iô2t
+¢Ã›ì S¨#ΩÇÖ ±ÔæÌ°w Ó:F3¢ûÏØÈ1f¥fo≤âì†~ï!ŒA¯^éÈÕπ¿’3]x––'1œP0rs⁄j¬¿ìœ≠‹dáˆ˚Nàvı>Ôˇí,ôw.ˆ‹ò∂ù	:˝Ù	«è_ZÈ~H	+µäÉÚ[<,Øë¢ùA∑Rh—ø∞¿⁄O`ΩÓ)™Ìáçq\(åçà£%cEÿ¸{aèlFT;\…∞ÇØÉ»±#?ü[Ó¢◊Tµ*SÆªÖ€¶˙óûÏÑârÛz@…∂ÖXG[Ò$a9¢Lﬁÿ∆®"Úûø[L,À £f0d0Uˇ0ˇ0Uˇ0UX¬@†<Gv+®Ên®ëñéñ»∑Ÿ‰0U#0ÄX¬@†<Gv+®Ên®ëñéñ»∑Ÿ‰0	*ÜHÜ˜ Ç X¯ÅëòÚla˛»Ü÷[Ñ¶÷æ∏¶]]IÀ∏°)Õ-ù∏X˘Ñâ=<¯o’j¥*¢UígÅô^µT˚öFÄ„Q S¿¡àWﬁÔÇU~„Ù}Î&¸Éˇ!®¡¨ﬁ€ì´Õ–0v:ìùŒ™g9.Ätﬂm~v/ÈÍPAã8=lÂ‡>Ó/€dT6^æbE∂—!¥Ä<åÎ⁄ú÷J©’Te[k—X~¿IáÎÎK_í;î◊öÜˆ°YŒG8¨√∞td—¿R;°±{(k·ió¯(;'ˇÆ§û˜eÀ†ÙÍπΩîŒD‚ò±
+HhÓU©!•`è˛ ÷}—{Ü úÛ®x–∆⁄@.»Å\b®*¡˚VÁyéØÏÂ€”p˛FÃc®dÒ<ÈØ•dº^øÖ-∞Œ„π”§◊RªpãÜù˚.ø
+ˆ“U+#B+C\Ï°Ça?œqÌ∞˜óÈ‰À¬<¸¨w∑∂‹ ¡LÈâ≤≤/√~ídúµÑﬁÃñ˝â∞KµC}“È≠Ü˝Ÿ-üΩ Ó¿¥GV#|HëNgâ {b¡…^UÒˆ∆Q#WoÔáæ Fyæî±» (ùïäà&UfRÔŸK∫®ZÈ¬,≠ü√\BÛ°ı'dyqå
+Zû˝π˘Eyp·jµ7ñéX˝EøT%åÉ=Ÿ&3#–Xw¶∏1Çh0Çd0Åì0{10	UUS10	UCA10USan Francisco10U
+OpenAI OpCo, LLC10
+UTSA10UOpenAI TSA Issuing CAa€F(2äåçJ∑ø˛`„l?q∑0	`ÜHe †Ç%0	*ÜHÜ˜	1*ÜHÜ˜	0/	*ÜHÜ˜	1" ’´^±∂ÓØ∑I˜¢A`ˆ}‰/0>_IR©æ.‡$óÁ0Å’*ÜHÜ˜	/1Å≈0Å¬0Åø0Åº ΩOπ≤êLÅ6gànÔA·m˛Ÿ"ùø[íJ–¢ƒ`F"z0Åó0§}0{10	UUS10	UCA10USan Francisco10U
+OpenAI OpCo, LLC10
+UTSA10UOpenAI TSA Issuing CAa€F(2äåçJ∑ø˛`„l?q∑0	*ÜHÜ˜ ÇÄî∂≤ûû—˙bî‹H§Ñ–∫ë—˙àYãÚz¬^ïÄ#ÂóÏØG¬D}Ú=”Ñ≥‡¿ {ibc…ì)Ï≤‰±b√|“Ü≥5ƒﬁ≈uã§èªU+‘nZì˝∑Y∫Ä;—˙[ÄÛnFNëÖ>*ãåt¯ûﬁT™qŒ;ÚƒDÒ,¸	Ÿ˘úuclﬁÔße˚Ö'°f#N⁄è◊MÁ·—ê°§ŒÕë¥@tGÛâ◊EÏ¥äƒpÉuÁ›Dπ?léÈB]´"WV]l˛!û≈À<ïÿ∞¡ZÅ∑m¡b‹à§ñÊe∂’òMv|ºËU˜vù5°,∂ú?VYNEB∫PätŸ¬ÜOg’°èíÉ'¬îŸk˙˘$î-Oò>:—
+Í^Ì5
+lj∏âK»≠4‰`˝1ÎÆ+xÀÛıóÆù\º≈¶œdu ÇÚ†5?Ëcñ∞¿Çïd9]wçªÄ‚£Ê”∂@2∂¿¯ú‡â’ˆ)‘Ö–ç€0ÜÁŸòù0Óôü‰ÆJerVals°hocspValsÅY◊0Ç”
+ †ÇÃ0Ç»	+0Çπ0Çµ0ÅÈ¢mÃ†g\¿ÃwY◊UBÉ≤÷+20261115151439Z0Åò0Åï0I0	+ ﬂÇ7S^Sÿ3±‡=$5ÒuÊ·
+9=G‹óèØà{MsÕÂÓ§•*•¸ÈpåÚÄ1ÓDdsÄ 20261115151439Z†20261122151438Z°"0 0	+020161117151439Z°#0!0	+0@Å=¥fÑŒÅûß≠	,ßõ0	*ÜHÜ˜ ÇÅ pﬁ˜z∑Çy#]ÑHP8≥ÃéÓúŸc˙ 5àÓF|ªÆ.G÷JÙ»FqºESÚw˘·@”ª5]aä™„0˚fê´x¡^˝µ»k/ `6)E»Ã!Ï˚Â DÃ*¿]¯“C≤d∑∞â%∫YøæÜu‡«jxHöZÒ:+9ØãÃì`ë}d«Ü5¥o>{'‰/{º„¶¶◊sW;˛¬\e≈r„só}›nLJ˜È@/˙ØV¯àgäp´$l)ˆ«¸}O¢º™\‹JçÈÜ∆[í7∂ŒRS∂‡ëˆNñéxKÖˆëhhbVı™%7Rwº¯µNîORÙeÓzU0≥(≥D5åaÔ2	¬.ˆp±‰ª••,>-\ì¡≠;^Ç·Ê VÃ∏≈ÃdCFëS‚ÍÏªª»t–çB;∆˛á-Y€8go7ˇ”ß÷(˙l„„ß}TöBÌUè~êÏÎ\= êô‘0Úc‚åRﬂnX3Â⁄ëñÉpdyõÌ†Ç10Ç-0Ç)0Ç†pßπß⁄!ıD–Æ≤D0	*ÜHÜ˜ 0J1!0USSL.com C2PA ICA R1 202510U
+SSL Corporation10	UUS0261104111802Z271104111801Z0M10	UUS10U
+SSL Corp1+0)U"SSL.com C2PA ICA R1 OCSP Responder0Ç¢0	*ÜHÜ˜ Çè 0ÇäÇÅ ƒ''â°mˇN/VrWa=XÙúQoŸ|	∫'êIªT#á"úˇ∑j ∏I:ﬁ
+%≈˚‡àI‡•˝∏oÊØD?öÛ[è…A≤“˝Ò3W≠˚è¬-ÍŒ $°|©ä3Ú˚JÜ∆/˝.:°ÁÎøçÜ±tæZãE*≠vµ-∆CÃò‹å›ÿI±ÑØzû°K÷7ÅÆŒùÕ›¿!òπ√n‡9ÍìlnT.Œ(à™6÷:%â>¡˚Bb„nüIàDÑ—£yëO14—º“IZ_Im/PÄé®/Ftp©»g∏BÂqt 6KVt∫√ı¬~Yø÷ÀÁsã*‘Êü"©<qtú‡n[9NÒûÌÖ°Å3$Ilˇ°
+Jg5+∞˛®÷	Uvl¿øz?0•…øÅ|îÚ†≠Qñ`#ä« ¨ˆ£‘—b]˜X`ß¯	e&¥R5Ï˜˚÷ßπ˜É Q©%∆BÖ∆”$4qD_–œ:TÖœ4ﬁSŒ¶&‰©l≠ÄçP¯—≥◊ºwY £Åá0ÅÑ0Uˇ0 0U#0Ä9=G‹óèØà{MsÕÂÓ§•*0	+0 0U%0
++	0UmÃ†g\¿ÃwY◊UBÉ≤÷+0UˇÄ0	*ÜHÜ˜ Ç ≈–]ıF¢¸ÎAgÜNﬂ_Î7	dh∆=´dcñèÄÜ>π>& W9˙ù^%⁄ÍèSm`0K≈Úñ˜P⁄\Í&ùµK£ªÏ ;ò Gh⁄˚IfØüŒù/—t≥© ∂;À<†6“¿-◊jaº á›:õu>âÀ©Ö‚ë’Ã∞’ı	Tt@œ≈E¯˜¸≈W˚™bÍπˆ!
+òóO' ¨o€èß¨2ePs°ˆå¿.
+ŒÌÊl‚£sÊQ.8íÜÅgæÕúå êØiÎè(m«õÎß˜ÎÖ÷∂®£@ˆ©∑üﬁÆo§6ˆ|V¯HÎØÌA}ª}¸hÅ˚Ï™ì$/‰z#≥&`ıWxïÅ ‡qƒ&07å]ëÑ—VuBøÂ{ÿU¸Ü≠Ê¯bÍ∞›5\îøÈ«'∑‰-7Ò>w±Dài|®›¸¢πÖ>H¥£€n^G6üë0ﬂÅ?:%˙Á1º»qÇBˇö`0\˜√ä=5o
+=Áe¡}ŒH82"HA‡˚y-—3Âv	§˘u&'Ωw%∏ö¶Xyaw«∫«ûK°µµ›â∞£0fG ÈÒh#©aJÅ\”≤©e¢∏´‰I˚gö∆™ÎsœÙâ±9zX∏À´Àïˆ˚|u>«›>FÛ†ws»nˇMºÅ˙Œä[!R¡Ôß„y]…√ªP+Ê¬Ê;cpadY&t                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ˆY 7 hƒŸMk2xœE#ÖnΩ≈ºÄÜ±:‹Öœ÷õb¯ƒònîˇ;ßIºáLÂ2Ó≈È·W≠ŸD'˙Ìy ∏(C≈Ìì´Çr∑≠ß.†4éê‡´¶
+:≤ºîõ®e1ÒoIÉ?ÅÇé\èP áßzπ™Öï:‰à‹ﬂ9›G2LòK/òJ–UÛµ≤aHíä5ˆÜíB?[KHN’8$ªÂÏæ•DÆú€±´5lÈ—>MF„YöCˆ¡…M?≥µÅΩKÒﬂ¿òFÆ1ΩàV>nÛ/d◊ÎvW’aiR»As™Q¢∫%™√ÀP
+Ìü,‚Çajı«˚aáÜ˜(K´√óxÁ
+endstream
+endobj
+24 0 obj
+<< /AFRelationship /C2PA_Manifest /Desc (Content Credentials) /F (Content Credentials) /EF << /F 23 0 R >> /Subtype (application/c2pa) /Type /Filespec /UF (Content Credentials) >>
+endobj
+xref
+1 1
+0000059592 00001 n 
+23 2
+0000059727 00000 n 
+0000084124 00000 n 
+trailer
+<< /Size 25 /Root 1 1 R /Prev 59065 >>
+startxref
+84320
+%%EOF

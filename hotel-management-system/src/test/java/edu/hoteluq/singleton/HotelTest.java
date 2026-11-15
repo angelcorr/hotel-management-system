@@ -28,6 +28,7 @@ class HotelTest {
     hotel.initializeAdministrator("fixture-admin", "Fixture admin", "fixture-admin@example.com", password);
     administratorToken = hotel.login("fixture-admin@example.com", password).token();
     try (var scope = hotel.openSession(administratorToken)) {
+    hotel.configureBookingRules(TestCommercialPolicies.rules());
     for (RoomCategory category : RoomCategory.values()) {
       hotel.addRoomType(new RoomType(category, 100, category.name(), 2, "Description"));
     }
@@ -136,7 +137,7 @@ class HotelTest {
     assertThrows(RoomNotAvailableException.class, () -> hotel.addReservation(reservation(client, room)));
     assertFalse(hotel.isAvailable(room, from.minusDays(1), from.plusDays(1)));
     assertTrue(hotel.isAvailable(room, from.plusDays(2), from.plusDays(3)));
-    first.setStatus(ReservationStatus.CANCELLED);
+    hotel.cancelReservation(first, true);
     assertTrue(hotel.isAvailable(room, from, from.plusDays(2)));
     hotel.addReservation(reservation(client, room));
   }

@@ -1,0 +1,29 @@
+HOTELUQ — Programa de puntos
+Generación: 2026-11-13T12:00:00-05:00
+Zona: America/Bogota
+Periodo inclusivo: 2026-11-13 a 2026-11-13
+Filtros: cliente=null; categoría=null; habitación=null; estado al corte=null; servicio=null; comparar anterior=false
+Valores null: sin filtro.
+Criterio: Fechas inclusivas; operaciones en America/Bogota [00:00 inicial,00:00 posterior al final). Estado y última cotización/contrato al corte; no reconstruye dimensiones al cierre histórico del periodo.
+Criterio: Movimientos por fecha efectiva, no por observación tardía. ACUMULADOS/REDIMIDOS son brutos; ajustes y restauraciones se muestran separados. Saldos vigentes/deuda al corte actual, no saldo histórico al final del rango.
+Criterio: Vencimientos reconstruidos por aniversario individual y asignaciones/reversiones anteriores; no se suman observaciones EXPIRED perezosas. Restaurar puntos ya vencidos no los vuelve gastables; se informa por separado.
+
+Movimientos de puntos
+Movimiento	Cliente	Tipo	Origen	Fecha efectiva Bogotá	Puntos
+88b52ec2-5702-494a-9861-89c9707c3a22	client-1	ACCRUED	be36b058-83ea-4eac-bb3f-9fdd1a9ccc68	2026-11-13T12:00:00-05:00	250
+Registros: 1
+
+Saldos actuales al corte
+Cliente	Corte Bogotá	Disponibles	Deuda
+client-1	2026-11-13T12:00:00-05:00	250	0
+client-2	2026-11-13T12:00:00-05:00	0	0
+Registros: 2
+
+TOTALES
+Acumulados brutos: 250 puntos
+Redimidos brutos: 0 puntos
+Vencidos (incluye restaurados ya vencidos): 0 puntos
+Restaurados: 0 puntos
+Ajustes por reembolso: 0 puntos
+Saldo disponible al corte: 250 puntos
+Deuda al corte: 0 puntos

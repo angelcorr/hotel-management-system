@@ -38,6 +38,11 @@ abstract class Phase2Fixture {
     service.register("client-2", "Luis", "luis@example.com", ownerPassword);
     owner = service.login("ana@example.com", ownerPassword).token();
     other = service.login("luis@example.com", ownerPassword).token();
+    hotel.withSession(admin, () -> {
+      hotel.configureBookingRules(TestCommercialPolicies.rules());
+      hotel.configureCancellation(TestCommercialPolicies.cancellation());
+      return null;
+    });
     service.createRoomType(admin, RoomCategory.STANDARD, "Standard", 100, 2, "Description");
   }
 

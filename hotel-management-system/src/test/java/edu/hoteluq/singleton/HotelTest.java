@@ -3,6 +3,7 @@ package edu.hoteluq.singleton;
 import edu.hoteluq.enums.*;
 import edu.hoteluq.exceptions.*;
 import edu.hoteluq.factory.RoomCreatorRegistry;
+import edu.hoteluq.factory.RoomCreator;
 import edu.hoteluq.model.*;
 import org.junit.jupiter.api.*;
 import java.time.LocalDate;
@@ -60,6 +61,29 @@ class HotelTest {
       assertFalse(room.getFeatures().isEmpty());
     }
     assertThrows(HotelException.class, () -> new RoomCreatorRegistry().get(null));
+  }
+
+  @Test
+  void templateMethodResolvesCategoryThenCreatesAndRegistersRoom() {
+    java.util.List<String> steps = new java.util.ArrayList<>();
+    RoomCreator creator = new RoomCreator() {
+      @Override protected RoomCategory category() {
+        steps.add("resolve-category");
+        return RoomCategory.STANDARD;
+      }
+      @Override protected Room createRoom(int roomNumber, int floor, RoomType type) {
+        steps.add("create-concrete-room");
+        assertEquals(RoomCategory.STANDARD, type.getCategory());
+        return new StandardRoom(roomNumber, floor, type);
+      }
+    };
+    int roomNumber = number.incrementAndGet();
+    Room room = creator.create(hotel, roomNumber, 1);
+    assertEquals(java.util.List.of("resolve-category", "create-concrete-room"), steps);
+    assertSame(room, hotel.findRoom(roomNumber),
+        "The Template Method must register the product after the creation hook");
+    assertThrows(DuplicateRoomException.class, () -> creator.create(hotel, roomNumber, 1),
+        "The invariant must still be enforced by the aggregate");
   }
 
   @Test

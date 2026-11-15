@@ -14,6 +14,7 @@ final class AdminScreens {
   private void action(Runnable work,Runnable refresh){s.safe(()->s.actions.run(()->{work.run();return true;},v->{refresh.run();s.message("Operación completada. Datos actualizados.");}));}
   private void clients(){s.actions.run(()->c.hotel.clients(c.token()),list->{
     var table=Ui.table(list,new Ui.Column<UserView>("ID",UserView::id),new Ui.Column<UserView>("Nombre",UserView::name),new Ui.Column<UserView>("Correo",UserView::email));
+    table.setId("adminClientsTable");
     var id=Ui.field("ID");var name=Ui.field("Nombre");var email=Ui.field("Correo");var password=new PasswordField();password.setPromptText("Contraseña nueva · alta/restablecer");
     table.getSelectionModel().selectedItemProperty().addListener((o,a,v)->{if(v!=null){id.setText(v.id());name.setText(v.name());email.setText(v.email());password.clear();}});
     var create=Ui.primary("Crear",()->{String i=id.getText(),n=name.getText(),e=email.getText(),p=password.getText();action(()->c.hotel.createClient(c.token(),i,n,e,p),this::clients);});

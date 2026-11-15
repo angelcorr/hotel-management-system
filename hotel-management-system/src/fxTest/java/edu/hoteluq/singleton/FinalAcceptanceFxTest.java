@@ -40,7 +40,27 @@ class FinalAcceptanceFxTest extends Phase2Fixture {
   private Button button(String name){return root.lookupAll(".button").stream().filter(n->n instanceof Button b && b.getText().equals(name)).map(n->(Button)n).findFirst().orElseThrow(()->new AssertionError("Missing button "+name));}
   private void click(String name) throws Exception {fx(()->{button(name).fire();return null;});ready();}
   private void field(String prompt,String text) throws Exception {fx(()->{var value=root.lookupAll(".text-field").stream().filter(n->n instanceof TextField f && prompt.equals(f.getPromptText())).map(n->(TextField)n).findFirst().orElseThrow(()->new AssertionError("Missing field "+prompt));value.setText(text);return null;});}
-  @SuppressWarnings("unchecked") private <T> TableView<T> table(Class<T> type){return (TableView<T>)root.lookupAll(".table-view").stream().filter(n->n instanceof TableView<?> t && !t.getItems().isEmpty() && type.isInstance(t.getItems().getFirst())).findFirst().orElseThrow();}
+  @SuppressWarnings("unchecked") private <T> TableView<T> table(Class<T> type){
+    return (TableView<T>)root.lookupAll(".table-view").stream().filter(
+            n->n instanceof TableView<?> t && !t.getItems().isEmpty() && type.isInstance(t.getItems().getFirst())).
+            findFirst().orElseThrow();}
+
+  @SuppressWarnings("unchecked")
+  private TableView<UserView> clientTable() {
+    var node = root.lookup("#adminClientsTable");
+
+    if (!(node instanceof TableView<?>)) {
+      throw new AssertionError(
+              "No se encontró la tabla de clientes"
+      );
+    }
+    return (TableView<UserView>) node;
+  }
+  private void awaitClientTable() throws Exception {
+    await(() ->
+            root.lookup("#adminClientsTable") instanceof TableView<?>
+    );
+  }
   private <T> void select(Class<T> type,java.util.function.Predicate<T> condition) throws Exception {fx(()->{var t=table(type);t.getSelectionModel().select(t.getItems().stream().filter(condition).findFirst().orElseThrow());return null;});}
   @SuppressWarnings("unchecked") private <T> ComboBox<T> combo(Class<T> type){return (ComboBox<T>)root.lookupAll(".combo-box").stream().filter(n->n instanceof ComboBox<?> c && !c.getItems().isEmpty() && type.isInstance(c.getItems().getFirst())).findFirst().orElseThrow();}
   @SuppressWarnings("unchecked") private <T> ListView<T> list(Class<T> type){return (ListView<T>)root.lookupAll(".list-view").stream().filter(n->n instanceof ListView<?> l && !l.getItems().isEmpty() && type.isInstance(l.getItems().getFirst())).findFirst().orElseThrow();}
@@ -65,7 +85,57 @@ class FinalAcceptanceFxTest extends Phase2Fixture {
   }
   private void awaitOpenDemo(DemoDataFactory.Context demo,DemoDataFactory.Credentials input) throws Exception {open(demo.hotel(),demo.clientEmail(),input.clientPassword());}
   @Test void administratorCrudAndReferenceProtectionAreExercisedThroughForms() throws Exception {
-    open(hotel,"admin@example.com",adminPassword);navigate(DesktopController.Screen.CLIENTS);field("ID","ui-client");field("Nombre","Cliente UI");field("Correo","ui@hoteluq.invalid");field("Contraseña nueva · alta/restablecer",UUID.randomUUID().toString());click("Crear");select(UserView.class,u->u.id().equals("ui-client"));field("Nombre","Cliente editado");click("Actualizar seleccionado");assertTrue(fx(()->table(UserView.class).getItems().stream().anyMatch(v->v.name().equals("Cliente editado"))));select(UserView.class,u->u.id().equals("ui-client"));confirmedClick("Eliminar","Eliminar cliente");assertFalse(fx(()->table(UserView.class).getItems().stream().anyMatch(v->v.id().equals("ui-client"))));
+
+    open(hotel, "admin@example.com", adminPassword);
+
+    navigate(DesktopController.Screen.CLIENTS);
+    awaitClientTable();
+
+    // Crear cliente
+    field("ID", "ui-client");
+    field("Nombre", "Cliente UI");
+    field("Correo", "ui@hoteluq.invalid");
+    field("Contraseña nueva · alta/restablecer", UUID.randomUUID().toString());
+
+    click("Crear");
+
+    // Esperar a que el cliente aparezca en la tabla
+    await(() -> {
+      var node = root.lookup("#adminClientsTable");
+
+      return node instanceof TableView<?> table
+              && table.getItems().stream().anyMatch(
+              item -> item instanceof UserView user
+                      && user.id().equals("ui-client")
+      );
+    });
+
+    // Actualizar cliente
+    select(UserView.class, user -> user.id().equals("ui-client"));
+    field("Nombre", "Cliente editado");
+
+    click("Actualizar seleccionado");
+
+    await(() -> {
+      var node = root.lookup("#adminClientsTable");
+
+      return node instanceof TableView<?> table
+              && table.getItems().stream().anyMatch(
+              item -> item instanceof UserView user
+                      && user.id().equals("ui-client")
+                      && user.name().equals("Cliente editado")
+      );
+    });
+
+    // Eliminar cliente
+    select(UserView.class, user -> user.id().equals("ui-client"));
+
+    confirmedClick("Eliminar", "Eliminar cliente");
+
+    await(() ->
+            clientTable().getItems().stream()
+                    .noneMatch(u -> u.id().equals("ui-client"))
+    );
     navigate(DesktopController.Screen.TYPES);fx(()->{combo(RoomCategory.class).setValue(RoomCategory.FAMILY);return null;});field("Nombre","Tipo UI");field("COP por noche","100.50");field("Capacidad","2");field("Descripción","Tipo de aceptación");click("Crear");select(RoomTypeView.class,v->v.category()==RoomCategory.FAMILY);field("Nombre","Tipo UI editado");click("Actualizar seleccionado");assertTrue(fx(()->table(RoomTypeView.class).getItems().stream().anyMatch(v->v.name().equals("Tipo UI editado"))));
     navigate(DesktopController.Screen.ROOMS);field("Número","201");field("Piso","2");fx(()->{combo(RoomCategory.class).setValue(RoomCategory.FAMILY);return null;});click("Crear");select(RoomView.class,v->v.number()==201);field("Piso","3");click("Actualizar seleccionado");assertEquals(3,fx(()->table(RoomView.class).getItems().getFirst().floor()));select(RoomView.class,v->v.number()==201);confirmedClick("Eliminar","Eliminar habitación");
     navigate(DesktopController.Screen.TYPES);select(RoomTypeView.class,v->v.category()==RoomCategory.FAMILY);confirmedClick("Eliminar","Eliminar tipo");assertEquals(1,fx(()->table(RoomTypeView.class).getItems().size()));

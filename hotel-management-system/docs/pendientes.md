@@ -1,12 +1,12 @@
 # HotelUQ: qué falta para completar el proyecto
 
-Revisión del 13 de noviembre de 2026. Fuente funcional: `docs/analisis.md`. Se revisaron todos los archivos Java y la configuración de construcción disponibles. El enunciado original no está en el repositorio; por eso este documento evalúa el alcance descrito en el análisis y no presupone requisitos adicionales de la asignatura.
+Revisión actualizada el 14 de noviembre de 2026 tras recuperar la integración de fases 1 y 2. Los apartados 9 y 10 conservan la evidencia histórica del 13 de noviembre; el apartado 11 registra la recuperación. Fuente funcional: `docs/analisis.md`. Se revisaron todos los archivos Java y la configuración de construcción disponibles. El enunciado original no está en el repositorio; por eso este documento evalúa el alcance descrito en el análisis y no presupone requisitos adicionales de la asignatura.
 
 ## 1. Diagnóstico
 
 El proyecto tiene una base del dominio, pero todavía no constituye una aplicación utilizable. Existen habitaciones, tipos, usuarios, tarjeta virtual, reservas con Builder, un Singleton y Factory Method. `Main` únicamente imprime el ejemplo inicial. Tras las fases 1 y 2 hay validaciones, autenticación, sesiones, autorización y administración de usuarios/catálogos mediante una fachada Java. Siguen pendientes pantallas, controladores y los flujos transaccionales de reserva/pago.
 
-La última verificación compiló código principal y pruebas con JDK 21 y ejecutó 132 casos JUnit: 132 satisfactorios, sin fallos ni omisiones (55 de regresión y 77 nuevos de fase 2). Gradle se intentó de nuevo, pero está bloqueado al descargar su distribución por las restricciones de red del entorno; no se declara verificado. Evidencias: `evidencia-fase1.txt` y `evidencia-fase2.txt`.
+La recuperación vuelve a conectar las fases 1 y 2 y conserva State/Strategy de GitHub (`52f986d`, RF-011/refund-strategy). La compilación inicial estaba rota (30 errores en fuentes principales); por ello ninguna prueba podía ejecutarse. La verificación actual con OpenJDK 21 y Gradle 8.14.3 ejecutó `clean test build` correctamente: **137 pruebas satisfactorias, 0 fallos y 0 omisiones** (132 originales + 5 de compatibilidad). Véase la evidencia de recuperación en el apartado 11. Las restricciones de Gradle descritas en las evidencias antiguas corresponden a esas ejecuciones históricas.
 
 ## 2. Estado por requisito
 
@@ -24,7 +24,7 @@ El estado corresponde a la entrega integral de la aplicación. «Parcial — neg
 | RF-008 Pago | Parcial | `VirtualCard.charge` valida importes, usa saldo decimal y evita sobregiros entre cobros concurrentes; probado. No está conectado a la reserva ni impide cobrarla dos veces. |
 | RF-009 Saldo y movimientos | Parcial — negocio verificado | Consulta autenticada del propietario o administrador mediante vista inmutable; accesos ajenos y sin sesión rechazados. Falta integración de interfaz. |
 | RF-010 Historial | Parcial — negocio verificado | Historial filtrado por cliente; administrador puede consultar y cliente solo su propio historial. Pruebas con reservas reales del modelo. Falta integración de interfaz. |
-| RF-011 Cancelar y reembolsar | Pendiente | Hay estado CANCELLED y un método genérico de reembolso, pero no política ni operación de cancelación. |
+| RF-011 Cancelar y reembolsar | Parcial — código GitHub conservado | Existen State, políticas Strategy de 100/80/0 % y selector por anticipación; límites probados. Falta integración autorizada, transaccional e idempotente con el pago original; no se declara terminado. |
 | RF-012 Consultar puntos | Pendiente | No existen `PointsAccount` ni `PointsBatch`. |
 | RF-013 Redimir puntos | Pendiente | No existen redención, beneficios ni control de vencimiento. |
 | RF-014 Gestionar clientes | Parcial — negocio verificado | Alta, consulta, edición y eliminación autorizadas. Correo único incluso en setters y concurrencia; eliminación bloqueada con reservas o movimientos/saldo. Falta interfaz. |
@@ -34,7 +34,7 @@ El estado corresponde a la entrega integral de la aplicación. «Parcial — neg
 | RF-018 Gestionar promociones | Parcial | CRUD básico autorizado, UUID estable, nombre único y porcentaje válido probados. Faltan condiciones/vigencia/beneficios de fase 4 e interfaz. |
 | RF-019 Gestionar reservas | Parcial | Listados protegidos y filtrados por propietario; integridad de referencias probada. Estados/transacciones siguen pendientes de fase 3; no hay flujo de pago confirmado. |
 | RF-020 Recargar tarjeta | Parcial — negocio verificado | Solo administrador puede recargar tarjetas registradas; valida estado/importe y genera un movimiento. Probado también sin pasar por la fachada y bajo concurrencia. Falta interfaz. |
-| RF-021 Cancelación por hotel | Pendiente | No existe operación autorizada con reembolso total. |
+| RF-021 Cancelación por hotel | Parcial — código GitHub conservado | Existe `ReservationService.cancelByHotel` con `FullRefundPolicy`; falta flujo integral autorizado y ligado al pago original. |
 | RF-022 Estadísticas | Pendiente | No hay cálculo de indicadores. |
 | RF-023 Exportar TXT | Pendiente | No hay generación ni exportación de reportes. |
 | RF-024 Gráficos por fechas | Pendiente | JavaFX está configurado, pero no hay gráficos ni filtros. |
@@ -84,7 +84,7 @@ Los nombres siguientes son una propuesta de organización; las responsabilidades
 | `HotelService` + sesiones en `Hotel` | Implementado en fase 2: registrar, autenticar, cerrar sesión y comprobar identidad/rol en cada operación. |
 | `ReservationFacade` | Coordinar cotización, disponibilidad, pago, confirmación, puntos y notificación. |
 | Operaciones de estado | Permitir PENDING → CONFIRMED/CANCELLED y CONFIRMED → CANCELLED/COMPLETED; rechazar transiciones inválidas. Definir cuándo se permite completar una estancia. |
-| `RefundPolicy` | Calcular devolución según anticipación o cancelación por el hotel, con un reloj controlable para pruebas. |
+| `RefundPolicy` | Strategy y selector de GitHub conservados. Pendiente integrar con pago original, autorización, idempotencia y reloj/zona del hotel. |
 | `PointsAccount` / `PointsBatch` | Registrar lotes, vencimiento anual, saldo vigente y consumo por vencimiento más cercano. |
 | Redención de beneficios | Canjear descuentos, servicios y paquetes sin exceder saldo ni reutilizar puntos. |
 | `PromotionCondition` | Evaluar estadía larga, suite dentro de fechas y cliente frecuente según el análisis. |
@@ -123,7 +123,7 @@ Ocultar un botón no constituye autorización: las operaciones de negocio deben 
 
 | Fase | Alcance y dependencias | Estado |
 |---|---|---|
-| 1. Estabilizar el modelo | Validaciones en constructores/setters; datos finitos; integridad de altas y disponibilidad; colecciones protegidas; hash de contraseñas; pruebas y correcciones de precisión sin elegir redondeo comercial. No requiere las decisiones de cancelación o beneficios. | Alcance de código implementado y verificado con Java 21/JUnit. Verificación Gradle pendiente por entorno. |
+| 1. Estabilizar el modelo | Validaciones en constructores/setters; datos finitos; integridad de altas y disponibilidad; colecciones protegidas; hash de contraseñas; pruebas y correcciones de precisión sin elegir redondeo comercial. No requiere las decisiones de cancelación o beneficios. | Alcance de código implementado y verificado con Java 21/JUnit. Gradle verificado en la recuperación; véase apartado 11. |
 | 2. Identidad y gestión | Sobre fase 1: autenticación, sesión, autorización por rol/propietario; recargas solo por administrador; edición de correo con unicidad y gestión íntegra de catálogos. | Implementada en negocio y probada en fase 2; integración visual pendiente. |
 | 3. Reserva y dinero | Sobre fases 1–2: cotización y detalle histórico, coordinación de disponibilidad/cobro/confirmación, transiciones, pagos y devoluciones idempotentes, cancelaciones y finalización. Requiere acordar hora/zona de entrada, reglas tras iniciar estancia y representación/redondeo monetario. | Pendiente. |
 | 4. Beneficios y eventos | Sobre fases 2–3: condiciones de promociones, paquetes, lotes y redención de puntos, notificaciones. Requiere decisiones de acumulación, canjes y cancelaciones del apartado 5. | Pendiente. |
@@ -133,7 +133,7 @@ Ya se ejecutaron las fases 1 y 2. No se implementaron las fases 3–5. Los bloqu
 
 ## 8. Pruebas y criterios de aceptación
 
-JUnit Jupiter 5.11.4 y `useJUnitPlatform()` ya están configurados en Gradle; existen nueve clases con pruebas en `src/test/java`, además de la preparación compartida de fase 2. La matriz siguiente sigue siendo el objetivo de cobertura para las fases restantes, no una afirmación de que todos estos flujos estén implementados. Los apartados 9 y 10 registran la cobertura realmente ejecutada.
+JUnit Jupiter 5.11.4 y `useJUnitPlatform()` ya están configurados en Gradle; existen diez clases con pruebas en `src/test/java`, además de la preparación compartida de fase 2. La matriz siguiente sigue siendo el objetivo de cobertura para las fases restantes, no una afirmación de que todos estos flujos estén implementados. Los apartados 9 y 10 registran la cobertura realmente ejecutada.
 
 | Área | Casos mínimos |
 |---|---|
@@ -321,3 +321,53 @@ También se comprobó `git diff --check`. Las pruebas ejercitan objetos reales d
 - **Entorno pendiente:** repetir `./gradlew clean test build` cuando pueda obtenerse la distribución y abrirse la red requerida por Gradle. La evidencia offline no verifica distribuciones ni interfaz JavaFX.
 
 **Recomendación para fase 3:** conservar la fachada y los controles del agregado; definir primero los puntos comerciales bloqueantes y después implementar una operación de reserva/pago con snapshots, dinero decimal de extremo a extremo, estados explícitos, idempotencia de cobros/devoluciones y política de cancelación con reloj. Añadir pruebas de fallo sin cambios parciales, reintentos y concurrencia antes de exponer confirmaciones en una interfaz.
+
+
+## 11. Recuperación de integridad tras actualización y reset (14 de noviembre de 2026)
+
+### Diagnóstico y procedencia
+
+- HEAD inicial: `ec2c242` (respaldo de archivos nuevos), sobre `52f986d` (merge RF-011/refund-strategy). Árbol de trabajo inicialmente limpio.
+- `git reflog` y `git fsck --no-reflogs --unreachable` permitieron identificar el respaldo local `d15ab30b6fcfdcde1e0d82cb26cab6ba5fb14203` (stash previo a actualizar). Se leyeron sus contenidos sin reset, checkout, aplicación global de stash ni cambios de rama.
+- Se comparó ese respaldo con su base `069d8ff` y con GitHub. Los cambios recientes de GitHub se concentran en `Reservation`, `ReservationService`, `state/` y `strategy/`. Los otros 15 archivos recuperados no tenían cambios nuevos de GitHub respecto a la base y se restauraron desde el respaldo. `Reservation` se combinó manualmente.
+- La evidencia histórica de 132 pruebas no describía el código después del reset: se habían perdido validaciones, hash, guardas y métodos de sesión/CRUD. El intento inicial `python3 scripts/verify-offline.py` terminó con 30 errores de compilación principal (por ejemplo, `Hotel.login`, `registerClient`, `withSession`, `findUser`, eliminaciones/consultas de catálogos, `RoomType.updateDetails/setActive` y la sobrecarga de Factory Method). No hubo pruebas individuales fallidas: **la compilación impedía iniciarlas**. También faltaba la configuración JUnit de Gradle.
+
+### Integración recuperada
+
+- `Hotel`: Singleton seguro, arranque administrativo, registro, login/logout, sesiones con caducidad/revocación, autorización por rol/propietario, colecciones protegidas, CRUD, unicidad, referencias y serialización de operaciones.
+- Usuarios: validaciones, PBKDF2 con sal, roles del servidor, perfil atómico, correo único y revocación por cambio de contraseña. Tarjetas: saldo decimal, importes finitos, movimientos inmutables y recarga/reembolso administrativo.
+- Catálogos y Factory Method: validación de categorías/capacidad/precios, UUID, nombres únicos, estado activo/disponible, edición atómica y protección de objetos históricos referenciados.
+- Reservas: Builder validado, cálculo decimal intermedio, servicios no nulos, intervalos válidos, propietario, pertenencia al agregado y altas exclusivamente PENDING. `getStatus/setStatus` y `getState/setState` usan una sola representación State; se mantienen las transiciones y políticas incorporadas desde GitHub. Las nuevas entradas `pay/cancel/complete`, lectura del estado y fecha/hora reciben las guardas de fase 2.
+- `state/` y `strategy/` permanecen sin cambios respecto a GitHub. Se verificaron >72 h, exactamente 72 h, exactamente 24 h, <24 h y tiempo negativo (100/80/0 % según selector existente). No se inventaron reglas comerciales nuevas.
+- Se corrigió una incompatibilidad con efectos monetarios: la secuencia anterior de `ReservationService.confirm` cobraba antes de intentar registrar un estado CONFIRMED que fase 2 rechaza. Ahora esa entrada rechaza explícitamente la confirmación **antes de cualquier débito o mutación**, para reservas separadas y registradas. Se conserva su firma y se deja la operación compuesta para fase 3; no se presenta como un flujo de pago funcional.
+
+### Archivos modificados
+
+Rutas relativas a `hotel-management-system/` (carpeta de `build.gradle`):
+
+| Grupo | Archivos |
+|---|---|
+| Construcción | `build.gradle` (JUnit 5.11.4, launcher y `useJUnitPlatform`, recuperados del respaldo) |
+| Agregado y fábrica | `src/main/java/edu/hoteluq/singleton/Hotel.java`, `src/main/java/edu/hoteluq/factory/RoomCreator.java` |
+| Usuarios y dinero | `src/main/java/edu/hoteluq/model/User.java`, `Client.java`, `Administrator.java`, `VirtualCard.java`, `CardMovement.java` (los nombres siguientes al primero corresponden al mismo directorio) |
+| Catálogos | `src/main/java/edu/hoteluq/model/Room.java`, `RoomType.java`, `StandardRoom.java`, `FamilyRoom.java`, `SuiteRoom.java`, `AdditionalService.java`, `Promotion.java` |
+| Compatibilidad de reservas | `src/main/java/edu/hoteluq/model/Reservation.java`, `src/main/java/edu/hoteluq/service/ReservationService.java` |
+| Pruebas nuevas | `src/test/java/edu/hoteluq/singleton/RecoveryIntegrationTest.java` (5 casos) |
+| Documentación | `docs/pendientes.md`, `docs/evidencia-recuperacion.txt` |
+
+Las nueve clases de pruebas originales no se modificaron, omitieron ni eliminaron. Las clases nuevas de seguridad, validación, fachada y vistas ya conservadas en HEAD no se sobrescribieron.
+
+### Verificación actual
+
+**`./gradlew --no-daemon clean test build`: BUILD SUCCESSFUL (51 s), salida 0; 137 pruebas satisfactorias, 0 fallos/errores/omisiones según los diez XML de Gradle.** Se verificaron compilación principal/pruebas, JAR y distribuciones ZIP/TAR. `git diff --check` también terminó con salida 0. Resultado definitivo registrado en `docs/evidencia-recuperacion.txt`. Informe navegable local: `build/reports/tests/test/index.html`. Esto cierra el pendiente de construcción Gradle; no verifica interfaz JavaFX. La primera ejecución tras recuperar el modelo ejecutó las 132 pruebas originales mediante Java 21/JUnit real: 132 satisfactorias. Se añadieron cinco pruebas de compatibilidad para State/estado legado, permisos de las nuevas entradas, rechazo de alta confirmada, ausencia de débito ante confirmación incompatible y límites de Strategy.
+
+### Pendientes reales y alcance detenido
+
+- Fases 1 y 2 recuperadas en negocio; pantallas y aceptación visual siguen pendientes. `Main` continúa siendo el ejemplo inicial. No hay persistencia nueva.
+- La fase 3 **no se ha iniciado**. El código State/Strategy recibido de GitHub se preserva como trabajo parcial existente; no equivale a completar esa fase.
+- La confirmación integral sigue pendiente y `ReservationService.confirm` falla antes de cobrar. `PendingState.pay` consulta el Singleton y una reserva registrada se superpone consigo misma; falta coordinar disponibilidad, pago y registro. No debe usarse como alternativa a una futura operación atómica.
+- Los setters administrativos de estado aún pueden cambiarlo sin demostrar pago; las guardas impiden hacerlo al cliente, pero no sustituyen transiciones de negocio completas. Las APIs de cancelación existentes no constituyen todavía un flujo de cliente autorizado: fase 2 reserva las mutaciones de estado/reembolsos al administrador.
+- Falta vincular cobros/reembolsos al pago original, impedir duplicados y devoluciones sin cobro, snapshots y atomicidad bajo concurrencia. No se garantiza un flujo de cancelación de extremo a extremo solo por conservar Strategy.
+- GitHub ya fija 15:00 como hora de entrada local. Se preservó ese valor; antes de fase 3 hay que confirmar hora/zona y regla tras iniciar estancia. El selector devuelve 0 % con tiempo negativo, comportamiento existente probado, no una decisión comercial nueva de esta recuperación.
+- Continúan pendientes redondeo/escala monetaria integral, reglas de finalización, promociones condicionadas, paquetes, puntos, eventos, reportes e interfaz, según apartados 5 y 7.
+- No hubo despliegues, commits, push ni publicación en GitHub.

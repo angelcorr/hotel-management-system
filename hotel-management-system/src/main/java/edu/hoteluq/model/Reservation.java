@@ -1,22 +1,25 @@
 package edu.hoteluq.model;
 
+import edu.hoteluq.security.ManagedEntity;
+import edu.hoteluq.security.Action;
+
+import edu.hoteluq.validation.DomainValidation;
+
 import edu.hoteluq.enums.ReservationStatus;
 import edu.hoteluq.exceptions.InvalidReservationException;
-import edu.hoteluq.state.PendingState;
-import edu.hoteluq.state.ReservationState;
-import edu.hoteluq.strategy.RefundPolicy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import edu.hoteluq.state.*;
+import edu.hoteluq.strategy.RefundPolicy;
+import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Reservation {
-  private static final LocalTime CHECK_IN_TIME = LocalTime.of(15,0);
-
+public class Reservation extends ManagedEntity {
   private final UUID id;
   private final Client client;
   private final Room room;
@@ -28,7 +31,9 @@ public class Reservation {
   private final double subtotal;
   private final double discount;
   private final double total;
+  private static final LocalTime CHECK_IN_TIME = LocalTime.of(15, 0);
   private ReservationState state = new PendingState();
+
 
   private Reservation(Builder builder) {
     this.id = builder.id;
@@ -45,85 +50,97 @@ public class Reservation {
   }
 
   public long getNights() {
-    return ChronoUnit.DAYS.between(checkIn, checkOut);
+    return readProtected(() -> ChronoUnit.DAYS.between(checkIn, checkOut));
   }
 
   public boolean overlaps(LocalDate from, LocalDate to) {
-    // A canceled reservation doesn't block the room
+    DomainValidation.period(from, to);
+    // A cancelled reservation doesn't block the room
     if (getStatus() == ReservationStatus.CANCELLED) return false;
     return checkIn.isBefore(to) && from.isBefore(checkOut); // True when this reservation uses the room during part of the given period.
   }
 
   public UUID getId() {
-    return id;
+    return readProtected(() -> id);
   }
 
   public Client getClient() {
-    return client;
+    return readProtected(() -> client);
   }
 
   public Room getRoom() {
-    return room;
+    return readProtected(() -> room);
   }
 
   public LocalDate getCheckIn() {
-    return checkIn;
+    return readProtected(() -> checkIn);
   }
 
   public LocalDate getCheckOut() {
-    return checkOut;
+    return readProtected(() -> checkOut);
   }
 
   public int getGuests() {
-    return guests;
+    return readProtected(() -> guests);
   }
 
   public List<AdditionalService> getServices() {
-    return services;
+    return readProtected(() -> services);
   }
 
   public Promotion getPromotion() {
-    return promotion;
+    return readProtected(() -> promotion);
   }
 
   public double getSubtotal() {
-    return subtotal;
+    return readProtected(() -> subtotal);
   }
 
   public double getDiscount() {
-    return discount;
+    return readProtected(() -> discount);
   }
 
   public double getTotal() {
-    return total;
-  }
-
-  public ReservationState getState() {
-    return state;
-  }
-
-  public void setState(ReservationState state) {
-    this.state = state;
+    return readProtected(() -> total);
   }
 
   public ReservationStatus getStatus() {
-    return state.getStatus();
+    return readProtected(() -> state.getStatus());
+  }
+
+  public void setStatus(ReservationStatus status) {
+    DomainValidation.required(status, "Reservation status");
+    setState(switch (status) {
+      case PENDING -> new PendingState();
+      case CONFIRMED -> new ConfirmedState();
+      case CANCELLED -> new CancelledState();
+      case COMPLETED -> new CompletedState();
+    });
+  }
+
+
+  public ReservationState getState() { return readProtected(() -> state); }
+
+  public void setState(ReservationState state) {
+    change(Action.RESERVATION_STATE, state,
+        () -> this.state = DomainValidation.required(state, "Reservation state"));
   }
 
   public void pay() {
-    state.pay(this);
+    change(Action.RESERVATION_STATE, null, () -> state.pay(this));
   }
 
   public void cancel(RefundPolicy policy) {
-    state.cancel(this, policy);
+    change(Action.RESERVATION_STATE, null,
+        () -> state.cancel(this, DomainValidation.required(policy, "Refund policy")));
   }
 
   public void complete() {
-    state.complete(this);
+    change(Action.RESERVATION_STATE, null, () -> state.complete(this));
   }
 
   public LocalDateTime getCheckInDateTime() {
-    return checkIn.atTime(CHECK_IN_TIME);
+    return readProtected(() -> checkIn.atTime(CHECK_IN_TIME));
   }
 
   @Override
@@ -170,7 +187,7 @@ public class Reservation {
     }
 
     public Builder additionalService(AdditionalService service) {
-      this.services.add(service);
+      this.services.add(DomainValidation.required(service, "Service"));
       return this;
     }
 
@@ -189,17 +206,18 @@ public class Reservation {
 
     private void calculatePrice() {
       long nights = ChronoUnit.DAYS.between(checkIn, checkOut);
-      subtotal = nights * room.getPricePerNight();
+      BigDecimal base = BigDecimal.valueOf(room.getPricePerNight()).multiply(BigDecimal.valueOf(nights));
       for (AdditionalService service : services) {
-        subtotal += service.getPrice();
+        base = base.add(BigDecimal.valueOf(service.getPrice()));
       }
-
-      discount = 0;
-      if (promotion != null) {
-        discount = subtotal * promotion.getDiscountPercent() / 100;
-      }
-
-      total = subtotal - discount;
+      BigDecimal reduction = promotion == null ? BigDecimal.ZERO : base
+          .multiply(BigDecimal.valueOf(promotion.getDiscountPercent())).movePointLeft(2);
+      subtotal = base.doubleValue();
+      discount = reduction.doubleValue();
+      total = base.subtract(reduction).doubleValue();
+      DomainValidation.nonNegative(subtotal, "Reservation subtotal");
+      DomainValidation.nonNegative(discount, "Reservation discount");
+      DomainValidation.nonNegative(total, "Reservation total");
     }
 
     private void validate() {

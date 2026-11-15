@@ -1,52 +1,68 @@
 package edu.hoteluq.model;
 
+import edu.hoteluq.security.ManagedEntity;
+import edu.hoteluq.security.Action;
+
+import edu.hoteluq.validation.DomainValidation;
+
 import edu.hoteluq.enums.MovementType;
-import edu.hoteluq.exceptions.HotelException;
 import edu.hoteluq.exceptions.InactiveCardException;
-import edu.hoteluq.exceptions.InsuficientBalanceException;
+import edu.hoteluq.exceptions.InsufficientBalanceException;
+import java.math.BigDecimal;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class VirtualCard {
+public class VirtualCard extends ManagedEntity {
   private final String number;
-  private double balance;
+  private BigDecimal balance = BigDecimal.ZERO;
   private boolean active = true;
   private final List<CardMovement> movements = new ArrayList<>();
 
   public VirtualCard(String number) {
-    this.number = number;
+    this.number = DomainValidation.text(number, "Card number");
   }
 
-  // TODO: this must be only used by administrator
   public void charge(double amount, String description) {
-    checkActive();
-    checkPositive(amount);
-    if (amount > balance) {
-      throw new InsuficientBalanceException("Insufficient founds");
-    }
+    change(Action.CHARGE, null, () -> {
+      checkActive();
+      checkPositive(amount);
+      DomainValidation.text(description, "Description");
+      if (BigDecimal.valueOf(amount).compareTo(balance) > 0) {
+        throw new InsufficientBalanceException("Insufficient funds");
+      }
 
-    balance -= amount;
-    register(MovementType.PAYMENT, amount, description);
+      balance = balance.subtract(BigDecimal.valueOf(amount));
+      register(MovementType.PAYMENT, amount, description);
+    });
   }
 
 
   public void recharge(double amount, String description) {
-    checkActive();
-    checkPositive(amount);
-    balance += amount;
-    register(MovementType.RECHARGE, amount, description);
+    change(Action.RECHARGE, null, () -> {
+      checkActive();
+      checkPositive(amount);
+      DomainValidation.text(description, "Description");
+      BigDecimal updated = balance.add(BigDecimal.valueOf(amount));
+      DomainValidation.nonNegative(updated.doubleValue(), "Resulting balance");
+      balance = updated;
+      register(MovementType.RECHARGE, amount, description);
+    });
   }
 
   public void refund(double amount, String description) {
-    checkPositive(amount);
-    balance += amount;
-    register(MovementType.REFUND, amount, description);
+    change(Action.REFUND, null, () -> {
+      checkPositive(amount);
+      DomainValidation.text(description, "Description");
+      BigDecimal updated = balance.add(BigDecimal.valueOf(amount));
+      DomainValidation.nonNegative(updated.doubleValue(), "Resulting balance");
+      balance = updated;
+      register(MovementType.REFUND, amount, description);
+    });
   }
 
-  public void register(MovementType type, double amount, String description) {
+  private void register(MovementType type, double amount, String description) {
     movements.add(new CardMovement(type, amount, description, LocalDateTime.now()));
   }
 
@@ -55,26 +71,26 @@ public class VirtualCard {
   }
 
   private void checkPositive(double amount) {
-    if (amount <= 0) throw new HotelException("The amount must be greater than zero");
+    DomainValidation.positive(amount, "Amount");
   }
 
   public void setActive(boolean active) {
-    this.active = active;
+    change(Action.CARD_STATE, active, () -> this.active = active);
   }
 
   public boolean isActive() {
-    return active;
+    return readProtected(() -> active);
   }
 
   public double getBalance() {
-    return balance;
+    return readProtected(() -> balance.doubleValue());
   }
 
   public String getNumber() {
-    return number;
+    return readProtected(() -> number);
   }
 
   public List<CardMovement> getMovements() {
-    return Collections.unmodifiableList(movements);
+    return readProtected(() -> List.copyOf(movements));
   }
 }

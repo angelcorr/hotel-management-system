@@ -12,7 +12,10 @@ public abstract class RoomCreator {
   protected abstract RoomCategory category();
 
   public Room create(int number, int floor) {
-    Hotel hotel = Hotel.getInstance();
+    return create(Hotel.getInstance(), number, floor);
+  }
+
+  public Room create(Hotel hotel, int number, int floor) {
     RoomType type = hotel.getRoomType(category());
     Room room = createRoom(number, floor, type);
     hotel.addRoom(room);

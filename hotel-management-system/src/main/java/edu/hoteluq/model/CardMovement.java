@@ -1,5 +1,7 @@
 package edu.hoteluq.model;
 
+import edu.hoteluq.validation.DomainValidation;
+
 import edu.hoteluq.enums.MovementType;
 
 import java.time.LocalDateTime;
@@ -11,10 +13,10 @@ public class CardMovement {
   private final LocalDateTime date;
 
   public CardMovement(MovementType type, double amount, String description, LocalDateTime date) {
-    this.type = type;
-    this.amount = amount;
-    this.description = description;
-    this.date = date;
+    this.type = DomainValidation.required(type, "Movement type");
+    this.amount = DomainValidation.positive(amount, "Movement amount");
+    this.description = DomainValidation.text(description, "Description");
+    this.date = DomainValidation.required(date, "Movement date");
   }
 
   public MovementType getType() {

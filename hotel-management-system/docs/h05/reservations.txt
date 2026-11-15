@@ -1,0 +1,23 @@
+HOTELUQ — Reservas por periodo
+Generación: 2026-11-13T12:00:00-05:00
+Zona: America/Bogota
+Periodo inclusivo: 2026-11-13 a 2026-11-13
+Filtros: cliente=null; categoría=null; habitación=null; estado al corte=null; servicio=null; comparar anterior=false
+Valores null: sin filtro.
+Criterio: Fechas inclusivas; operaciones en America/Bogota [00:00 inicial,00:00 posterior al final). Estado y última cotización/contrato al corte; no reconstruye dimensiones al cierre histórico del periodo.
+Criterio: Cohorte por evento CREATED, todos los estados salvo filtro explícito. Estado actual al corte; no estado reconstruido al final del periodo.
+
+Reservas creadas
+Reserva	Cliente	Habitación	Tipo	Creación Bogotá	Entrada	Salida	Estado al corte
+5f47a266-30f3-429e-93ed-64d8f2892430	client-1	101	STANDARD	2026-11-13T12:00:00-05:00	2027-01-10	2027-01-12	CONFIRMED
+6f3b56a4-1fcf-41e6-a907-dda55f9466f0	client-1	102	STANDARD	2026-11-13T12:00:00-05:00	2027-01-10	2027-01-12	CANCELLED
+Registros: 2
+
+Distribución diaria
+Fecha Bogotá	Cantidad
+2026-11-13	2
+Registros: 1
+
+TOTALES
+Reservas: 2 cantidad
+Registros sin fecha CREATED excluidos: 0 cantidad

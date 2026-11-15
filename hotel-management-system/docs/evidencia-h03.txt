@@ -1,0 +1,103 @@
+HOTELUQ — H-03 — Evidencia reproducible
+Fecha: 2026-11-14
+Raíz Git: /home/luis/Documentos/hotel-management-system
+Directorio Gradle: hotel-management-system/
+Fuente principal: Proyecto Final (HotelUQ) PGII - 2026-2.pdf, §2.1/2.2/3.6.
+Java: OpenJDK 21.0.13.0.3; toolchain JavaLanguageVersion.of(21)
+Gradle wrapper 8.14.3; sin dependencias nuevas.
+
+VERIFICACIÓN FINAL
+Comando: ./gradlew --no-daemon clean test build
+Código de salida: 0
+BUILD SUCCESSFUL in 2m 27s
+8 actionable tasks: 8 executed
+Compilación, test, JAR, scripts, distTar, distZip, assemble, check y build satisfactorios.
+Advertencias de API deprecated existentes; sin errores de compilación.
+JUnit XML: 416 ejecutadas/aprobadas; 0 fallidas; 0 errores; 0 omitidas.
+351 anteriores conservadas + 65 nuevas (PromotionRulesTest=22, PromotionIntegrationTest=43).
+git diff --check: código 0, sin incidencias; se repite después de generar esta evidencia.
+
+REGRESIÓN Y CONSERVACIÓN
+Se compararon los archivos existentes con copia/checksums SHA-256 tomados al inicio de H-03.
+No se modificó, eliminó ni deshabilitó ningún archivo de pruebas anterior.
+Todos los archivos existentes de State y Strategy permanecen idénticos. Composite H-02 se conserva.
+La primera regresión completa ejecutó 413 casos: detectó 2 incompatibilidades, corregidas en código:
+  1. Promoción antigua sin condiciones debía conservar InvalidReservationException, no HotelException genérica.
+  2. rawDiscount de un canje H-02 sin promoción debía conservar su representación decimal anterior (20 frente a 20.0).
+No se cambiaron expectativas de pruebas para ocultar esos fallos. La ejecución final es la exitosa de 416 casos.
+
+EVIDENCIAS DE NEGOCIO
+- Alta/consulta/edición/activación/desactivación autorizadas con UUID, expectedVersion y auditoría antes/después.
+- Validación de duplicados, descuentos, periodo, referencias y modificaciones administrativas fallidas sin cambios.
+- Specification AND de ventana de estadía, categoría, noches, frecuencia, servicios y paquetes.
+- Periodo de operación [desde,hasta), revalidado antes del cobro; futuros/vencidos/inactivos rechazados.
+- Frecuencia derivada exclusivamente de reservas completadas/pagadas/no canceladas del mismo cliente.
+- Paquetes de H-02 seleccionados se cobran por sus hojas una sola vez; cruces duplicados rechazados.
+- Decorator de descuentos con orden explícito; combinación no configurada/exclusiva rechazada.
+- Puntos: descuentos, servicios y paquetes bonificados; acumulación solo sobre pago neto si expresamente permitida.
+- COP BigDecimal, redondeo final HALF_UP, rechazo de total cero/negativo tras redondeo antes del cargo.
+- Snapshot de definición/versiones en Quote/BookingView e historial de cambios de cotización.
+- Cambio de oferta PENDING exige nueva aceptación; recibos pagados y reintentos no se reescriben.
+- Tres hooks de fallo en confirmación y cancelación restauran contrato, Estado, tarjeta, puntos y auditoría.
+- Saldo insuficiente después de preparar beneficio combinado restaura todos los efectos.
+- Concurrencia: confirmaciones idempotentes, actualizaciones con versión y desactivación frente a confirmación.
+- Cancelación oficial sobre pago neto original: >72 h 100%, [24,72] h 80%, <24 h 0%, hotel 100%.
+- Se conservan los 30 casos de OfficialCancellationTest y toda la regresión anterior.
+
+SUITES: ejecutadas / fallidas / errores / omitidas; SHA-256 XML
+edu.hoteluq.loyalty.BenefitValidationTest: 8 / 0 / 0 / 0; 4f5ff8a46a6763f76ca50a8515b6b3f84d4d5a51720b292d27e7cd31134c9d1b
+edu.hoteluq.loyalty.PointsLedgerTest: 28 / 0 / 0 / 0; 7aa9c9e1ed4cfba8ffe251832c7b789690c552ac0e33b3f07690b32297005b8c
+edu.hoteluq.model.CatalogValidationTest: 13 / 0 / 0 / 0; 0a1c993d488a628b9dba015b5605b804b975245f53ef426fe5a37d1434fe2fce
+edu.hoteluq.model.ReservationTest: 8 / 0 / 0 / 0; 51b6d1899eab15a6e223e30688d44144ea98ac3dc1d3b673628ac132c643c48c
+edu.hoteluq.model.UserTest: 13 / 0 / 0 / 0; c64216f32b1870ffbfd4b2f8a6d2dd23d8b9655a149c8dafdf0545b778ad8f43
+edu.hoteluq.model.VirtualCardTest: 11 / 0 / 0 / 0; 36e482f0c9df91de5c51316efe73fa390f633e1fa5206d74add9c15b22af6f42
+edu.hoteluq.money.CommercialPolicyValidationTest: 20 / 0 / 0 / 0; 799ee22ad63eadbf90f9c3213e13730575b1ce1163da51f17ff3fa054e6d8276
+edu.hoteluq.promotion.PromotionRulesTest: 22 / 0 / 0 / 0; 8b4ba919b6326bf51ba263466ce2e54636f2ddb448fc333c02c917a451dd575b
+edu.hoteluq.singleton.AuthenticationSessionTest: 21 / 0 / 0 / 0; 027b14b2458c83305830698afaa351820ccec2566cd076d78f2d53e72076e7f0
+edu.hoteluq.singleton.AuthorizationConcurrencyTest: 11 / 0 / 0 / 0; 2b98859cfbd8dc7ebf00bf642846f9d80eb3f58a86fd5ef446e847f651454160
+edu.hoteluq.singleton.BookingRulesTest: 7 / 0 / 0 / 0; f7ca4be79bdd785a01fdc6149208d42ca04aa8b216cb0c63189257eca37f7e39
+edu.hoteluq.singleton.BookingTransactionTest: 37 / 0 / 0 / 0; 2c0212b97ebe9232d1444d019fbeedd68c34e8c12c33074cd6dd744672e61588
+edu.hoteluq.singleton.CatalogAdministrationTest: 15 / 0 / 0 / 0; e5c0225dd4cff5e50d2703b1603f32000f9138df36ea6758c720985081eab7d6
+edu.hoteluq.singleton.Commercial3BTest: 36 / 0 / 0 / 0; 57f63f5a2436c9f6ba5afe4a58fdcd5f2effd6b2ddf5e56c3a919ae3f1d9db1a
+edu.hoteluq.singleton.CommercialConfigurationTest: 5 / 0 / 0 / 0; c41b54a91e266a2f33c1703605ca25d30a9e9d1117fde7bf2bc2bc6522684d34
+edu.hoteluq.singleton.HotelTest: 10 / 0 / 0 / 0; a52dad5338ad66083ca1236c6aaa8d1b9af97d1c725bba8e735d047abdbb4def
+edu.hoteluq.singleton.LoyaltyIntegrationTest: 43 / 0 / 0 / 0; bb492ec6a5dcb0bac1046fdf70fb674bad0f16d34a20cadae89b0b300f354cf1
+edu.hoteluq.singleton.OfficialCancellationTest: 30 / 0 / 0 / 0; a3b5747d47bd0920008266842222bd1ec5a215a9bb3b85fd90c72186ba11ef2d
+edu.hoteluq.singleton.PromotionIntegrationTest: 43 / 0 / 0 / 0; a2a1db025fc99741b752d1b5dbbe261ba1a4ec63517b3ce246cd2ae7fb178a52
+edu.hoteluq.singleton.RecoveryIntegrationTest: 5 / 0 / 0 / 0; 6a6abc5ad4946d830ddbba7ac9f525c457e070c6a2b9d784583c7337f1ca2210
+edu.hoteluq.singleton.UserAuthorizationTest: 30 / 0 / 0 / 0; 37e371e95795cf7ecf9342f3ec5f9fb5db91a9989c0db30ed986602537b1eb10
+
+INVENTARIO EXCLUSIVO DE H-03 (comparación con el árbol inicial, no con HEAD antiguo)
+MODIFICADO: src/main/java/edu/hoteluq/loyalty/LoyaltyCatalog.java
+MODIFICADO: src/main/java/edu/hoteluq/model/BookingRecords.java
+MODIFICADO: src/main/java/edu/hoteluq/model/Promotion.java
+MODIFICADO: src/main/java/edu/hoteluq/model/Reservation.java
+CREADO: src/main/java/edu/hoteluq/promotion/PriceComponent.java
+CREADO: src/main/java/edu/hoteluq/promotion/PromotionCondition.java
+CREADO: src/main/java/edu/hoteluq/promotion/PromotionDefinition.java
+CREADO: src/main/java/edu/hoteluq/promotion/PromotionProgram.java
+MODIFICADO: src/main/java/edu/hoteluq/service/BookingRequest.java
+CREADO: src/main/java/edu/hoteluq/service/PromotionService.java
+MODIFICADO: src/main/java/edu/hoteluq/singleton/Hotel.java
+CREADO: src/test/java/edu/hoteluq/promotion/PromotionRulesTest.java
+CREADO: src/test/java/edu/hoteluq/singleton/PromotionIntegrationTest.java
+MODIFICADO: docs/auditoria-diseno.md
+MODIFICADO: docs/auditoria-proyecto-final.md
+MODIFICADO: docs/configuracion-comercial.md
+MODIFICADO: docs/pendientes.md
+MODIFICADO: docs/programa-puntos-h02.md
+CREADO: docs/promociones-h03.md
+CREADO: docs/evidencia-h03.txt
+
+Archivos H-03: 20 (5 fuentes nuevas, 6 fuentes modificadas, 2 clases de prueba nuevas, 7 documentos).
+
+DECISIONES Y LÍMITES
+No se instala promoción alguna, ni tasas/equivalencias/umbrales/porcentajes de ejemplo, de forma automática.
+Cada promoción exige combinación explícita y regla de acumulación. Los ejemplos de tests son fixtures.
+Aprobar valores/fechas/criterios/umbral de frecuencia, orden/base de combinación y acumulación sobre pago promocionado.
+RF-007/RF-018 implementados en negocio; parciales como aplicación final por configuración comercial/UI.
+GoF conservador: 3 creacionales / 3 estructurales / 2 comportamientos; Specification se documenta como patrón de dominio aparte.
+Siguen pendientes persistencia durable, compra autónoma fuera de reservas, UI, reportes/estadísticas y entregables académicos.
+Memoria únicamente: reinicio pierde configuraciones/versiones/pagos/puntos/claves; no se añadió DB ni migración.
+No se implementó JavaFX. No se hicieron commits, push ni despliegues.
+Contrato y recomendaciones UI: docs/promociones-h03.md. Auditorías y docs/pendientes.md actualizadas.

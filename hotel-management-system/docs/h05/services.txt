@@ -1,0 +1,21 @@
+HOTELUQ — Servicios contratados
+Generación: 2026-11-13T12:00:00-05:00
+Zona: America/Bogota
+Periodo inclusivo: 2026-11-13 a 2026-11-13
+Filtros: cliente=null; categoría=null; habitación=null; estado al corte=null; servicio=null; comparar anterior=false
+Valores null: sin filtro.
+Criterio: Fechas inclusivas; operaciones en America/Bogota [00:00 inicial,00:00 posterior al final). Estado y última cotización/contrato al corte; no reconstruye dimensiones al cierre histórico del periodo.
+Criterio: Contratación: una unidad por línea de servicio en reserva pagada, por fecha de pago, incluidos servicios bonificados (ingreso asignado cero). No se multiplican por noches.
+Criterio: Precio bruto desde Quote histórico; ingreso COP atribuido con mayor resto. Reembolsos del periodo se atribuyen proporcionalmente al pago original, aunque el pago fuera anterior. No altera comprobantes.
+
+Servicios por ID histórico
+Servicio ID	Nombre histórico	Cantidad	Bruto crudo COP	Ingreso atribuido COP	Reembolso atribuido COP	Neto atribuido COP
+1d7952f4-dc37-4b72-a46b-faa9c32fc8e5	Desayuno	1	50	50	0	50
+Registros: 1
+
+TOTALES
+Unidades contratadas: 1 cantidad
+Bruto contractual sin descuentos: 50 COP
+Ingreso atribuido: 50 COP
+Reembolso atribuido: 0 COP
+Neto atribuido: 50 COP

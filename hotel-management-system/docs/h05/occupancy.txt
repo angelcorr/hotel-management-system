@@ -1,0 +1,23 @@
+HOTELUQ — Ocupación contractual
+Generación: 2026-11-13T12:00:00-05:00
+Zona: America/Bogota
+Periodo inclusivo: 2027-01-10 a 2027-01-11
+Filtros: cliente=null; categoría=null; habitación=null; estado al corte=null; servicio=null; comparar anterior=false
+Valores null: sin filtro.
+Criterio: Fechas inclusivas; operaciones en America/Bogota [00:00 inicial,00:00 posterior al final). Estado y última cotización/contrato al corte; no reconstruye dimensiones al cierre histórico del periodo.
+Criterio: Ocupación contractual de noches [entrada,salida), CONFIRMED/COMPLETED pagadas; excluye CANCELLED. No mide presencia física ni horas reales de check-in/out.
+Criterio: Capacidad por noche: inventario activo actual (habitación y tipo), más habitaciones con compromiso confirmado esa noche aunque hoy inactivas. No hay historial de activaciones: no se presenta como capacidad histórica observada.
+Criterio: PENDING bloquea disponibilidad pero no es ocupación confirmada. Filtros de cliente/estado afectan compromisos, no reducen el inventario del hotel.
+
+Habitaciones por noche
+Fecha	Capacidad	Ocupadas contractuales	Bloqueadas PENDING	Disponibles	Ocupación %
+2027-01-10	2	1	0	1	50.00
+2027-01-11	2	1	0	1	50.00
+Registros: 2
+
+TOTALES
+Capacidad habitación-noche: 4 habitación-noche
+Ocupación habitación-noche: 2 habitación-noche
+Bloqueo PENDING habitación-noche: 0 habitación-noche
+Disponibilidad habitación-noche: 2 habitación-noche
+Ocupación ponderada: 50.00 %

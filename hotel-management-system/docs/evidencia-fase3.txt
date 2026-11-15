@@ -1,0 +1,122 @@
+EVIDENCIA FASE 3 — HotelUQ — 14 de noviembre de 2026
+Fuentes: docs/analisis.md, docs/pendientes.md, docs/evidencia-recuperacion.txt.
+Base: 137 casos JUnit de recuperación de fases 1 y 2; árbol inicialmente limpio.
+
+ENTORNO Y COMANDO
+OpenJDK 21.0.13.0.3; toolchain JavaLanguageVersion.of(21).
+Gradle wrapper 8.14.3. JUnit Jupiter 5.11.4 / Platform 1.11.4 reales.
+Desde hotel-management-system/ (carpeta de build.gradle):
+./gradlew --no-daemon clean test build
+Ejecución fuera del sandbox con autorización para usar Gradle/cache/red.
+Resultado final: salida 0.
+
+> Task :clean
+> Task :compileJava
+> Task :processResources NO-SOURCE
+> Task :classes
+> Task :jar
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+> Task :test
+> Task :startScripts
+> Task :distTar
+> Task :distZip
+> Task :assemble
+> Task :check
+> Task :build
+BUILD SUCCESSFUL in 1m 4s
+8 actionable tasks: 8 executed
+
+La nota de deprecación corresponde a una prueba deliberada de la sobrecarga
+antigua cancelByClient(Reservation, LocalDateTime): se comprueba que el solicitante
+no puede falsear la hora para obtener una devolución mayor. No es un fallo.
+
+RESULTADOS EXTRAÍDOS DE LOS XML DE GRADLE
+Clase | ejecutadas | fallos | errores | omitidas
+edu.hoteluq.model.CatalogValidationTest | 13 | 0 | 0 | 0
+edu.hoteluq.model.ReservationTest | 8 | 0 | 0 | 0
+edu.hoteluq.model.UserTest | 13 | 0 | 0 | 0
+edu.hoteluq.model.VirtualCardTest | 11 | 0 | 0 | 0
+edu.hoteluq.singleton.AuthenticationSessionTest | 21 | 0 | 0 | 0
+edu.hoteluq.singleton.AuthorizationConcurrencyTest | 11 | 0 | 0 | 0
+edu.hoteluq.singleton.BookingRulesTest | 7 | 0 | 0 | 0
+edu.hoteluq.singleton.BookingTransactionTest | 37 | 0 | 0 | 0
+edu.hoteluq.singleton.CatalogAdministrationTest | 15 | 0 | 0 | 0
+edu.hoteluq.singleton.HotelTest | 10 | 0 | 0 | 0
+edu.hoteluq.singleton.RecoveryIntegrationTest | 5 | 0 | 0 | 0
+edu.hoteluq.singleton.UserAuthorizationTest | 30 | 0 | 0 | 0
+TOTAL: 181 ejecutadas, 181 aprobadas, 0 fallidas, 0 errores, 0 omitidas.
+137 casos preexistentes conservados + 44 nuevos (37 transaccionales y 7 de políticas).
+No se deshabilitaron pruebas. Cuatro casos de contrato antiguo se adaptaron al
+servicio transaccional: dos cancelaciones por setter y dos casos de recuperación
+(setter de confirmación sin pago / confirmación anteriormente deshabilitada).
+Las fixtures declaran explícitamente reglas de prueba sin crear defaults comerciales.
+
+Informe HTML: build/reports/tests/test/index.html
+XML: build/test-results/test/TEST-*.xml
+JAR: build/libs/hotel-management-system-1.0.jar
+Distribuciones: build/distributions/hotel-management-system-1.0.zip y .tar
+Main sigue siendo el ejemplo: no se afirma aceptación visual de JavaFX.
+git diff --check: salida 0.
+
+CONSISTENCIA TRANSACCIONAL VERIFICADA
+- Un bloqueo del agregado para validación, disponibilidad, tarjeta, State y comprobantes.
+- Reintentos de alta con misma clave/datos: una sola reserva; datos distintos: rechazo.
+- Reintentos/confirmaciones concurrentes: un Payment y un PAYMENT por reserva.
+- Saldo insuficiente, inactividad y catálogos inválidos: sin débito ni confirmación.
+- Fallo inyectado después del movimiento, del State y del comprobante (3 puntos
+  para confirmación y 3 para cancelación): reserva, saldo, movimientos y versión
+  iguales al estado previo; reintento posterior con un solo efecto.
+- Error recuperable inyectado después de debitar: restauración antes de propagar.
+- Lector concurrente bloqueado después del débito hasta rollback: no observa estado parcial.
+- Reservas superpuestas, dos pagos con saldo para uno, confirmación contra cancelación,
+  dos cancelaciones y modificaciones de versión idéntica: invariantes conservadas.
+- Strategy: >72h 100%; exactamente 72h y 24h 80%; menos de 24h 0%; hotel 100%.
+- Refund enlaza Payment original y tarjeta; monto <= pagado y sin segundo reembolso,
+  incluso al reintentar desde el otro rol. Tarjeta original inactiva recibe devolución.
+- Aritmética decimal: pago 0.246913578, devolución 0.1975308624 (80%),
+  saldo resultante 0.9506172844 desde saldo 1: sin redondeo ni pérdida de dígitos.
+- Una reserva PENDING cancelada o un reembolso cero no inventan movimientos monetarios.
+- Snapshots inmutables sobreviven a cambios de perfil. Confirmadas no se modifican.
+- Zona America/Bogota y corte de 72h probados como configuración explícita de fixture.
+
+DECISIONES Y LÍMITES
+Se solicitaron definiciones comerciales al usuario; no se recibieron en esta ejecución.
+BookingRules exige zona/hora y opciones explícitas para cancelación tardía, total cero,
+modificación pendiente y finalización; no se adoptaron defaults en producción.
+Dinero decimal exacto sin redondeo implícito; moneda/escala comercial pendientes.
+Servicios una vez por reserva conserva el comportamiento previo, pendiente de ratificación.
+Porcentajes/plazos RN-11 a RN-14 conservados, sin penalizaciones inventadas.
+Promociones sin condiciones se rechazan en el flujo pagado (RN-21); catálogo/Builder
+conservados. Elegibilidad, paquetes, puntos y eventos se mantienen para fase 4.
+Datos, sesiones e idempotencia residen en memoria; no hay garantía ante cierre de JVM,
+fallo de máquina o agotamiento de memoria que impida restaurar. No se implementa una
+transacción durable/distribuida. PENDING sigue sin TTL comercial.
+Sin despliegues, commits ni push. La fase 4 no se inició.
+
+ARCHIVOS MODIFICADOS/AÑADIDOS (rutas desde la raíz del repositorio)
+hotel-management-system/docs/evidencia-fase3.txt
+hotel-management-system/docs/pendientes.md
+hotel-management-system/src/main/java/edu/hoteluq/model/BookingRecords.java
+hotel-management-system/src/main/java/edu/hoteluq/model/CardMovement.java
+hotel-management-system/src/main/java/edu/hoteluq/model/Reservation.java
+hotel-management-system/src/main/java/edu/hoteluq/model/VirtualCard.java
+hotel-management-system/src/main/java/edu/hoteluq/security/Action.java
+hotel-management-system/src/main/java/edu/hoteluq/service/BookingRequest.java
+hotel-management-system/src/main/java/edu/hoteluq/service/BookingRules.java
+hotel-management-system/src/main/java/edu/hoteluq/service/ReservationService.java
+hotel-management-system/src/main/java/edu/hoteluq/service/Views.java
+hotel-management-system/src/main/java/edu/hoteluq/singleton/Hotel.java
+hotel-management-system/src/main/java/edu/hoteluq/state/ConfirmedState.java
+hotel-management-system/src/main/java/edu/hoteluq/state/PendingState.java
+hotel-management-system/src/main/java/edu/hoteluq/strategy/FullRefundPolicy.java
+hotel-management-system/src/main/java/edu/hoteluq/strategy/NoRefundPolicy.java
+hotel-management-system/src/main/java/edu/hoteluq/strategy/PartialRefundPolicy.java
+hotel-management-system/src/main/java/edu/hoteluq/strategy/RefundPolicy.java
+hotel-management-system/src/test/java/edu/hoteluq/singleton/BookingRulesTest.java
+hotel-management-system/src/test/java/edu/hoteluq/singleton/BookingTransactionTest.java
+hotel-management-system/src/test/java/edu/hoteluq/singleton/CatalogAdministrationTest.java
+hotel-management-system/src/test/java/edu/hoteluq/singleton/HotelTest.java
+hotel-management-system/src/test/java/edu/hoteluq/singleton/Phase2Fixture.java
+hotel-management-system/src/test/java/edu/hoteluq/singleton/RecoveryIntegrationTest.java

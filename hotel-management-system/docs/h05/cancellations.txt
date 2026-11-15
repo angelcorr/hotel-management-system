@@ -1,0 +1,19 @@
+HOTELUQ — Cancelaciones y reembolsos
+Generación: 2026-11-13T12:00:00-05:00
+Zona: America/Bogota
+Periodo inclusivo: 2026-11-13 a 2026-11-13
+Filtros: cliente=null; categoría=null; habitación=null; estado al corte=null; servicio=null; comparar anterior=false
+Valores null: sin filtro.
+Criterio: Fechas inclusivas; operaciones en America/Bogota [00:00 inicial,00:00 posterior al final). Estado y última cotización/contrato al corte; no reconstruye dimensiones al cierre histórico del periodo.
+Criterio: Cancelación por Refund.at, incluidas reservas PENDING no pagadas y reembolsos de cero. Un registro por UUID de cancelación; tasas/pago original históricos.
+
+Cancelaciones
+Cancelación	Reserva	Cliente	Origen	Fecha Bogotá	Pago original	Porcentaje %	Reembolso COP
+a29e9a5c-3964-4ea1-a3a9-bb14a5a51438	23f342c8-3773-472e-a4c5-cf2075dd0d83	client-1	HOTEL	2026-11-13T12:00:00-05:00	—	100	0
+Registros: 1
+
+TOTALES
+Cancelaciones: 1 cantidad
+Por hotel: 1 cantidad
+Por cliente: 0 cantidad
+Reembolsado: 0 COP

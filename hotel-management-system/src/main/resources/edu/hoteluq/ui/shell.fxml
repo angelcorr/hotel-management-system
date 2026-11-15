@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hoteluq.ui.ShellController" fx:id="root">
+  <top><HBox styleClass="topbar" spacing="20"><Label text="HotelUQ" styleClass="brand"/><Label text="Gestión hotelera" styleClass="muted"/><Region HBox.hgrow="ALWAYS"/><Label fx:id="identity"/><Button fx:id="logout" text="Cerrar sesión" onAction="#logout"/></HBox></top>
+  <left><VBox fx:id="navigation" styleClass="sidebar" spacing="8" prefWidth="225"/></left>
+  <center><StackPane fx:id="content"/></center>
+  <bottom><VBox styleClass="footer" spacing="4"><Label fx:id="status" text="Datos en memoria · No cierre la aplicación sin conocer esta limitación" wrapText="true"/><Label text="COP · America/Bogota · Los servicios verifican permisos y reglas comerciales" styleClass="muted"/></VBox></bottom>
+</BorderPane>

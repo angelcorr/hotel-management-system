@@ -1,41 +1,58 @@
 package edu.hoteluq.model;
 
+import edu.hoteluq.security.ManagedEntity;
+import edu.hoteluq.security.Action;
+
+import edu.hoteluq.validation.DomainValidation;
+
 import java.util.List;
 
-public abstract class Room {
+public abstract class Room extends ManagedEntity {
   private final int number;
-  private final int floor;
+  private int floor;
   private final RoomType type;
-  private boolean active = true;
+  private volatile boolean active = true;
 
   protected Room(int number, int floor, RoomType type) {
-    this.number = number;
+    this.number = DomainValidation.positive(number, "Room number");
     this.floor = floor;
-    this.type = type;
+    this.type = DomainValidation.required(type, "Room type");
   }
 
   // Each room has different features depending on its type
   public abstract List<String> getFeatures();
 
   public boolean isActive() {
-    return active;
+    return readProtected(() -> active) && type.isActive();
   }
 
   public void setActive(boolean active) {
-    this.active = active;
+    change(Action.AVAILABILITY, active, () -> {
+      this.active = active;
+    });
+  }
+
+  public void updateDetails(int floor, boolean active) {
+    change(Action.FLOOR, floor, () -> { this.floor = floor; this.active = active; });
+  }
+
+  public void setFloor(int floor) {
+    change(Action.FLOOR, floor, () -> this.floor = floor);
   }
 
   public int getNumber() {
-    return number;
+    return readProtected(() -> number);
   }
 
   public RoomType getType() {
-    return type;
+    return readProtected(() -> type);
   }
 
   public int getFloor() {
-    return floor;
+    return readProtected(() -> floor);
   }
+
+  public java.math.BigDecimal getPricePerNightAmount() { return type.getPricePerNightAmount(); }
 
   public double getPricePerNight() {
     return type.getPricePerNight();

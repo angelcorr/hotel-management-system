@@ -1,0 +1,68 @@
+Recuperación de integridad de fases 1 y 2 — 14 de noviembre de 2026
+HEAD inicial: ec2c242; GitHub conservado: 52f986d (RF-011/refund-strategy).
+Fuente de recuperación: stash local d15ab30b6fcfdcde1e0d82cb26cab6ba5fb14203.
+Java: OpenJDK 21.0.13.0.3; Gradle wrapper: 8.14.3.
+
+ANTES:
+python3 scripts/verify-offline.py
+Salida 1: 30 errores de compilación principal. Las pruebas no llegaron a ejecutarse.
+Faltaban métodos de Hotel/sesión/CRUD, validaciones y enlace al modelo.
+build.gradle había perdido dependencias JUnit y useJUnitPlatform().
+
+DESPUÉS (desde la carpeta de build.gradle):
+./gradlew --no-daemon clean test build
+Ejecutado fuera del sandbox tras el fallo inicial de permisos en ~/.gradle.
+Distribución Gradle descargada correctamente; dependencias resueltas.
+Salida 0:
+> Task :clean
+> Task :compileJava
+> Task :processResources NO-SOURCE
+> Task :classes
+> Task :jar
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+> Task :test
+> Task :startScripts
+> Task :distTar
+> Task :distZip
+> Task :assemble
+> Task :check
+> Task :build
+BUILD SUCCESSFUL in 51s
+8 actionable tasks: 8 executed
+
+Resultados extraídos de build/test-results/test/TEST-*.xml:
+Clase | casos | fallos | errores | omitidos
+edu.hoteluq.model.CatalogValidationTest | 13 | 0 | 0 | 0
+edu.hoteluq.model.ReservationTest | 8 | 0 | 0 | 0
+edu.hoteluq.model.UserTest | 13 | 0 | 0 | 0
+edu.hoteluq.model.VirtualCardTest | 11 | 0 | 0 | 0
+edu.hoteluq.singleton.AuthenticationSessionTest | 21 | 0 | 0 | 0
+edu.hoteluq.singleton.AuthorizationConcurrencyTest | 11 | 0 | 0 | 0
+edu.hoteluq.singleton.CatalogAdministrationTest | 15 | 0 | 0 | 0
+edu.hoteluq.singleton.HotelTest | 10 | 0 | 0 | 0
+edu.hoteluq.singleton.RecoveryIntegrationTest | 5 | 0 | 0 | 0
+edu.hoteluq.singleton.UserAuthorizationTest | 30 | 0 | 0 | 0
+TOTAL: 137 casos; 137 satisfactorios; 0 fallos, errores u omisiones.
+132 originales conservados + 5 casos nuevos de RecoveryIntegrationTest.
+Informe HTML: build/reports/tests/test/index.html.
+Distribuciones: build/distributions/hotel-management-system-1.0.zip y .tar.
+Estas distribuciones corresponden al Main de ejemplo; no a una interfaz terminada.
+
+git diff --check: salida 0.
+state/ y strategy/: sin diferencias frente a 52f986d.
+No se cambiaron las nueve clases originales de pruebas.
+
+Verificación adicional:
+Tras la primera recuperación, python3 scripts/verify-offline.py ejecutó los 132
+casos originales satisfactoriamente con javac --release 21 / JUnit reales.
+El runner offline también registró 137/137 durante la revisión; la verificación
+canónica del código final es la construcción Gradle limpia y sus XML anteriores.
+
+Límites:
+Sin aceptación visual JavaFX; sin despliegues ni push.
+No se implementó fase 3. confirm() rechaza explícitamente antes de cobrar,
+hasta contar con una operación transaccional; State/Strategy se conservan.
+Cancelación/reembolso integral, idempotencia y vínculo con el pago original
+siguen pendientes. Ver docs/pendientes.md, apartado 11.

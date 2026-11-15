@@ -1,0 +1,158 @@
+HOTELUQ — H-05 — Evidencia de reportes, estadísticas y TXT
+Fecha: 2026-11-15
+Raíz Git: /home/luis/Documentos/hotel-management-system
+Directorio Gradle: hotel-management-system/
+Fuente oficial: Proyecto Final (HotelUQ) PGII - 2026-2.pdf, §7/7.1/7.2.
+Java: OpenJDK 21.0.13.0.3; toolchain 21. Gradle Wrapper: 8.14.3; JavaFX 21.0.2.
+Sin dependencias nuevas, DB, migración ni políticas comerciales sembradas.
+
+VERIFICACIÓN FINAL
+Comandos reproducibles:
+./gradlew --no-daemon clean test build
+./gradlew --no-daemon fxTest
+./gradlew --no-daemon run --args=--smoke-ui
+Ejecución interactiva normal: ./gradlew run
+Comando conjunto final: ./gradlew --no-daemon clean test build fxTest run --args=--smoke-ui
+Salida: 0; BUILD SUCCESSFUL in 3m 11s; 12 actionable tasks: 12 executed.
+run imprimió: HOTELUQ_UI_STARTED: JavaFX stage shown; FXML/CSS loaded; startup scene captured
+Entorno gráfico real: Linux, DISPLAY=:0. Sin Xvfb ni TestFX. Capturas limitadas a escenas del hotel.
+Advertencias de API deprecated anteriores; sin errores de compilación en la ejecución final.
+git diff --check: salida 0, sin incidencias; se repite al cierre tras generar esta evidencia.
+
+CONTEOS XML JUNIT
+test: 506 ejecutadas/aprobadas; 0 fallidas, 0 errores, 0 omitidas.
+fxTest: 12 ejecutadas/aprobadas; 0 fallidas, 0 errores, 0 omitidas.
+Total: 518 aprobadas = 460 anteriores + 58 nuevas.
+Nuevas: ReportEngineTest 30; ReportIntegrationTest 19; ReportsJavaFxTest 9.
+Ningún archivo previo de src/test ni src/fxTest se editó, borró o deshabilitó; comparación SHA-256 con copia inicial de H-05.
+La tarea fxTest usa una JVM por clase para que cada suite administre su toolkit sin modificar pruebas anteriores.
+Un intento intermedio pasó la regresión sin pantalla pero falló compileFxTestJava porque se extrajo el contrato ReportChartView durante la compilación y las clases principales habían quedado anteriores. Se estabilizó el árbol y se repitió clean; ese intento no se contabiliza como verificación final.
+
+SUITES: tarea; clase; ejecutadas/fallidas/errores/omitidas; SHA-256 XML
+test; edu.hoteluq.loyalty.BenefitValidationTest; 8/0/0/0; de9d766cecd906e5f35b51cea7108aab067863e1f2b1dd38dd2d3000019a73d4
+test; edu.hoteluq.loyalty.PointsLedgerTest; 28/0/0/0; 443053e5cc98e8279d861a3b30c40d229c4c7f34e0580efc5d536911951e418d
+test; edu.hoteluq.model.CatalogValidationTest; 13/0/0/0; fb8e73ef80e2d1ecc1ebcb583984d238a892f3386a07aacfe97aed9f2abbe5cc
+test; edu.hoteluq.model.ReservationTest; 8/0/0/0; 3826194b8082cb042a95302221a3bb3bc810aab59a5e92538da4478fac20da69
+test; edu.hoteluq.model.UserTest; 13/0/0/0; 8fa7a257840acc6d49de946377fc88c3c1d193665a3eb6c88ede8b9c9fc8922d
+test; edu.hoteluq.model.VirtualCardTest; 11/0/0/0; 61551ba31abb4feaee8ce1e611436865ef41e32eb2a4da07014a3af690a092bd
+test; edu.hoteluq.money.CommercialPolicyValidationTest; 20/0/0/0; 5ea7e3aa7317c480565d4a092e4d078ff6607fb5f78aae8e400126e2e561e9a6
+test; edu.hoteluq.promotion.PromotionRulesTest; 22/0/0/0; 681bb63e8171925f6e7e631922792a94d96a6ee909ed05e31c6630a3b13a421b
+test; edu.hoteluq.report.ReportEngineTest; 30/0/0/0; 355c1d4a88e7d5038987729bd475baed05b403932c089546a464a29f033140bc
+test; edu.hoteluq.singleton.AuthenticationSessionTest; 21/0/0/0; 2c19edd36768e97c3b70bb8d9070f897e857916489648d4fed7448d2738be355
+test; edu.hoteluq.singleton.AuthorizationConcurrencyTest; 11/0/0/0; 7cc44faa358b0bf526e9e6bbda6350462cfa71f24e214c2d800d82a928464c3f
+test; edu.hoteluq.singleton.BookingRulesTest; 7/0/0/0; c82245cd3e848676ea923f8838a15df1b323597e7b3ddc4061a666447dcb4873
+test; edu.hoteluq.singleton.BookingTransactionTest; 37/0/0/0; 3bcc7c7990fb0967988b0afec9fcdad9add080af004a200c7b2e27b036363f29
+test; edu.hoteluq.singleton.CatalogAdministrationTest; 15/0/0/0; 800778ecdd65d3c254a51b998e4ee75c29d05aeaaab8bce57932b3f6cb68bc05
+test; edu.hoteluq.singleton.Commercial3BTest; 36/0/0/0; a5b40b947e3d057befddb210d685f3f19e9ab7574e89e6db6be3216d5b215dde
+test; edu.hoteluq.singleton.CommercialConfigurationTest; 5/0/0/0; e84fdb8f7f9971cf2dc759dc0da3aba0d6377ddcbacd4d9cb91911ab9a586a6f
+test; edu.hoteluq.singleton.DesktopIntegrationTest; 26/0/0/0; e7e52ad555b3f5ce94ce6d28ce8ee4014361694487ad84042dc16748c20b7326
+test; edu.hoteluq.singleton.HotelTest; 10/0/0/0; 44f05dfe2291dd5eb12981145af8ff495f0974620e77188da1754a0e028c2bfc
+test; edu.hoteluq.singleton.LoyaltyIntegrationTest; 43/0/0/0; 57b68ed1de5804129715fbcf463511e7ccae4e0df305f9d068afc84e8217642d
+test; edu.hoteluq.singleton.OfficialCancellationTest; 30/0/0/0; 6466541291ed52eef09d4482badb0868a8f43eac20f37e10751f05a76e2e8eb7
+test; edu.hoteluq.singleton.PromotionIntegrationTest; 43/0/0/0; 1fb88b95ffd7bf69ac48ea08a26b5bae7a8cd0476807f59c16d4c08e2938e3a1
+test; edu.hoteluq.singleton.RecoveryIntegrationTest; 5/0/0/0; 200310ea92a25daebcac4ff8ecfd73444189abdffb74acdb9c4e9ffe02cfa97e
+test; edu.hoteluq.singleton.ReportIntegrationTest; 19/0/0/0; d20b6675ac8d009f6bcdb57341719f398dd2fb735a88d1fbba18a3e68e2c8470
+test; edu.hoteluq.singleton.UserAuthorizationTest; 30/0/0/0; ad15f474164dda214c9ee320195d70e734cec2bb7a443d75ab230168f02d0bc2
+test; edu.hoteluq.ui.FormInputTest; 15/0/0/0; 8fe02bf1064d85966d4a6054a478844efb9d9240963cfbca54411a579dd583ef
+fxTest; edu.hoteluq.singleton.JavaFxIntegrationTest; 3/0/0/0; a4c1b7c482d45126f085f1da257eee7ee55b5e8650d99208374f84864b344792
+fxTest; edu.hoteluq.singleton.ReportsJavaFxTest; 9/0/0/0; 040b4f957a5ba8605a183a5ca4259b1c4cbdb4e653550cb5f07b9bbeeaba01da
+
+COBERTURA NUEVA VERIFICADA
+- Ocho familias: reservas, ranking, ocupación, ingresos, servicios, recargas, cancelaciones/reembolsos y puntos.
+- Fechas inclusivas Bogotá, filtros compatibles, rangos inválidos/vacíos, comparación anterior, instantáneas reproducibles.
+- Ocupación por habitaciones-noches recortadas, pendientes separados, inventario/compromisos inactivos y N/A sin denominador.
+- Pagos y reembolsos por fecha propia; recargas fuera de ingresos; netos negativos y devoluciones de pago anterior al rango.
+- Atribución por mayor resto reconcilia cada peso COP; bonificaciones no reciben caja ficticia; servicios/precios históricos.
+- Puntos reales: acumulación, redención, reversión, saldos actuales; vencimientos reconstruidos sin mutar observaciones del ledger.
+- Restauración después de caducar suma solo derecho no revocado y nunca reanima saldo gastable.
+- Solo administrador; clientes rechazados también al navegar/generar/exportar; token cerrado no escribe un reporte previo.
+- TXT UTF-8, metadatos, criterios, registros y totales; sin contraseñas/tokens/correos/tarjetas; escapes de campos libres.
+- Exportación no recalcula un corte mostrado; no sobrescribe sin aceptación, limpia temporales ante fallo.
+- Lectura concurrente espera la transacción y no observa débito sin comprobante; un pago revertido no se convierte en ingreso.
+- Toolkit JavaFX: ocho familias con tablas y cambio real entre BarChart, PieChart y LineChart; pastel negativo rechazado.
+- TXT generados por la fachada durante recorridos gráficos; no se automatiza el diálogo nativo de selección de archivo.
+
+ARTEFACTOS: archivo; SHA-256
+docs/h05/cancelaciones-pastel.png; cf3a1f3b52bb558ef858c49e2740cb85b47de3fd81fd85926398fea85bcc47d4
+docs/h05/cancellations-barras.png; a894fe555d5bd7c2ff6f496897db2034ece38fcad85b97ac7bdea59c8529cfce
+docs/h05/cancellations.txt; 1fd53769badedd62c86bc4647dc5b7e0cb249525f227dbf3ee3a8801dc2775c0
+docs/h05/ingresos-lineas.png; 93511617eb954209fd404d7e6bcdd79bde095b8266110a3ad24c7b913d1cf9ec
+docs/h05/occupancy-barras.png; 8d180c936624b5712449f85b2d75e5c63f25228856f7c1aed80940c0fd619e68
+docs/h05/occupancy.txt; 4cda38399da47a167c0a6a32f40b070f06a2f52dc8bf959225299137343e7fc9
+docs/h05/points-barras.png; 515122e5b7c3fee631b01fd896e3c7cbf7a20eae9e53e482890e06b3e0ffdfa9
+docs/h05/points.txt; 098bfba858e4e78276efaf2023d86c7a552bc87cfaf201f9c39f59336a8e5d21
+docs/h05/recharges-barras.png; edf4c501b94472a61dc98c477ef1d605ee3d801d81579fa5cd5009e909257636
+docs/h05/recharges.txt; fa7d40ed6f3f8c89ae78a87dd33d19f6fc81faa13c00956c3d555f99e6b94a56
+docs/h05/reservations-barras.png; 8c4fc1056e141224826aade1e845879cfc2c7bcade97ba5955ae4ea90ceeb116
+docs/h05/reservations.txt; 8e8e8ce22673fb79c18362f37056c8b78fa51f18ffc93fd59660e0ae1bac2fdb
+docs/h05/revenue-barras.png; 24ebbe214c0526b31782f3e9b2fa1f46eb85973d21a442c3f9bca812fe6ce98a
+docs/h05/revenue.txt; 414c24a93f32fd23afcb3b42f395a868be64d5c9305c8e8a8c189257b307c874
+docs/h05/room_ranking-barras.png; 9a7ac7d3fdc52216d3c01a1be043aa4d15974720f97d20adb9a8ba4a639b2727
+docs/h05/room_ranking.txt; ec03188279769e35250233959af374f90322445f8bb7a89969644a6c2cbb222b
+docs/h05/services-barras.png; 5002ac999aa7fadc795e199c6cc40853c484bd97f356675b02afa76616af7435
+docs/h05/services.txt; 5244250deb8b6cf82d76518bc3a7c6131ebef4faf95bcf8277380ffb19f34a03
+
+INVENTARIO H-05 (respecto al árbol inicial de esta etapa, no al HEAD antiguo)
+MODIFICADO: build.gradle
+CREADO: src/fxTest/java/edu/hoteluq/singleton/ReportsJavaFxTest.java
+MODIFICADO: src/main/java/edu/hoteluq/loyalty/PointsLedger.java
+CREADO: src/main/java/edu/hoteluq/report/MoneyAllocation.java
+CREADO: src/main/java/edu/hoteluq/report/PointsReportData.java
+CREADO: src/main/java/edu/hoteluq/report/ReportEngine.java
+CREADO: src/main/java/edu/hoteluq/report/ReportExporter.java
+CREADO: src/main/java/edu/hoteluq/report/ReportFiles.java
+CREADO: src/main/java/edu/hoteluq/report/ReportQuery.java
+CREADO: src/main/java/edu/hoteluq/report/ReportResult.java
+CREADO: src/main/java/edu/hoteluq/report/ReportSnapshot.java
+CREADO: src/main/java/edu/hoteluq/report/TxtReportExporter.java
+CREADO: src/main/java/edu/hoteluq/service/ReportService.java
+MODIFICADO: src/main/java/edu/hoteluq/singleton/Hotel.java
+MODIFICADO: src/main/java/edu/hoteluq/ui/DesktopController.java
+CREADO: src/main/java/edu/hoteluq/ui/ReportChartAdapter.java
+CREADO: src/main/java/edu/hoteluq/ui/ReportChartView.java
+CREADO: src/main/java/edu/hoteluq/ui/ReportScreen.java
+MODIFICADO: src/main/java/edu/hoteluq/ui/ShellController.java
+CREADO: src/test/java/edu/hoteluq/report/ReportEngineTest.java
+CREADO: src/test/java/edu/hoteluq/singleton/ReportIntegrationTest.java
+MODIFICADO: docs/auditoria-diseno.md
+MODIFICADO: docs/auditoria-proyecto-final.md
+CREADO: docs/h05/cancelaciones-pastel.png
+CREADO: docs/h05/cancellations-barras.png
+CREADO: docs/h05/cancellations.txt
+CREADO: docs/h05/ingresos-lineas.png
+CREADO: docs/h05/occupancy-barras.png
+CREADO: docs/h05/occupancy.txt
+CREADO: docs/h05/points-barras.png
+CREADO: docs/h05/points.txt
+CREADO: docs/h05/recharges-barras.png
+CREADO: docs/h05/recharges.txt
+CREADO: docs/h05/reservations-barras.png
+CREADO: docs/h05/reservations.txt
+CREADO: docs/h05/revenue-barras.png
+CREADO: docs/h05/revenue.txt
+CREADO: docs/h05/room_ranking-barras.png
+CREADO: docs/h05/room_ranking.txt
+CREADO: docs/h05/services-barras.png
+CREADO: docs/h05/services.txt
+MODIFICADO: docs/pendientes.md
+CREADO: docs/reportes-h05.md
+CREADO: docs/evidencia-h05.txt
+
+Total archivos nuevos/modificados H-05: 44 (incluye 10 capturas y 8 TXT de evidencia).
+
+PATRONES Y ESTADO
+Adapter: Target ReportChartView, cliente ReportScreen, adaptee ReportResult.ChartSpec, ReportChartAdapter traduce datos a contratos JavaFX.
+GoF: 3 creacionales / 4 estructurales / 2 comportamientos; Specification de dominio adicional. No se inventa un tercer comportamiento.
+RF-022/023/024 completos en el alcance local documentado. Matriz 26 RF: 12 completos, 13 parciales, 1 pendiente.
+47 indicadores: 21 completos, 20 parciales, 3 pendientes, 3 bloqueados.
+
+LÍMITES TÉCNICOS Y DECISIONES
+Ocupación contractual: no se reconstruyen activaciones históricas ni presencia física ausente.
+Ingresos por habitación/servicios son atribución analítica, no descomposición fiscal ni nueva política comercial.
+Puntos: movimientos del periodo y saldos vigentes al corte, sin fingir saldos históricos al cierre del rango.
+Captura/generación y exportación autorizada conservan alcance de sesión/monitor; rangos/disco lentos pueden bloquear otras operaciones.
+Los datos siguen exclusivamente en memoria; reiniciar pierde registros/configuraciones/claves. No se añadió DB.
+TXT cumple mínimo requerido. PDF queda como extensión opcional de ReportExporter, no implementada.
+Persistencia durable, compra autónoma, reglas comerciales abiertas y cierre académico/sustentación siguen pendientes.
+No se alteraron State/Strategy, Composite, Decorator, Specification ni tasas oficiales de cancelación. No hubo commits, push ni despliegues.
+Guía: docs/reportes-h05.md. Auditorías y pendientes actualizados.

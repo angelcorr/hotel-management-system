@@ -1,0 +1,32 @@
+Verificación de fase 1 — HotelUQ
+JDK: OpenJDK 21.0.13.0.3
+Comando: python3 scripts/verify-offline.py
+Compilación principal y pruebas: javac --release 21 -encoding UTF-8
+Motor: JUnit Jupiter 5.11.4 / JUnit Platform 1.11.4 (dependencias reales de la caché local)
+Código de salida: 0
+
+Test run finished after 3114 ms
+[        12 containers found      ]
+[         0 containers skipped    ]
+[        12 containers started    ]
+[         0 containers aborted    ]
+[        12 containers successful ]
+[         0 containers failed     ]
+[        55 tests found           ]
+[         0 tests skipped         ]
+[        55 tests started         ]
+[         0 tests aborted         ]
+[        55 tests successful      ]
+[         0 tests failed          ]
+
+Construcción Gradle: no verificada.
+Intento: GRADLE_USER_HOME=/tmp/hoteluq-gradle-home ./gradlew --no-daemon clean test build
+Descarga del wrapper 8.14.3 bloqueada:
+java.net.SocketException: Operation not permitted
+
+Intento alternativo con Gradle 9.8.0 local, --offline --no-daemon test:
+Could not create service of type FileLockContentionHandler
+Could not determine a usable wildcard IP for this machine.
+
+Los fallos de Gradle ocurren antes de ejecutar las tareas del proyecto.
+La ejecución directa de JUnit no verifica empaquetado Gradle ni interfaz JavaFX.

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hoteluq.ui.LoginController" styleClass="auth-card" spacing="14" maxWidth="470">
+  <Label fx:id="heading" styleClass="page-title"/>
+  <Label fx:id="explanation" wrapText="true"/>
+  <VBox fx:id="profile" spacing="10"><TextField fx:id="id" promptText="Identificación"/><TextField fx:id="name" promptText="Nombre completo"/></VBox>
+  <TextField fx:id="email" promptText="Correo electrónico"/>
+  <PasswordField fx:id="password" promptText="Contraseña"/>
+  <PasswordField fx:id="repeat" promptText="Repita la contraseña"/>
+  <Button fx:id="submit" onAction="#submit" styleClass="primary" maxWidth="Infinity"/>
+  <Button fx:id="switchMode" onAction="#switchMode" maxWidth="Infinity"/>
+  <Label text="No hay usuarios ni valores comerciales preconfigurados. Los datos se pierden al cerrar la JVM." wrapText="true" styleClass="muted"/>
+</VBox>

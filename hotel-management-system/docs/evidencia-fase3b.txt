@@ -1,0 +1,170 @@
+EVIDENCIA FASE 3B — HotelUQ — 14 de noviembre de 2026
+
+BASE DE TRABAJO
+Fases 1–3 existentes con 181 pruebas; cambios locales previos conservados sin reset,
+checkout, commit ni push. Inventario de fase 3B comparado contra los contenidos
+existentes al iniciar esta ejecución, no contra un HEAD que todavía no incluye fase 3.
+Evidencias fases 1/2, recuperación y fase 3: preservadas byte por byte.
+
+ENTORNO Y VERIFICACIÓN FINAL
+OpenJDK 21.0.13.0.3, toolchain Java 21.
+Gradle wrapper 8.14.3; JUnit Jupiter 5.11.4 / Platform 1.11.4 reales.
+Desde hotel-management-system/ (carpeta de build.gradle):
+JAVA_TOOL_OPTIONS=-Duser.timezone=Asia/Tokyo ./gradlew --no-daemon clean test build
+
+Picked up JAVA_TOOL_OPTIONS: -Duser.timezone=Asia/Tokyo
+(Este mensaje también se observó al iniciar el proceso de pruebas.)
+> Task :clean
+> Task :compileJava
+> Task :processResources NO-SOURCE
+> Task :classes
+> Task :jar
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+> Task :test
+> Task :startScripts
+> Task :distTar
+> Task :distZip
+> Task :assemble
+> Task :check
+> Task :build
+BUILD SUCCESSFUL in 1m 47s
+8 actionable tasks: 8 executed
+Código de salida: 0.
+
+La ejecución final fuera del sandbox permitió usar ~/.gradle. Un intento dentro
+del sandbox falló en el archivo de bloqueo de Gradle por sistema de archivos de solo
+lectura, antes de ejecutar tareas. La verificación final sí ejecutó todas las tareas.
+Una construcción completa previa de 241 casos también terminó correctamente en 1m 32s.
+Las notas de deprecación corresponden a pruebas deliberadas de los adaptadores legados.
+No se cambiaron wrapper, build.gradle ni dependencias en fase 3B.
+
+git diff --check: salida 0.
+No hay @Disabled añadido ni se eliminaron/omitieron clases o casos para compilar.
+
+RESULTADOS DE build/test-results/test/TEST-*.xml
+Clase | ejecutadas | fallos | errores | omitidas
+edu.hoteluq.model.CatalogValidationTest | 13 | 0 | 0 | 0
+edu.hoteluq.model.ReservationTest | 8 | 0 | 0 | 0
+edu.hoteluq.model.UserTest | 13 | 0 | 0 | 0
+edu.hoteluq.model.VirtualCardTest | 11 | 0 | 0 | 0
+edu.hoteluq.money.CommercialPolicyValidationTest | 20 | 0 | 0 | 0
+edu.hoteluq.singleton.AuthenticationSessionTest | 21 | 0 | 0 | 0
+edu.hoteluq.singleton.AuthorizationConcurrencyTest | 11 | 0 | 0 | 0
+edu.hoteluq.singleton.BookingRulesTest | 7 | 0 | 0 | 0
+edu.hoteluq.singleton.BookingTransactionTest | 37 | 0 | 0 | 0
+edu.hoteluq.singleton.CatalogAdministrationTest | 15 | 0 | 0 | 0
+edu.hoteluq.singleton.Commercial3BTest | 36 | 0 | 0 | 0
+edu.hoteluq.singleton.CommercialConfigurationTest | 5 | 0 | 0 | 0
+edu.hoteluq.singleton.HotelTest | 10 | 0 | 0 | 0
+edu.hoteluq.singleton.RecoveryIntegrationTest | 5 | 0 | 0 | 0
+edu.hoteluq.singleton.UserAuthorizationTest | 30 | 0 | 0 | 0
+TOTAL: 242 ejecutadas, 242 aprobadas, 0 fallidas, 0 errores, 0 omitidas.
+181 casos anteriores conservados/adaptados + 61 nuevos:
+- CommercialPolicyValidationTest: 20.
+- Commercial3BTest: 36.
+- CommercialConfigurationTest: 5.
+TestCommercialPolicies es una fixture, no un inicializador de producción.
+
+ARTEFACTOS
+Informe HTML: build/reports/tests/test/index.html
+XML: build/test-results/test/TEST-*.xml
+JAR: build/libs/hotel-management-system-1.0.jar
+ZIP/TAR: build/distributions/hotel-management-system-1.0.zip y .tar
+Main sigue siendo el ejemplo; no se declara aceptación visual de JavaFX.
+
+EVIDENCIA DE LAS SEIS REGLAS
+1. Bogotá y Clock: cambio de día/mes/año a las 05:00 UTC; JVM completa Asia/Tokyo,
+   instantes/sesiones/reintentos sin dependencia del SO; pagos concurrentes en cambio
+   de año; instantes contractuales sin desplazamiento al cambiar configuración.
+2. CancellationSchedule: partición completa [inferior incluido, superior excluido],
+   porcentajes válidos, versión/ID, ventanas sin huecos/solapamientos, límites exactos
+   a segundo y nanosegundo, configuración ausente y devolución tardía parcial.
+   Refund contiene versión, porcentaje, configuración original, tiempo restante,
+   instante único, moneda, pago y tarjeta originales. Cambio de política después
+   de devolver y concurrente con devolución conserva comprobantes sin duplicación.
+3. Check-out explícito: responsable/UUID/instante/ventana, autenticación y rol,
+   estados incompatibles, misma clave idempotente y segunda clave rechazada,
+   concurrencia, ausencia de finalización por fecha y rollback de State/recibo/audit.
+4. COP: BigDecimal en cálculos y almacenamiento de precios; HALF_UP a escala 0 al
+   definir la obligación final. Brutos preservados; finales reconciliados, moneda
+   en cotización/recibos/movimientos, coherencia total-cobro-saldo-reembolso.
+5. Cero/negativo/100%/fracción redondeada a cero: rechazo antes del alta/cobro y sin
+   comprobantes/movimientos; validación repetida al confirmar, flag antiguo no habilita cero.
+6. Cambios PENDING: versión, disponibilidad, referencias, capacidad, fechas,
+   recálculo y snapshots antes/después. Recálculo con total cero o habitación
+   incompatible no altera versión/historia. Fallo posterior a mutación restaura
+   estado/disponibilidad/auditoría. Confirmadas: propuesta administrativa trazable
+   con motivo/diferencia, aplicación económica bloqueada. Canceladas/finalizadas inmodificables.
+
+INTEGRIDAD TRANSACCIONAL
+Monitor del agregado y guardas anteriores conservados. Checkpoints incluyen tarjeta,
+contrato, State, versión, comprobantes, horarios, check-out y auditoría. Fallos parciales
+tras movimiento, State o recibo se restauran antes de devolver error. Reintentos producen
+un solo efecto. Un fallo de alta no deja habitación bloqueada ni consume clave sin resultado.
+Se impide falsificar contabilidad en un objeto separado para registrarlo como PENDING.
+
+AJUSTES DE REGRESIÓN PERMITIDOS POR LAS REGLAS APROBADAS
+- Precios/fracciones antiguos ahora exigen finales COP enteros; subtotales y descuentos
+  intermedios se conservan y los finales se concilian con el total redondeado una sola vez.
+- Operaciones con 0,1/0,2/0,3 COP se sustituyeron por decimales positivos que redondean a
+  pesos exigibles; hay cobertura adicional de rechazo cuando el resultado redondea a cero.
+- Fixtures UTC se cambiaron a horarios contractuales Bogotá y ventanas explícitas de prueba.
+- Los siete casos de BookingRulesTest se mantienen: las antiguas opciones de habilitar cero
+  o cambiar zona ahora se prueban como rechazos; check-out sin ventana sigue bloqueado.
+- Cancelación después de inicio ya no depende del antiguo boolean; usa porcentaje parcial
+  explícito de fixture. Los casos de sesión/revocación conservan su reloj mutable.
+- No se debilitaron autorización, protección de referencias ni controles de concurrencia.
+
+PARÁMETROS PENDIENTES Y ALCANCE
+Aprobados: America/Bogota, COP, HALF_UP entero, total positivo, cambios PENDING y
+finalización exclusivamente por check-out explícito.
+Faltan: horas oficiales, ventanas/porcentajes concretos de cliente, tolerancia de check-out
+y liquidación de cambios confirmados. Se consultaron; no se recibieron valores en esta ejecución.
+Los porcentajes/horas de pruebas son solo fixtures. Cliente sin política explícita no cancela;
+check-out sin autorización temporal explícita se bloquea. Hotel mantiene el 100% RN-14.
+Datos e idempotencia permanecen en memoria; no hay recuperación durable tras cerrar JVM.
+No se agregó base de datos ni se migró historia. Propuesta JDBC/unidad de trabajo y pruebas
+de recuperación en docs/propuesta-persistencia.md; requiere autorización antes de implementar.
+No se inició fase 4, no se hicieron despliegues, commits ni push.
+
+ARCHIVOS DE FASE 3B (nuevos/modificados respecto al contenido inicial de fase 3)
+NUEVO | src/main/java/edu/hoteluq/config/HotelTime.java
+MODIFICADO | src/main/java/edu/hoteluq/model/AdditionalService.java
+MODIFICADO | src/main/java/edu/hoteluq/model/BookingRecords.java
+MODIFICADO | src/main/java/edu/hoteluq/model/CardMovement.java
+MODIFICADO | src/main/java/edu/hoteluq/model/Promotion.java
+MODIFICADO | src/main/java/edu/hoteluq/model/Reservation.java
+MODIFICADO | src/main/java/edu/hoteluq/model/Room.java
+MODIFICADO | src/main/java/edu/hoteluq/model/RoomType.java
+MODIFICADO | src/main/java/edu/hoteluq/model/VirtualCard.java
+NUEVO | src/main/java/edu/hoteluq/money/CopMoney.java
+MODIFICADO | src/main/java/edu/hoteluq/service/BookingRules.java
+MODIFICADO | src/main/java/edu/hoteluq/service/HotelService.java
+MODIFICADO | src/main/java/edu/hoteluq/service/ReservationService.java
+MODIFICADO | src/main/java/edu/hoteluq/singleton/Hotel.java
+NUEVO | src/main/java/edu/hoteluq/strategy/CancellationSchedule.java
+MODIFICADO | src/main/java/edu/hoteluq/strategy/FullRefundPolicy.java
+MODIFICADO | src/main/java/edu/hoteluq/strategy/NoRefundPolicy.java
+MODIFICADO | src/main/java/edu/hoteluq/strategy/PartialRefundPolicy.java
+MODIFICADO | src/main/java/edu/hoteluq/strategy/RefundPolicy.java
+MODIFICADO | src/main/java/edu/hoteluq/strategy/RefundPolicySelector.java
+MODIFICADO | src/test/java/edu/hoteluq/model/ReservationTest.java
+MODIFICADO | src/test/java/edu/hoteluq/model/VirtualCardTest.java
+NUEVO | src/test/java/edu/hoteluq/money/CommercialPolicyValidationTest.java
+MODIFICADO | src/test/java/edu/hoteluq/singleton/AuthorizationConcurrencyTest.java
+MODIFICADO | src/test/java/edu/hoteluq/singleton/BookingRulesTest.java
+MODIFICADO | src/test/java/edu/hoteluq/singleton/BookingTransactionTest.java
+NUEVO | src/test/java/edu/hoteluq/singleton/Commercial3BTest.java
+NUEVO | src/test/java/edu/hoteluq/singleton/CommercialConfigurationTest.java
+MODIFICADO | src/test/java/edu/hoteluq/singleton/HotelTest.java
+MODIFICADO | src/test/java/edu/hoteluq/singleton/Phase2Fixture.java
+NUEVO | src/test/java/edu/hoteluq/singleton/TestCommercialPolicies.java
+MODIFICADO | src/test/java/edu/hoteluq/singleton/UserAuthorizationTest.java
+MODIFICADO | docs/analisis.md
+NUEVO | docs/configuracion-comercial.md
+NUEVO | docs/evidencia-fase3b.txt
+MODIFICADO | docs/pendientes.md
+NUEVO | docs/propuesta-persistencia.md
+Inventario: 37 archivos; 10 nuevos y 27 modificados.

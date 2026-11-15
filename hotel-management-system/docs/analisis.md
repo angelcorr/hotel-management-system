@@ -64,6 +64,8 @@ Documento de análisis previo a la implementación (sección 9 del enunciado). L
 
 ### Definidas en el enunciado
 
+> Prioridad normativa actual: el documento oficial del docente, §3.3, fija RN-11–RN-14. La corrección posterior a fase 3B restaura 100 % con más de 72 h, 80 % entre 24 y 72 h inclusive, 0 % con menos de 24 h y 100 % por el hotel. A las 24 h exactas se adopta la interpretación inclusiva de la franja 24–72, documentada por el proyecto y no presentada como aclaración del docente. La zona Bogotá y COP entero/HALF_UP se conservan; solo quedan por definir horas y reglas de liquidación de cambios confirmados, no porcentajes de cancelación. Ver `configuracion-comercial.md` y el cierre H-01 en `auditoria-proyecto-final.md`.
+
 | Código | Regla |
 |---|---|
 | RN-01 | Cada habitación pertenece a un tipo de habitación. |

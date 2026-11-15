@@ -1,0 +1,42 @@
+Verificación de fase 2 — HotelUQ
+JDK: OpenJDK 21.0.13.0.3
+Comando: python3 scripts/verify-offline.py
+Compilación de fuentes principales y pruebas: javac --release 21 -encoding UTF-8
+Motor: JUnit Jupiter 5.11.4 / JUnit Platform 1.11.4 reales de caché local
+Código de salida: 0
+Regresión de fase 1: 55 casos conservados (preparación de HotelTest autenticada)
+Casos nuevos de fase 2: 77
+
+Test run finished after 36430 ms
+[        19 containers found      ]
+[         0 containers skipped    ]
+[        19 containers started    ]
+[         0 containers aborted    ]
+[        19 containers successful ]
+[         0 containers failed     ]
+[       132 tests found           ]
+[         0 tests skipped         ]
+[       132 tests started         ]
+[         0 tests aborted         ]
+[       132 tests successful      ]
+[         0 tests failed          ]
+
+Results by class (successful / failed / aborted):
+edu.hoteluq.model.CatalogValidationTest: 13 / 0 / 0
+edu.hoteluq.model.ReservationTest: 8 / 0 / 0
+edu.hoteluq.model.UserTest: 13 / 0 / 0
+edu.hoteluq.model.VirtualCardTest: 11 / 0 / 0
+edu.hoteluq.singleton.AuthenticationSessionTest: 21 / 0 / 0
+edu.hoteluq.singleton.AuthorizationConcurrencyTest: 11 / 0 / 0
+edu.hoteluq.singleton.CatalogAdministrationTest: 15 / 0 / 0
+edu.hoteluq.singleton.HotelTest: 10 / 0 / 0
+edu.hoteluq.singleton.UserAuthorizationTest: 30 / 0 / 0
+
+Gradle estándar: NO VERIFICADO; código de salida 1 antes de ejecutar tareas.
+Comando:
+GRADLE_USER_HOME=/tmp/hoteluq-phase2-gradle-home ./gradlew --no-daemon clean test build
+Salida inicial:
+Downloading https://services.gradle.org/distributions/gradle-8.14.3-bin.zip
+Exception in thread "main" java.net.SocketException: Operation not permitted
+
+La ejecución JUnit directa no valida el empaquetado/distribución Gradle ni JavaFX.
